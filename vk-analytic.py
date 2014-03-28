@@ -1,9 +1,12 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 __author__ = 'salamander'
 
 import vkontakte
-from handlers import reader
+from pprint import pprint
+from os.path import exists, isfile
+
+from handlers import logger
 
 
 def getCredent(file):
@@ -15,11 +18,8 @@ def getCredent(file):
     f.close()
     return line
 
-def log(cmd):
-    flog=open('log1','a')
-    flog.writelines(cmd+'\n')
-    print(cmd)
-    flog.close()
+
+
 
 class anyk(object):
     allUserFields='sex, bdate, city, country, photo_50, photo_100, photo_200_orig, photo_200, photo_400_orig, photo_max, photo_max_orig, online, online_mobile, lists, domain, has_mobile, contacts, connections, site, education, universities, schools, can_post, can_see_all_posts, can_see_audio, can_write_private_message, status, last_seen, common_count, relation, relatives, counters'
@@ -48,6 +48,7 @@ def test1():
     print(vk.friends.get(fields='uid, first_name, last_name, nickname, sex, bdate',uid='21229916'))
 
 def main():
+    log = logger()
     #vk = vkontakte.API('4264030', 'TMqwtjQP3D1YXMlKmBva')
     #print (vk.getServerTime())
     vk = anyk(getCredent('credentials.txt'))
@@ -55,11 +56,11 @@ def main():
     #print "Hello vk API , server time is ",vk.getServerTime()
     #print unicode(vk.users.get(uids=146040808))
     #reader.read(vk.users.get(uids=233945283,fields='sex'))
-    print(vk.usersGet(vk.eval(vk.t1)))
+    log.responseLog(vk.usersGet(vk.eval(vk.t1)))
     print ('input you method')
     while True:
         x = input()
-        log (x)
+        log.comandLog(x)
         x = vk.eval(x)
         print(x)
     return 0
