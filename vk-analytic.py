@@ -30,8 +30,13 @@ class anyk(object):
         res = self.vk.getMutual(source_uid=id1, target_uid=id2)
         return res
     def usersGet(self,ids):
+        if isinstance(ids,list):
+            ids=str(ids)[1:-1]
         info = []
-        self.vk.users.get(user_ids=ids, fields=self.allUserFields)
+        print(ids)
+        print(self.allUserFields)
+        return self.vk.users.get(user_ids=ids, fields=self.allUserFields)
+
     def eval(self,cmd):
         return eval('self.vk.%s'%cmd)
 
@@ -50,8 +55,7 @@ def main():
     #print "Hello vk API , server time is ",vk.getServerTime()
     #print unicode(vk.users.get(uids=146040808))
     #reader.read(vk.users.get(uids=233945283,fields='sex'))
-    t = vk.usersGet(vk.eval(vk.t1))
-    print(t)
+    print(vk.usersGet(vk.eval(vk.t1)))
     print ('input you method')
     while True:
         x = input()
@@ -64,7 +68,8 @@ if __name__ == '__main__':
     while True:
         try:
             main()
-        except (SyntaxError, RuntimeError, NameError,vkontakte.api.VKError) as s:
+            #SyntaxError, RuntimeError
+        except (NameError,vkontakte.api.VKError) as s:
             print (s)
             continue
 
