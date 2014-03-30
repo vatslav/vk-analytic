@@ -49,10 +49,9 @@ class anyk(object):
         """
         print(cmd)
         return eval('self.vk.%s'%cmd)
-    def medianResearch(self, id):
 
-        #self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.__researchFields))
-        self.eval('vk.friends.getMutual(source_uid=78340794, target_uid=11538362)')
+    def medianResearch(self, id):
+        return  self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.__researchFields))
 
 
 
