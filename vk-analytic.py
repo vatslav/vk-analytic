@@ -99,9 +99,9 @@ def test1():
 
 def main():
     log = logger()
-    vk = vkontakte.API('4264030', 'TMqwtjQP3D1YXMlKmBva')
+    #vk = vkontakte.API('4264030', 'TMqwtjQP3D1YXMlKmBva')
     #print (vk.getServerTime())
-    #vk = analytic(getCredent('credentials.txt'))
+    vk = analytic(getCredent('credentials.txt'))
     #vk = vkontakte.API(token=getCredent('credentials.txt'))
     #print "Hello vk API , server time is ",vk.getServerTime()
     #print unicode(vk.users.get(uids=146040808))
