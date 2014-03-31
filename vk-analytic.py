@@ -69,11 +69,13 @@ class analytic(object):
 
 
 class textViewer(object):
-    replacedFields = ''
+    replacedFields = {'city':'database.getCities(city_ids=XX)','country':'database.getCountries(country_ids=XX)'}
     def __init__(self,vk):
+        assert(vk, analytic)
         self.vk=vk
-    def print(docs,orderList):
+    def print(self,docs,orderList):
         sortedDoc = []
+        docs = self.baseReplacer(docs)
         for doc in docs:
             assert isinstance(doc,dict)
             sortedUser = []
@@ -85,10 +87,13 @@ class textViewer(object):
         pprint(sortedDoc)
         return  sortedDoc
     def baseReplacer(self,docs):
-        print(s)
         for doc in docs:
             assert  isinstance(doc,dict)
-            doc.update()
+            for field in self.replacedFields.keys():
+                if field in doc:
+
+                    doc[field]=self.vk.eval(self.replacedFields[field].replace('XX',doc[field]))[0]['name']
+        return docs
 
 
 
@@ -99,16 +104,17 @@ def test1():
 
 def main():
     log = logger()
-    #vk = vkontakte.API('4264030', 'TMqwtjQP3D1YXMlKmBva')
+
     #print (vk.getServerTime())
     vk = analytic(getCredent('credentials.txt'))
+    tw = textViewer(vk)
     #vk = vkontakte.API(token=getCredent('credentials.txt'))
     #print "Hello vk API , server time is ",vk.getServerTime()
     #print unicode(vk.users.get(uids=146040808))
     #reader.read(vk.users.get(uids=233945283,fields='sex'))
     #log.responseLog(vk.usersGet(vk.eval(vk.t1)))
     #print(vk.researchFields2.split(','))
-    textViewer.print(vk.medianResearch(78340794),(vk.baseFields+vk.researchFields2).split(','))
+    tw.print(vk.medianResearch(78340794),(vk.baseFields+vk.researchFields2).split(','))
     print ('input you method')
     while True:
         x = input()
