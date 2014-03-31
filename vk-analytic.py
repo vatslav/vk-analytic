@@ -69,7 +69,7 @@ class analytic(object):
 
 
 class textViewer(object):
-    replacedFields = {'city':'database.getCities(city_ids=XX)','country':'database.getCountries(country_ids=XX)'}
+    replacedFields = {'city':'database.getCitiesById(city_ids=XX)','country':'database.getCountriesByIdv(country_ids=XX)'}
     def __init__(self,vk):
         assert(vk, analytic)
         self.vk=vk
@@ -86,14 +86,22 @@ class textViewer(object):
             sortedDoc.append(sortedUser)
         pprint(sortedDoc)
         return  sortedDoc
-    def baseReplacer(self,docs):
-        for doc in docs:
-            assert  isinstance(doc,dict)
+    def baseReplacer(self,rawListOfDicts):
+        for rawList in rawListOfDicts:
+            assert  isinstance(rawList,dict)
             for field in self.replacedFields.keys():
-                if field in doc:
-
-                    doc[field]=self.vk.eval(self.replacedFields[field].replace('XX',doc[field]))[0]['name']
-        return docs
+                if field in rawList:
+                    if rawList[field] is 0:
+                        rawList[field]='Не указан'
+                    else:
+                        t1 = self.replacedFields[field]
+                        t2 = t1.replace('XX',str(rawList[field]))
+                        print(t2)
+                        t2 = self.vk.eval(t2)
+                        t2 = t2[0]['name']
+                        rawList[field] = t2
+                    #doc[field]=self.vk.eval(self.replacedFields[field].replace('XX',field))[0]['name']
+        return rawListOfDicts
 
 
 
