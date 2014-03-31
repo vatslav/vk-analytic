@@ -32,6 +32,7 @@ class analytic(object):
     __researchCmd = "friends.get(user_id=78340794,order='name',fields='bdate,city,education,nickname,universities')"
     t1 = 'friends.getMutual(source_uid=78340794, target_uid=11538362)'
     logtxt = []
+    cache = {}
     def __init__(self,tok,log=1,loggerObject=None):
         self.vk=vkontakte.API(token=tok)
         self.logtxt=log
@@ -61,6 +62,13 @@ class analytic(object):
         """
         print(cmd)
         return eval('self.vk.%s'%cmd)
+    def evalWithCache(self,cmd):
+        if cmd in self.cache:
+            return self.cache[cmd]
+        else:
+            response = eval('self.vk.%s'%cmd)
+            self.cache[cmd]=response
+            return response
 
     def medianResearch(self, id):
         text = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields2))
@@ -86,20 +94,21 @@ class textViewer(object):
             sortedDoc.append(sortedUser)
         pprint(sortedDoc)
         return  sortedDoc
+
+
     def baseReplacer(self,rawListOfDicts):
         for rawList in rawListOfDicts:
             assert  isinstance(rawList,dict)
             for field in self.replacedFields.keys():
                 if field in rawList:
                     if rawList[field] is 0:
-                        rawList[field]='Не указан'
+                        rawList[field]='Нет информации'
                     else:
-                        t1 = self.replacedFields[field]
-                        t2 = t1.replace('XX',str(rawList[field]))
-                        print(t2)
-                        t2 = self.vk.eval(t2)
-                        t2 = t2[0]['name']
-                        rawList[field] = t2
+                        #t1 = self.replacedFields[field]
+                        #t2 = t1.replace('XX',str(rawList[field]))
+                        #t3 = self.vk.eval(t2)[0]['name']
+
+                        rawList[field] = self.vk.evalWithCache(self.replacedFields[field].replace('XX',str(rawList[field])))[0]['name']
                     #doc[field]=self.vk.eval(self.replacedFields[field].replace('XX',field))[0]['name']
         return rawListOfDicts
 
@@ -122,7 +131,7 @@ def main():
     #reader.read(vk.users.get(uids=233945283,fields='sex'))
     #log.responseLog(vk.usersGet(vk.eval(vk.t1)))
     #print(vk.researchFields2.split(','))
-    tw.print(vk.medianResearch(78340794),(vk.baseFields+vk.researchFields2).split(','))
+    tw.print(vk.medianResearch(226723565),(vk.baseFields+vk.researchFields2).split(','))#78340794
     print ('input you method')
     while True:
         x = input()
