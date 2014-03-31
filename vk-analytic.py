@@ -22,11 +22,14 @@ def getCredent(file):
 
 
 class analytic(object):
-    __allUserFields='sex, bdate, city, country, photo_50, photo_100, photo_200_orig, photo_200, photo_400_orig, photo_max, photo_max_orig, online, online_mobile, lists, domain, has_mobile, contacts, connections, site, education, universities, schools, can_post, can_see_all_posts, can_see_audio, can_write_private_message, status, last_seen, common_count, relation, relatives, counters'
-    __kitUserFields='sex, bdate, city, country, online, lists, domain, contacts, connections, site, education, universities, schools, can_post, can_see_all_posts, can_see_audio, can_write_private_message, status, last_seen, common_count, relation, relatives, counters'
-    __researchFields='bdate, city, education, nickname, universities'
-    __researchFields2='bdate, city, universities'
-    __researchCmd = "friends.get(user_id=78340794,order='name', fields='bdate, city, education, nickname, universities')"
+    __allUserFields='sex,bdate,city,country,photo_50,photo_100,photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online,online_mobile,lists,domain,has_mobile,contacts,connections,site,education,universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message,status,last_seen,common_count,relation,relatives,counters'
+    __kitUserFields='sex,bdate,city,country,online,lists,domain,contacts,connections,site,education,universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message,status,last_seen,common_count,relation,relatives,counters'
+    __researchFields='bdate,city,education,nickname,universities'
+    researchFields2='bdate,city,universities'
+    baseFields = 'first_name,last_name,uid'
+    baseFields2 = 'online,user_id'
+    baseFieldsFinally = baseFields + baseFields2
+    __researchCmd = "friends.get(user_id=78340794,order='name',fields='bdate,city,education,nickname,universities')"
     t1 = 'friends.getMutual(source_uid=78340794, target_uid=11538362)'
     logtxt = []
     def __init__(self,tok,log=1,loggerObject=None):
@@ -60,16 +63,34 @@ class analytic(object):
         return eval('self.vk.%s'%cmd)
 
     def medianResearch(self, id):
-        text = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.__researchFields2))
+        text = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields2))
 
         return text
 
 
 class textViewer(object):
+    replacedFields = ''
+    def __init__(self,vk):
+        self.vk=vk
     def print(docs,orderList):
+        sortedDoc = []
         for doc in docs:
             assert isinstance(doc,dict)
-            pass
+            sortedUser = []
+            for entry in orderList:
+
+                if entry in doc:
+                    sortedUser.append('%s - %s' %(entry, str(doc[entry])))
+            sortedDoc.append(sortedUser)
+        pprint(sortedDoc)
+        return  sortedDoc
+    def baseReplacer(self,docs):
+        print(s)
+        for doc in docs:
+            assert  isinstance(doc,dict)
+            doc.update()
+
+
 
 
 def test1():
@@ -78,19 +99,20 @@ def test1():
 
 def main():
     log = logger()
-    #vk = vkontakte.API('4264030', 'TMqwtjQP3D1YXMlKmBva')
+    vk = vkontakte.API('4264030', 'TMqwtjQP3D1YXMlKmBva')
     #print (vk.getServerTime())
-    vk = analytic(getCredent('credentials.txt'))
+    #vk = analytic(getCredent('credentials.txt'))
     #vk = vkontakte.API(token=getCredent('credentials.txt'))
     #print "Hello vk API , server time is ",vk.getServerTime()
     #print unicode(vk.users.get(uids=146040808))
     #reader.read(vk.users.get(uids=233945283,fields='sex'))
     #log.responseLog(vk.usersGet(vk.eval(vk.t1)))
-    log.responseLog(vk.medianResearch(78340794))
+    #print(vk.researchFields2.split(','))
+    textViewer.print(vk.medianResearch(78340794),(vk.baseFields+vk.researchFields2).split(','))
     print ('input you method')
     while True:
         x = input()
-        log.comandLog(x)
+        #log.comandLog(x)
         x = vk.eval(x)
         print(x)
     return 0
