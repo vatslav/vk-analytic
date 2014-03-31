@@ -21,14 +21,23 @@ def getCredent(file):
 
 
 
-class anyk(object):
+class analytic(object):
     __allUserFields='sex, bdate, city, country, photo_50, photo_100, photo_200_orig, photo_200, photo_400_orig, photo_max, photo_max_orig, online, online_mobile, lists, domain, has_mobile, contacts, connections, site, education, universities, schools, can_post, can_see_all_posts, can_see_audio, can_write_private_message, status, last_seen, common_count, relation, relatives, counters'
     __kitUserFields='sex, bdate, city, country, online, lists, domain, contacts, connections, site, education, universities, schools, can_post, can_see_all_posts, can_see_audio, can_write_private_message, status, last_seen, common_count, relation, relatives, counters'
     __researchFields='bdate, city, education, nickname, universities'
+    __researchFields2='bdate, city, universities'
     __researchCmd = "friends.get(user_id=78340794,order='name', fields='bdate, city, education, nickname, universities')"
     t1 = 'friends.getMutual(source_uid=78340794, target_uid=11538362)'
-    def __init__(self,tok):
+    logtxt = []
+    def __init__(self,tok,log=1,loggerObject=None):
         self.vk=vkontakte.API(token=tok)
+        self.logtxt=log
+        if loggerObject is None:
+            loggerObject = logger()
+        self.logger = loggerObject
+
+    def log(self,cmd):
+        pass
     def getMutal(self,id1, id2):
         res = self.vk.getMutual(source_uid=id1, target_uid=id2)
         return res
@@ -51,10 +60,16 @@ class anyk(object):
         return eval('self.vk.%s'%cmd)
 
     def medianResearch(self, id):
-        return  self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.__researchFields))
+        text = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.__researchFields2))
+
+        return text
 
 
-
+class textViewer(object):
+    def print(docs,orderList):
+        for doc in docs:
+            assert isinstance(doc,dict)
+            pass
 
 
 def test1():
@@ -65,7 +80,7 @@ def main():
     log = logger()
     #vk = vkontakte.API('4264030', 'TMqwtjQP3D1YXMlKmBva')
     #print (vk.getServerTime())
-    vk = anyk(getCredent('credentials.txt'))
+    vk = analytic(getCredent('credentials.txt'))
     #vk = vkontakte.API(token=getCredent('credentials.txt'))
     #print "Hello vk API , server time is ",vk.getServerTime()
     #print unicode(vk.users.get(uids=146040808))
