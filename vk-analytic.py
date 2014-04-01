@@ -5,6 +5,7 @@ __author__ = 'salamander'
 import vkontakte
 from pprint import pprint
 from os.path import exists, isfile
+import pickle
 
 from handlers import logger
 
@@ -35,8 +36,34 @@ class analytic(object):
     t1 = 'friends.getMutual(source_uid=78340794, target_uid=11538362)'
     logtxt = []
     cache = {}
+    cachPath = 'cacheLog'
+    cacheLogFile = None
+
+    def __warmingUpCache(self):
+        """
+        прогрев кеша из файла. Используется при инициализации экземпляра класса
+        """
+        try:
+            self.cacheLogFile = open(self.cachPath,'rb+')
+            while True:
+                unpickleObj = pickle.load(self.cacheLogFile)
+                unpickleObj = unpickleObj.popitem()
+                self.cache[unpickleObj[0]]=unpickleObj[1]
+
+        except FileNotFoundError:
+            self.cacheLogFile = open(self.cachPath,'wb')
+        except EOFError:
+            pass
+
+    def __logCache(self,cmd, response):
+        pickle.dump({cmd:response},self.cacheLogFile)
+
+
+
+
     def __init__(self,tok,log=1,loggerObject=None):
         self.vk=vkontakte.API(token=tok)
+        self.__warmingUpCache()
         self.logtxt=log
         if loggerObject is None:
             loggerObject = logger()
@@ -79,6 +106,7 @@ class analytic(object):
         else:
             response = eval('self.vk.%s'%cmd)
             self.cache[cmd]=response
+            self.__logCache(cmd,response)
             return response
 
     def mainResearch(self, id: int):
@@ -129,12 +157,11 @@ class textViewer(object):
                     if rawList[field] is 0:
                         rawList[field]='Нет информации'
                     else:
-                        #t1 = self.replacedFields[field]
-                        #t2 = t1.replace('XX',str(rawList[field]))
-                        #t3 = self.vk.eval(t2)[0]['name']
-
-                        rawList[field] = self.vk.evalWithCache(self.replacedFields[field].replace('XX',str(rawList[field])))[0]['name']
-                    #doc[field]=self.vk.eval(self.replacedFields[field].replace('XX',field))[0]['name']
+                        t1 = self.replacedFields[field]
+                        t2 = t1.replace('XX',str(rawList[field]))
+                        t3 = self.vk.evalWithCache(t2)
+                        t4 = t3[0]['name']
+                        rawList[field] = t4
         return rawListOfDicts
 
 
