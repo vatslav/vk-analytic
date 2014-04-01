@@ -118,9 +118,42 @@ class analytic(object):
         Используется метод максимума (среди друзей как правило, больше всего друзей с одного и того же ВУЗа, того же возраста и из того же города, что и сам человек
         @rtype: str
         """
-        text = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields2))
+        def addToDict(samedict:dict,key):
+            if key is None:
+                return samedict
+            if key in samedict:
+                samedict[key]+=1
+            else:
+                samedict[key]=1
+            return samedict
+        def findFrequentElem(samedict:dict):
+            max = 0
+            keymax = ''
+            for key,value in samedict.items():
+                if value > max:
+                    max = value
+                    keymax = key
+            return keymax
+        peopleList = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields2))
+        berd = {}
+        univers = {}
+        city = {}
+        for people in peopleList:
+            assert isinstance(people,dict)
+            city = addToDict(city,people.get('city'))
+            bdate = people.get('bdate')
+            if bdate is None:
+                continue
+            assert isinstance(bdate,str)
+            if bdate.count('.') is 2:
+                berd = addToDict(berd,bdate[-4:])
+        hotbdate = findFrequentElem(berd)
+        hotcity = findFrequentElem(city)
+        hotcity = self.evalWithCache('database.getCitiesById(city_ids=%s)'%hotcity)[0]['name']
+        return hotbdate,hotcity
 
-        return text
+
+        return     peopleList
 
 
 class textViewer(object):
@@ -222,7 +255,7 @@ def main():
     vk = analytic(getCredent('credentials.txt'))
     tw = textViewer(vk)
 
-    tw.print(vk.mainResearch(226723565),(vk.baseFields+vk.researchFields2).split(','))#78340794
+    print(vk.mainResearch(226723565))
     print ('input you method')
     while True:
         x = input()
