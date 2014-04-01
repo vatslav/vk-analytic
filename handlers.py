@@ -1,13 +1,21 @@
 __author__ = 'salamander'
 from pprint import pprint
+
+
+
+
 class logger(object):
-    __cmdFileName = 'log1'
-    __responseFileName='log2'
-    def __new__(self):
-        return self
+    cmdFileName = 'log1'
+    responseFileName='log2'
+    _instance = None
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(logger, cls).__new__(
+                                cls, *args, **kwargs)
+        return cls._instance
     def __init__(self):
-        self.cmdFile = open(self.__cmdFileName,'a')
-        self.responseFile = open(self.__responseFileName,'a')
+        self.cmdFile = open(self.cmdFileName,'a')
+        self.responseFile = open(self.responseFileName,'a')
     def comandLog(self,cmd):
         pprint(cmd)
         pprint(cmd, self.cmdFile)
