@@ -16,6 +16,7 @@ def getCredent(file):
     вытаскивает токен авторизации из файла credentials.txt
     @type param: file
     @rtype: str
+
     '''
     f = open(file,'r')
     line =  f.readline().strip()
@@ -149,7 +150,8 @@ class analytic(object):
                 berd = addToDict(berd,bdate[-4:])
         hotbdate = findFrequentElem(berd)
         hotcity = findFrequentElem(city)
-        hotcity = self.evalWithCache('database.getCitiesById(city_ids=%s)'%hotcity)[0]['name']
+        hotcity = self.evalWithCache('database.getCitiesById(city_ids'
+                                     '=%s)'%hotcity)[0]['name']
         return hotbdate,hotcity
 
 
