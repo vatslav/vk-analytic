@@ -167,43 +167,35 @@ class textViewer(object):
         замена идентификаторов объектов по базе vk на их человеческие названия
         @rtype: list
         '''
-        for rawList in rawListOfDicts:
-            x = self.vk.evalWithCache('database.getCitiesById(city_ids=1)')
+        for rawList in rawListOfDicts:#для словарей внутри списка
             assert  isinstance(rawList,dict)
-            for field in self.replacedFields.keys():
+            for field, replaceCmd in self.replacedFields.items():#для поля и команды, которая заменит значение поля
                 if field in rawList:
                     if rawList[field] is 0:
                         rawList[field]='Нет информации'
                     else:
-                        t1 = self.replacedFields[field]
-                        if isinstance(t1,dict):
-                            t2 = rawList[field]
-                            if len(t2)>0:
-                                t2=t2[0]
+                        if isinstance(replaceCmd,dict):
+                            machinedPart = rawList[field]
+                            if len(machinedPart)>0:
+                                machinedPart=machinedPart[0]
                             else:
                                 rawList.pop(field)
                                 continue
-                            assert isinstance(t2,dict)
+                            assert isinstance(machinedPart,dict)
 
-                            for key,value in t1.items():
-                                if key in t2:
-                                    tt=value.replace('XX',str(t2[key]))
+                            for key,value in replaceCmd.items():#для ключа и значение в словаре
+                                if key in machinedPart:
+                                    tt=value.replace('XX',str(machinedPart[key]))
                                     ttt=self.vk.evalWithCache(tt)
                                     if len(ttt) is 0:
-                                        t2.pop(key)
+                                        machinedPart.pop(key)
                                     else:
                                         ttt=ttt[0]['name']
-                                    t2[key]=ttt
-                            rawList[field]=t2
-
-
-                            a=1
-
-
-
+                                    machinedPart[key]=ttt
+                            rawList[field]=machinedPart
                         else:
-                            t2 = t1.replace('XX',str(rawList[field]))
-                            t3 = self.vk.evalWithCache(t2)
+                            machinedPart = replaceCmd.replace('XX',str(rawList[field]))
+                            t3 = self.vk.evalWithCache(machinedPart)
                             t4 = t3[0]['name']
                             rawList[field] = t4
         return rawListOfDicts
