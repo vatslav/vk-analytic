@@ -121,7 +121,10 @@ class analytic(object):
 
 
 class textViewer(object):
-    replacedFields = {'city':'database.getCitiesById(city_ids=XX)','country':'database.getCountriesByIdv(country_ids=XX)'}
+    replacedFields = {'city':'database.getCitiesById(city_ids=XX)',
+                      'country':'database.getCountriesByIdv(country_ids=XX)'}
+    #universities - http://vk.com/dev/database.getFaculties
+    #обработка отдельно
     def __init__(self,vk):
         assert(vk, analytic)
         self.vk=vk
