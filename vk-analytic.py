@@ -176,29 +176,23 @@ class textViewer(object):
                         rawList[field]='Нет информации'
                     else:
                         t1 = self.replacedFields[field]
-                        x = self.replacedFields
-                        x2= deepcopy(self.replacedFields[field])
-
-                        #если tuple, то для каждого элемента из tuple делаем замену
                         if isinstance(t1,dict):
-                            a=1
                             t2 = rawList[field]
                             if len(t2)>0:
                                 t2=t2[0]
                             else:
+                                rawList.pop(field)
                                 continue
                             assert isinstance(t2,dict)
 
                             for key,value in t1.items():
                                 if key in t2:
                                     tt=value.replace('XX',str(t2[key]))
-                                    self.log.responseLog(tt)
-
-
-                                    try:
-                                        ttt=self.vk.evalWithCache(tt)
-                                    except AttributeError:
-                                        a=1
+                                    ttt=self.vk.evalWithCache(tt)
+                                    if len(ttt) is 0:
+                                        t2.pop(key)
+                                    else:
+                                        ttt=ttt[0]['name']
                                     t2[key]=ttt
                             rawList[field]=t2
 
