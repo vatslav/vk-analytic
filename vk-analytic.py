@@ -6,6 +6,7 @@ import vkontakte
 from pprint import pprint
 from os.path import exists, isfile
 import pickle
+from copy import deepcopy
 
 from handlers import logger
 
@@ -125,16 +126,22 @@ class analytic(object):
 class textViewer(object):
     replacedFields = {'city':'database.getCitiesById(city_ids=XX)',
                       'country':'database.getCountriesByIdv(country_ids=XX)',
-                      'universities':({'id',''},{'faculty':''},{'chair':''},
-                                      {'country':'database.getCountriesByIdv(country_ids=XX)'},
-                                      {'city':'database.getCitiesById(city_ids=XX)'}),
-                      'education':({'university':''}, {'faculty':''})
+                      'universities':{'id':'','faculty':'','chair':'',
+                                      'country':'database.getCountriesByIdv(country_ids=XX)',
+                                      'city':'database.getCitiesById(city_ids=XX)'},
+                      'education':{'university':'', 'faculty':''}
                     }
     #universities - http://vk.com/dev/database.getFaculties
     #обработка отдельно
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, 'instance'):
+             cls.instance = super(textViewer, cls).__new__(cls)
+        return cls.instance
+
     def __init__(self,vk):
         assert(vk, analytic)
         self.vk=vk
+        self.log = logger()
     def print(self,docs:list,orderList:list):
         """
         печатает ответ сервера в удобном виде, с заменой id объектов на их человеческие названия, порядок полей определяется orderList
@@ -161,6 +168,7 @@ class textViewer(object):
         @rtype: list
         '''
         for rawList in rawListOfDicts:
+            x = self.vk.evalWithCache('database.getCitiesById(city_ids=1)')
             assert  isinstance(rawList,dict)
             for field in self.replacedFields.keys():
                 if field in rawList:
@@ -168,13 +176,34 @@ class textViewer(object):
                         rawList[field]='Нет информации'
                     else:
                         t1 = self.replacedFields[field]
+                        x = self.replacedFields
+                        x2= deepcopy(self.replacedFields[field])
+
                         #если tuple, то для каждого элемента из tuple делаем замену
-                        if isinstance(t1,str):
-                            t1 = [t1]
+                        if isinstance(t1,dict):
+                            a=1
+                            t2 = rawList[field][0]
+                            assert isinstance(t2,dict)
+
+                            for key,value in t1.items():
+                                if key in t2:
+                                    tt=value.replace('XX',str(t2[key]))
+                                    self.log.responseLog(tt)
+
+                                    try:
+                                        ttt=self.vk.evalWithCache(tt)
+                                    except AttributeError:
+                                        a=1
+                                    t2[key]=ttt
+                            rawList[field]=t2
+
+
+                            a=1
+
+
+
                         else:
-                            pass
-                        for string in t1:
-                            t2 = string.replace('XX',str(rawList[field]))
+                            t2 = t1.replace('XX',str(rawList[field]))
                             t3 = self.vk.evalWithCache(t2)
                             t4 = t3[0]['name']
                             rawList[field] = t4
