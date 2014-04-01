@@ -101,6 +101,8 @@ class analytic(object):
         выполняет запрос к серверу vk с кешированием в оперативной памяти. (Кеш не обновляется со временем)
         @rtype: list
         """
+        if cmd is '':
+            return ''
         if cmd in self.cache:
             return self.cache[cmd]
         else:
@@ -122,7 +124,12 @@ class analytic(object):
 
 class textViewer(object):
     replacedFields = {'city':'database.getCitiesById(city_ids=XX)',
-                      'country':'database.getCountriesByIdv(country_ids=XX)'}
+                      'country':'database.getCountriesByIdv(country_ids=XX)',
+                      'universities':({'id',''},{'faculty':''},{'chair':''},
+                                      {'country':'database.getCountriesByIdv(country_ids=XX)'},
+                                      {'city':'database.getCitiesById(city_ids=XX)'}),
+                      'education':({'university':''}, {'faculty':''})
+                    }
     #universities - http://vk.com/dev/database.getFaculties
     #обработка отдельно
     def __init__(self,vk):
@@ -161,10 +168,16 @@ class textViewer(object):
                         rawList[field]='Нет информации'
                     else:
                         t1 = self.replacedFields[field]
-                        t2 = t1.replace('XX',str(rawList[field]))
-                        t3 = self.vk.evalWithCache(t2)
-                        t4 = t3[0]['name']
-                        rawList[field] = t4
+                        #если tuple, то для каждого элемента из tuple делаем замену
+                        if isinstance(t1,str):
+                            t1 = [t1]
+                        else:
+                            pass
+                        for string in t1:
+                            t2 = string.replace('XX',str(rawList[field]))
+                            t3 = self.vk.evalWithCache(t2)
+                            t4 = t3[0]['name']
+                            rawList[field] = t4
         return rawListOfDicts
 
 
