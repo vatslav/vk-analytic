@@ -11,7 +11,9 @@ from handlers import logger
 
 def getCredent(file):
     '''
+    вытаскивает токен авторизации из файла credentials.txt
     @type param: file
+    @rtype: str
     '''
     f = open(file,'r')
     line =  f.readline().strip()
@@ -43,6 +45,10 @@ class analytic(object):
     def log(self,cmd):
         pass
     def getMutal(self,id1, id2):
+        """
+        возвращает общих друзей двух людей
+        @rtype: list
+        """
         res = self.vk.getMutual(source_uid=id1, target_uid=id2)
         return res
     def usersGet(self,ids, kitFields=__kitUserFields):
@@ -59,10 +65,15 @@ class analytic(object):
     def eval(self,cmd):
         """
         выполняет произвольную команду к api vk
+        @rtype: list
         """
         print(cmd)
         return eval('self.vk.%s'%cmd)
     def evalWithCache(self,cmd):
+        """
+        выполняет запрос к серверу vk с кешированием в оперативной памяти. (Кеш не обновляется со временем)
+        @rtype: list
+        """
         if cmd in self.cache:
             return self.cache[cmd]
         else:
@@ -70,7 +81,12 @@ class analytic(object):
             self.cache[cmd]=response
             return response
 
-    def medianResearch(self, id):
+    def mainResearch(self, id: int):
+        """
+        пытается угадать возраст, пол и ВУЗ человека по его друзьям
+        Используется метод максимума (среди друзей как правило, больше всего друзей с одного и того же ВУЗа, того же возраста и из того же города, что и сам человек
+        @rtype: str
+        """
         text = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields2))
 
         return text
@@ -81,7 +97,12 @@ class textViewer(object):
     def __init__(self,vk):
         assert(vk, analytic)
         self.vk=vk
-    def print(self,docs,orderList):
+    def print(self,docs:list,orderList:list):
+        """
+        печатает ответ сервера в удобном виде, с заменой id объектов на их человеческие названия, порядок полей определяется orderList
+        возвращает обработанный ответ
+        @rtype:list
+        """
         sortedDoc = []
         docs = self.baseReplacer(docs)
         for doc in docs:
@@ -96,7 +117,11 @@ class textViewer(object):
         return  sortedDoc
 
 
-    def baseReplacer(self,rawListOfDicts):
+    def baseReplacer(self,rawListOfDicts:list):
+        '''
+        замена идентификаторов объектов по базе vk на их человеческие названия
+        @rtype: list
+        '''
         for rawList in rawListOfDicts:
             assert  isinstance(rawList,dict)
             for field in self.replacedFields.keys():
@@ -115,23 +140,26 @@ class textViewer(object):
 
 
 
+
 def test1():
     print(vk.getServerTime())
     print(vk.friends.get(fields='uid, first_name, last_name, nickname, sex, bdate',uid='21229916'))
-
-def main():
-    log = logger()
-
-    #print (vk.getServerTime())
-    vk = analytic(getCredent('credentials.txt'))
-    tw = textViewer(vk)
     #vk = vkontakte.API(token=getCredent('credentials.txt'))
     #print "Hello vk API , server time is ",vk.getServerTime()
     #print unicode(vk.users.get(uids=146040808))
     #reader.read(vk.users.get(uids=233945283,fields='sex'))
     #log.responseLog(vk.usersGet(vk.eval(vk.t1)))
     #print(vk.researchFields2.split(','))
-    tw.print(vk.medianResearch(226723565),(vk.baseFields+vk.researchFields2).split(','))#78340794
+    #print (vk.getServerTime())
+
+def main():
+    log = logger()
+
+
+    vk = analytic(getCredent('credentials.txt'))
+    tw = textViewer(vk)
+
+    tw.print(vk.mainResearch(226723565),(vk.baseFields+vk.researchFields2).split(','))#78340794
     print ('input you method')
     while True:
         x = input()
