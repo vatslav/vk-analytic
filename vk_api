@@ -5,3 +5,23 @@ users.get(uids='ersh3d',fields='uid, first_name, last_name, nickname, screen_nam
 
 vk.friends.getMutual(source_uid=130866610, target_uid=160162395)
 friends.getMutual(source_uid=78340794, target_uid=11538362)
+
+unctools.partial(<vkontakte.API object at 0x7f36ced32490>, method='baron_bay_store')
+friends.getSuggestions(contacts='baron_bay_store',service='twitter',return_all=1)
+friends.getSuggestions(contacts='baron_bay_store',service='twitter',return_all=1)
+[]
+friends.getSuggestions(contacts='baron_bay_store',service='twitter')
+friends.getSuggestions(contacts='baron_bay_store',service='twitter')
+[]
+account.lookupContacts(contacts='baron_bay_store',service='twitter')
+account.lookupContacts(contacts='baron_bay_store',service='twitter')
+{'other': [{'contact': 'baron_bay_store'}], 'found': []}
+account.lookupContacts(contacts='+79124611498',service='phone',return_all=1)
+account.lookupContacts(contacts='+79124611498',service='phone',return_all=1)
+{'other': [{'contact': '+79124611498'}], 'found': []}
+account.lookupContacts(contacts='100007224240396',service='facebook')
+account.lookupContacts(contacts='100007224240396',service='facebook')
+{'other': [{'contact': '100007224240396'}], 'found': []}
+account.lookupContacts(contacts='Accessorize Monsoon',service='facebook')
+account.lookupContacts(contacts='Accessorize Monsoon',service='facebook')
+{'other': [{'contact': 'Accessorize Monsoon'}], 'found': []}

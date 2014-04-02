@@ -25,12 +25,11 @@ def getCredent(file):
 
 
 
-
 class analytic(object):
     __allUserFields='sex,bdate,city,country,photo_50,photo_100,photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online,online_mobile,lists,domain,has_mobile,contacts,connections,site,education,universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message,status,last_seen,common_count,relation,relatives,counters'
     __kitUserFields='sex,bdate,city,country,online,lists,domain,contacts,connections,site,education,universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message,status,last_seen,common_count,relation,relatives,counters'
     __researchFields='bdate,city,education,nickname,universities'
-    researchFields2='bdate,city,universities'
+    researchFields='bdate,city,universities,exports,connections,contacts'
     baseFields = 'first_name,last_name,uid'
     baseFields2 = 'online,user_id'
     baseFieldsFinally = baseFields + baseFields2
@@ -135,7 +134,7 @@ class analytic(object):
                     max = value
                     keymax = key
             return keymax
-        peopleList = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields2))
+        peopleList = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
         berd = {}
         univers = {}
         city = {}
@@ -154,8 +153,9 @@ class analytic(object):
                                      '=%s)'%hotcity)[0]['name']
         return hotbdate,hotcity
 
-
-        return     peopleList
+    def test(self, id):
+        x = self.evalWithCache("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
+        pprint(x)
 
 
 class textViewer(object):
@@ -257,7 +257,8 @@ def main():
     vk = analytic(getCredent('credentials.txt'))
     tw = textViewer(vk)
 
-    print(vk.mainResearch(226723565))
+    #print(vk.mainResearch(226723565))
+    vk.test(3870390)
     print ('input you method')
     while True:
         x = input()
