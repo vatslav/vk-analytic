@@ -144,7 +144,7 @@ class auxMath():
         top = rankedListDates[0][0]
         year = datetime.date.today().year
         age = year - int(top)
-        report = '''премерное время рождения %s - %s гг., наиболее вероятно в %s г.\nПримерный возраст %s лет''' % (start,end,top,age)
+        report = '''Примерный год рождения %s - %s гг., наиболее вероятно в %s г.\nПримерный возраст %s лет''' % (start,end,top,age)
         return report
 
 

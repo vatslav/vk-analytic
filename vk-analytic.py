@@ -200,7 +200,7 @@ def main():
 
     #vk.test(3870390)
     #mainClass.vkApiInterpreter()
-    #mainClass.mainResearchInterpreter()
+    mainClass.mainResearchInterpreter()
     return 0
 
 if __name__ == '__main__':
