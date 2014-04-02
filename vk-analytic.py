@@ -91,8 +91,10 @@ class analytic(object):
         выполняет произвольную команду к api vk
         @rtype: list
         """
-        print(cmd)
-        return eval('self.vk.%s'%cmd)
+        #print(cmd)
+        #return eval('self.vk.%s'%cmd)
+        return self.evalWithCache(cmd)
+
     def evalWithCache(self,cmd):
         """
         выполняет запрос к серверу vk с кешированием в оперативной памяти. (Кеш не обновляется со временем)
@@ -138,13 +140,14 @@ class analytic(object):
             if bdate.count('.') is 2:
                 auxMath.addToDict(berd,bdate[-4:])
         hotbdate = auxMath.findTopFreq(berd)
-        reportYers = auxMath.berdPeropdHandler(hotbdate)
+        reportYers = auxMath.birthPeriodReport(hotbdate)
         hotcity = auxMath.findTopFreq(city)
         for i,v in enumerate(hotcity):
             t = self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(hotcity[i][0]))[0]['name']
             hotcity[i] = list(v)
             hotcity[i][0] = t
-        return (hotbdate,hotcity,reportYers)
+        reportCity = auxMath.cityReport(hotcity)
+        return (hotbdate,hotcity,reportYers,reportCity)
 
     def test(self, id):
         x = self.evalWithCache("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
@@ -186,7 +189,8 @@ def main():
     #print(research[2])
     #print(vk.mainResearch(72858365)[2])
     #print(vk.mainResearch(150798434)[2])
-    print(vk.mainResearch(182541327))
+    x = vk.mainResearch(182541327)[2:4]
+    pprint(x)
 
     #vk.test(3870390)
     #mainClass.vkApiInterpreter()

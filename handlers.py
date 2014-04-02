@@ -125,17 +125,26 @@ class auxMath():
             if v[1]*3 < sameList[i+1][1]:
                 del sameList[i+1:]
 
+    @staticmethod
+    def cityReport(rankedListCity:list):
 
+        top =rankedListCity[0][0]
+        if len(rankedListCity) is 3:
+            top, midle, buttom = auxMath.getMemberPair(rankedListCity)
+            report = 'Вероятный город проживания %s\nТак же имеются связи с городами %s и %s'%(top,midle,buttom)
+        else:
+            top = rankedListCity[0][0]
+            report = 'Вероятный город проживания %s'%top
+        return report
 
     @staticmethod
-    def berdPeropdHandler(rankedListDates:list):
+    def birthPeriodReport(rankedListDates:list):
         start = min(auxMath.getMemberPair(rankedListDates))
         end = max(auxMath.getMemberPair(rankedListDates))
         top = rankedListDates[0][0]
         year = datetime.date.today().year
         age = year - int(top)
-        report = 'премерное время рождения %s - %s гг., наиболее вероятно в %s г.\n' \
-                 'Примерный возраст %s лет' % (start,end,top,age)
+        report = '''премерное время рождения %s - %s гг., наиболее вероятно в %s г.\nПримерный возраст %s лет''' % (start,end,top,age)
         return report
 
 
