@@ -155,29 +155,36 @@ def test1():
     #print(vk.researchFields2.split(','))
     #print (vk.getServerTime())
 
+class mainController(object):
+    def __init__(self,vk,tw=None):
+        self.vk=vk
+        self.tw=tw
+
+    def vkApiInterpreter(self):
+        print ('input you method')
+        while True:
+            x = input()
+            x = self.vk.eval(x)
+            print(x)
+
+    def mainResearchInterpreter(self):
+        pass
+
+
 def main():
     log = logger()
-
-
     vk = analytic(getCredent('credentials.txt'))
     tw = textViewer(vk)
-
+    mainClass = mainController(vk,tw)
     print(vk.mainResearch(226723565))
     #vk.test(3870390)
-    print ('input you method')
-    while True:
-        x = input()
-        #log.comandLog(x)
-        x = vk.eval(x)
-        print(x)
+    mainClass.vkApiInterpreter()
     return 0
 
 if __name__ == '__main__':
-    while True:
-        try:
-            main()
-            #SyntaxError, RuntimeError
-        except (NameError,vkontakte.api.VKError) as s:
-            print (s)
-            continue
+    try:
+        main()
+    except EOFError:
+        exit(0)
+
 
