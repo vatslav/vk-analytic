@@ -1,6 +1,6 @@
 __author__ = 'salamander'
 from pprint import pprint
-import math
+import math,datetime
 
 class logger(object):
     cmdFileName = 'log1'
@@ -149,7 +149,9 @@ class auxMath():
         start = min(auxMath.getMemberPair(rankedListDates))
         end = max(auxMath.getMemberPair(rankedListDates))
         top = rankedListDates[0][0]
-        report = '%s - %s гг., наиболее вероятно в %s г.' % (start,end,top)
+        year = datetime.date.today().year
+        age = year - int(top)
+        report = 'премерное время рождения %s - %s гг., наиболее вероятно в %s г.\nПримерный возраст %s' % (start,end,top,age)
         return report
 
 

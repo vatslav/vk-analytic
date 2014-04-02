@@ -127,11 +127,11 @@ class analytic(object):
             assert isinstance(bdate,str)
             if bdate.count('.') is 2:
                 auxMath.addToDict(berd,bdate[-4:])
-        hotbdate = auxMath.findFrequentElem(berd)
-
-        hotcity = auxMath.findFrequentElem(city)
+        hotbdate = auxMath.findTopFreq(berd)
+        reportYers = auxMath.berdPeropdHandler(hotbdate)
+        hotcity = auxMath.findTopFreq(city)
         hotcity = self.evalWithCache('database.getCitiesById(city_ids=%s)'%hotcity)[0]['name']
-        return hotbdate,hotcity
+        return (hotbdate,hotcity,reportYers)
 
     def test(self, id):
         x = self.evalWithCache("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
@@ -169,9 +169,9 @@ def main():
     vk = analytic(getCredent('credentials.txt'))
     tw = textViewer(vk)
     mainClass = mainController(vk,tw)
-    t = vk.mainResearch(226723565)
-    print('top period date: %s'% str(auxMath.findTopFreq(t[0])))
-    print(auxMath.berdPeropdHandler(t[0]))
+    research = vk.mainResearch(226723565)
+    print(research[2])
+
     #vk.test(3870390)
     #mainClass.vkApiInterpreter()
     return 0
