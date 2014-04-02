@@ -90,6 +90,7 @@ class auxMath():
                 max = value
                 keymax = key
         return keymax
+
     @staticmethod
     def getKeyInTuplePair(samelist:dict):
         '''
@@ -105,7 +106,7 @@ class auxMath():
                 raise TypeError
 
     @staticmethod
-    def findTopPeriod(samedict:dict,period=3):
+    def findTopFreq(samedict:dict,period=3):
         """
         находит максимальное значение в частотном словаре
         """
@@ -123,6 +124,9 @@ class auxMath():
 
     @staticmethod
     def berdPeropdHandler(datarange:list):
+        """
+        берем результаты FindTopFreq и обрабатываем в режиме - период + наиболее вероятный
+        """
         for n in range(len(datarange),0,-1):
             pass
 

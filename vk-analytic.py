@@ -128,7 +128,7 @@ class analytic(object):
             if bdate.count('.') is 2:
                 auxMath.addToDict(berd,bdate[-4:])
         hotbdate = auxMath.findFrequentElem(berd)
-        print('top period date: %s'% str(auxMath.findTopPeriod(berd)))
+        print('top period date: %s'% str(auxMath.findTopFreq(berd)))
 
         hotcity = auxMath.findFrequentElem(city)
         hotcity = self.evalWithCache('database.getCitiesById(city_ids=%s)'%hotcity)[0]['name']
