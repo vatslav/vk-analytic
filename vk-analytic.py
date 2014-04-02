@@ -128,32 +128,16 @@ class analytic(object):
             if bdate.count('.') is 2:
                 auxMath.addToDict(berd,bdate[-4:])
         hotbdate = auxMath.findFrequentElem(berd)
+        print('top period date: %s'% str(auxMath.findTopPeriod(berd)))
+
         hotcity = auxMath.findFrequentElem(city)
-        hotcity = self.evalWithCache('database.getCitiesById(city_ids'
-                                     '=%s)'%hotcity)[0]['name']
+        hotcity = self.evalWithCache('database.getCitiesById(city_ids=%s)'%hotcity)[0]['name']
         return hotbdate,hotcity
 
     def test(self, id):
         x = self.evalWithCache("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
         pprint(x)
 
-
-
-
-
-
-
-
-def test1():
-    print(vk.getServerTime())
-    print(vk.friends.get(fields='uid, first_name, last_name, nickname, sex, bdate',uid='21229916'))
-    #vk = vkontakte.API(token=getCredent('credentials.txt'))
-    #print "Hello vk API , server time is ",vk.getServerTime()
-    #print unicode(vk.users.get(uids=146040808))
-    #reader.read(vk.users.get(uids=233945283,fields='sex'))
-    #log.responseLog(vk.usersGet(vk.eval(vk.t1)))
-    #print(vk.researchFields2.split(','))
-    #print (vk.getServerTime())
 
 class mainController(object):
     def __init__(self,vk,tw=None):
@@ -170,6 +154,16 @@ class mainController(object):
     def mainResearchInterpreter(self):
         pass
 
+    def test1(self):
+        print(self.vk.getServerTime())
+        print(self.vk.friends.get(fields='uid, first_name, last_name, nickname, sex, bdate',uid='21229916'))
+        #vk = vkontakte.API(token=getCredent('credentials.txt'))
+        #print "Hello vk API , server time is ",vk.getServerTime()
+        #print unicode(vk.users.get(uids=146040808))
+        #reader.read(vk.users.get(uids=233945283,fields='sex'))
+        #log.responseLog(vk.usersGet(vk.eval(vk.t1)))
+        #print(vk.researchFields2.split(','))
+        #print (vk.getServerTime())
 
 def main():
     log = logger()

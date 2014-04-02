@@ -90,7 +90,41 @@ class auxMath():
                 max = value
                 keymax = key
         return keymax
+    @staticmethod
+    def getKeyInTuplePair(samelist:dict):
+        '''
+        в словаре вида [(key,value),(key,value)] возвращает итератор Key`ев
+        '''
+        for pair in samelist:
+            if isinstance(pair,tuple):
+                yield pair[0]
 
+            elif isinstance(pair,str):
+                yield pair
+            else:
+                raise TypeError
+
+    @staticmethod
+    def findTopPeriod(samedict:dict,period=3):
+        """
+        находит максимальное значение в частотном словаре
+        """
+
+        dateRange = []
+        for x in range(period):
+            dateRange.append('')
+        for n in range(len(dateRange)):
+            max = 0
+            for key,value in samedict.items():
+                if value > max and key not in auxMath.getKeyInTuplePair(dateRange):
+                    max = value
+                    dateRange[n] = (key,value)
+        return dateRange
+
+    @staticmethod
+    def berdPeropdHandler(datarange:list):
+        for n in range(len(datarange),0,-1):
+            pass
 
 
 class textViewer(object):
