@@ -172,7 +172,7 @@ def main():
     mainClass = mainController(vk,tw)
     print(vk.mainResearch(226723565))
     #vk.test(3870390)
-    mainClass.vkApiInterpreter()
+    #mainClass.vkApiInterpreter()
     return 0
 
 if __name__ == '__main__':

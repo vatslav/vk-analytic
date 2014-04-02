@@ -92,7 +92,7 @@ class auxMath():
         return keymax
 
     @staticmethod
-    def getKeyInTuplePair(samelist:dict):
+    def getMemberInListOfTuplePair(samelist:dict, memberNumber=0):
         '''
         в словаре вида [(key,value),(key,value)] возвращает итератор Key`ев
         '''
@@ -100,7 +100,7 @@ class auxMath():
             if len(pair) is 0:
                 yield pair
             else:
-                yield pair[0]
+                yield pair[memberNumber]
 
     @staticmethod
     def findTopFreq(samedict:dict,sizeOfTop=3):
@@ -113,18 +113,43 @@ class auxMath():
         for n in range(len(dateRange)):
             max = 0
             for key,value in samedict.items():
-                if value > max and key not in auxMath.getKeyInTuplePair(dateRange):
+                if value > max and key not in auxMath.getMemberInListOfTuplePair(dateRange):
                     max = value
                     dateRange[n] = (key,value)
         return dateRange
 
     @staticmethod
-    def berdPeropdHandler(datarange:list):
+    def freqSelection(sameList:list):
+        for i,v in enumerate(sameList):
+            if v[1]*3 < sameList[i+1][1]:
+                del sameList[i+1:]
+
+
+
+
+    @staticmethod
+    def berdPeropdHandler(rankedListDates:list):
         """
         берем результаты FindTopFreq и обрабатываем в режиме - период + наиболее вероятный
         """
-        for n in range(len(datarange),0,-1):
-            pass
+        #если в ряду один член отстает от другого более чем в 3 раза, то такой член стоит выкинуть
+        for n in enumerate(rankedListDates),0,-1):
+            if n>0 and rankedListDates[n][1]*3 <rankedListDates[n-1][1]:
+                for subn in range(n):
+                    rankedListDates.pop(subn)
+                break
+        #если есть что упорядочивать
+        if len(rankedListDates)>1:
+            for n in enumerate(rankedListDates):
+                pass
+
+
+        #приводим год к int`у
+        for n in enumerate(rankedListDates):
+            rankedListDates[n][0] = int(rankedListDates[n][0])
+
+
+        report = '%s - %s гг, наиболее вероятно в '
 
 
 class textViewer(object):
