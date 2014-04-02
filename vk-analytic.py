@@ -128,7 +128,6 @@ class analytic(object):
             if bdate.count('.') is 2:
                 auxMath.addToDict(berd,bdate[-4:])
         hotbdate = auxMath.findFrequentElem(berd)
-        print('top period date: %s'% str(auxMath.findTopFreq(berd)))
 
         hotcity = auxMath.findFrequentElem(city)
         hotcity = self.evalWithCache('database.getCitiesById(city_ids=%s)'%hotcity)[0]['name']
@@ -170,7 +169,9 @@ def main():
     vk = analytic(getCredent('credentials.txt'))
     tw = textViewer(vk)
     mainClass = mainController(vk,tw)
-    print(vk.mainResearch(226723565))
+    t = vk.mainResearch(226723565)
+    print('top period date: %s'% str(auxMath.findTopFreq(t[0])))
+    print(auxMath.berdPeropdHandler(t[0]))
     #vk.test(3870390)
     #mainClass.vkApiInterpreter()
     return 0

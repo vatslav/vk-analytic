@@ -6,7 +6,10 @@ __author__ = 'salamander'
 #cacheLog.write('1-2\n')
 #cacheLog.write('2-3\n')
 
-a=list(range(9))
+a = {}
+for x in range(9):
+    a[x]=x
+
 for i,v in enumerate(a):
     if v==4:
         del a[2:]

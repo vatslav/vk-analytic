@@ -1,5 +1,6 @@
 __author__ = 'salamander'
 from pprint import pprint
+import math
 
 class logger(object):
     cmdFileName = 'log1'
@@ -92,7 +93,7 @@ class auxMath():
         return keymax
 
     @staticmethod
-    def getMemberInListOfTuplePair(samelist:dict, memberNumber=0):
+    def getMemberPair(samelist:dict, memberNumber=0):
         '''
         в словаре вида [(key,value),(key,value)] возвращает итератор Key`ев
         '''
@@ -109,13 +110,13 @@ class auxMath():
         """
 
         dateRange = [() for i in range(sizeOfTop)]
-
-        for n in range(len(dateRange)):
+        a={}
+        for i, v in enumerate(dateRange):
             max = 0
             for key,value in samedict.items():
-                if value > max and key not in auxMath.getMemberInListOfTuplePair(dateRange):
+                if value > max and key not in auxMath.getMemberPair(dateRange):
                     max = value
-                    dateRange[n] = (key,value)
+                    dateRange[i] = (key,value)
         return dateRange
 
     @staticmethod
@@ -126,30 +127,30 @@ class auxMath():
 
 
 
-
     @staticmethod
     def berdPeropdHandler(rankedListDates:list):
         """
         берем результаты FindTopFreq и обрабатываем в режиме - период + наиболее вероятный
         """
-        #если в ряду один член отстает от другого более чем в 3 раза, то такой член стоит выкинуть
-        for n in enumerate(rankedListDates),0,-1):
-            if n>0 and rankedListDates[n][1]*3 <rankedListDates[n-1][1]:
-                for subn in range(n):
-                    rankedListDates.pop(subn)
-                break
-        #если есть что упорядочивать
-        if len(rankedListDates)>1:
-            for n in enumerate(rankedListDates):
-                pass
+        ##если в ряду один член отстает от другого более чем в 3 раза, то такой член стоит выкинуть
+        #auxMath.freqSelection(rankedListDates)
+        #
+        ##приводим год к int`у
+        #for i,v in enumerate(rankedListDates):
+        #    rankedListDates[i][0] = int(rankedListDates[i][0])
+        #
+        ##если есть что упорядочивать, то
+        #if len(rankedListDates)>1:
+        #    for i,v in enumerate(rankedListDates):
+        #        if i<len(rankedListDates):
+        #            if math.fabs(v[0]-rankedListDates[i+1])>5:
+        #                del rankedListDates[i+1:]
 
-
-        #приводим год к int`у
-        for n in enumerate(rankedListDates):
-            rankedListDates[n][0] = int(rankedListDates[n][0])
-
-
-        report = '%s - %s гг, наиболее вероятно в '
+        start = min(auxMath.getMemberPair(rankedListDates))
+        end = max(auxMath.getMemberPair(rankedListDates))
+        top = rankedListDates[0][0]
+        report = '%s - %s гг., наиболее вероятно в %s г.' % (start,end,top)
+        return report
 
 
 class textViewer(object):
