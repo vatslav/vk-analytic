@@ -167,7 +167,13 @@ class mainController(object):
             print(x)
 
     def mainResearchInterpreter(self):
-        pass
+        print ('Enter the username(id or shortname) for the report')
+        while True:
+            x = input()
+            x = self.vk.mainResearch(int(x))
+            for line in x[2:]:
+                print(line)
+
 
     def test1(self):
         print(self.vk.getServerTime())
@@ -194,6 +200,7 @@ def main():
 
     #vk.test(3870390)
     #mainClass.vkApiInterpreter()
+    #mainClass.mainResearchInterpreter()
     return 0
 
 if __name__ == '__main__':
