@@ -109,7 +109,7 @@ class auxMath():
         находит максимальное значение в частотном словаре
         """
 
-        dateRange = [() for i in range(sizeOfTop)]
+        dateRange = [[] for i in range(sizeOfTop)]
         a={}
         for i, v in enumerate(dateRange):
             max = 0
@@ -129,23 +129,6 @@ class auxMath():
 
     @staticmethod
     def berdPeropdHandler(rankedListDates:list):
-        """
-        берем результаты FindTopFreq и обрабатываем в режиме - период + наиболее вероятный
-        """
-        ##если в ряду один член отстает от другого более чем в 3 раза, то такой член стоит выкинуть
-        #auxMath.freqSelection(rankedListDates)
-        #
-        ##приводим год к int`у
-        #for i,v in enumerate(rankedListDates):
-        #    rankedListDates[i][0] = int(rankedListDates[i][0])
-        #
-        ##если есть что упорядочивать, то
-        #if len(rankedListDates)>1:
-        #    for i,v in enumerate(rankedListDates):
-        #        if i<len(rankedListDates):
-        #            if math.fabs(v[0]-rankedListDates[i+1])>5:
-        #                del rankedListDates[i+1:]
-
         start = min(auxMath.getMemberPair(rankedListDates))
         end = max(auxMath.getMemberPair(rankedListDates))
         top = rankedListDates[0][0]

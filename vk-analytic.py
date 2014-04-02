@@ -5,7 +5,7 @@ __author__ = 'salamander'
 import vkontakte
 from pprint import pprint
 from os.path import exists, isfile
-import pickle
+import pickle, datetime
 from copy import deepcopy
 
 from handlers import logger, textViewer, auxMath
@@ -108,6 +108,16 @@ class analytic(object):
             self.__logCache(cmd,response)
             return response
 
+    def birdReport(self,rankedListDates:list):
+        start = min(auxMath.getMemberPair(rankedListDates))
+        end = max(auxMath.getMemberPair(rankedListDates))
+        top = rankedListDates[0][0]
+        year = datetime.date.today().year
+        age = year - int(top)
+        report = 'премерное время рождения %s - %s гг., наиболее вероятно в %s г.\n' \
+                 'Примерный возраст %s лет' % (start,end,top,age)
+        return report
+
     def mainResearch(self, id: int):
         """
         пытается угадать возраст, пол и ВУЗ человека по его друзьям
@@ -130,7 +140,10 @@ class analytic(object):
         hotbdate = auxMath.findTopFreq(berd)
         reportYers = auxMath.berdPeropdHandler(hotbdate)
         hotcity = auxMath.findTopFreq(city)
-        hotcity = self.evalWithCache('database.getCitiesById(city_ids=%s)'%hotcity)[0]['name']
+        for i,v in enumerate(hotcity):
+            t = self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(hotcity[i][0]))[0]['name']
+            hotcity[i] = list(v)
+            hotcity[i][0] = t
         return (hotbdate,hotcity,reportYers)
 
     def test(self, id):
@@ -172,8 +185,8 @@ def main():
     #research = vk.mainResearch(226723565)
     #print(research[2])
     #print(vk.mainResearch(72858365)[2])
-    #print(vk.mainResearch(23528231)[2])
-    print(vk.mainResearch(14829246)[2])
+    #print(vk.mainResearch(150798434)[2])
+    print(vk.mainResearch(182541327))
 
     #vk.test(3870390)
     #mainClass.vkApiInterpreter()
