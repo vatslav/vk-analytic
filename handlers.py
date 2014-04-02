@@ -97,23 +97,19 @@ class auxMath():
         в словаре вида [(key,value),(key,value)] возвращает итератор Key`ев
         '''
         for pair in samelist:
-            if isinstance(pair,tuple):
-                yield pair[0]
-
-            elif isinstance(pair,str):
+            if len(pair) is 0:
                 yield pair
             else:
-                raise TypeError
+                yield pair[0]
 
     @staticmethod
-    def findTopFreq(samedict:dict,period=3):
+    def findTopFreq(samedict:dict,sizeOfTop=3):
         """
         находит максимальное значение в частотном словаре
         """
 
-        dateRange = []
-        for x in range(period):
-            dateRange.append('')
+        dateRange = [() for i in range(sizeOfTop)]
+
         for n in range(len(dateRange)):
             max = 0
             for key,value in samedict.items():
