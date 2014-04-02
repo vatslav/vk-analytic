@@ -8,7 +8,7 @@ from os.path import exists, isfile
 import pickle
 from copy import deepcopy
 
-from handlers import logger
+from handlers import logger, textViewer, auxMath
 
 
 def getCredent(file):
@@ -59,9 +59,6 @@ class analytic(object):
     def __logCache(self,cmd, response):
         pickle.dump({cmd:response},self.cacheLogFile)
 
-
-
-
     def __init__(self,tok,log=1,loggerObject=None):
         self.vk=vkontakte.API(token=tok)
         self.__warmingUpCache()
@@ -70,8 +67,6 @@ class analytic(object):
             loggerObject = logger()
         self.logger = loggerObject
 
-    def log(self,cmd):
-        pass
     def getMutal(self,id1, id2):
         """
         возвращает общих друзей двух людей
@@ -79,6 +74,7 @@ class analytic(object):
         """
         res = self.vk.getMutual(source_uid=id1, target_uid=id2)
         return res
+
     def usersGet(self,ids, kitFields=__kitUserFields):
         """
         получение информации о некотором человеке
@@ -118,37 +114,21 @@ class analytic(object):
         Используется метод максимума (среди друзей как правило, больше всего друзей с одного и того же ВУЗа, того же возраста и из того же города, что и сам человек
         @rtype: str
         """
-        def addToDict(samedict:dict,key):
-            if key is None:
-                return samedict
-            if key in samedict:
-                samedict[key]+=1
-            else:
-                samedict[key]=1
-            return samedict
-        def findFrequentElem(samedict:dict):
-            max = 0
-            keymax = ''
-            for key,value in samedict.items():
-                if value > max:
-                    max = value
-                    keymax = key
-            return keymax
         peopleList = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
         berd = {}
         univers = {}
         city = {}
         for people in peopleList:
             assert isinstance(people,dict)
-            city = addToDict(city,people.get('city'))
+            auxMath.addToDict(city,people.get('city'))
             bdate = people.get('bdate')
             if bdate is None:
                 continue
             assert isinstance(bdate,str)
             if bdate.count('.') is 2:
-                berd = addToDict(berd,bdate[-4:])
-        hotbdate = findFrequentElem(berd)
-        hotcity = findFrequentElem(city)
+                auxMath.addToDict(berd,bdate[-4:])
+        hotbdate = auxMath.findFrequentElem(berd)
+        hotcity = auxMath.findFrequentElem(city)
         hotcity = self.evalWithCache('database.getCitiesById(city_ids'
                                      '=%s)'%hotcity)[0]['name']
         return hotbdate,hotcity
@@ -158,82 +138,7 @@ class analytic(object):
         pprint(x)
 
 
-class textViewer(object):
-    replacedFields = {'city':'database.getCitiesById(city_ids=XX)',
-                      'country':'database.getCountriesById(country_ids=XX)',
-                      'universities':{'id':'','faculty':'','chair':'',
-                                      'country':'database.getCountriesById(country_ids=XX)',
-                                      'city':'database.getCitiesById(city_ids=XX)'},
-                      'education':{'university':'', 'faculty':''}
-                    }
-    #universities - http://vk.com/dev/database.getFaculties
-    #обработка отдельно
-    def __new__(cls, *args, **kwargs):
-        if not hasattr(cls, 'instance'):
-             cls.instance = super(textViewer, cls).__new__(cls)
-        return cls.instance
 
-    def __init__(self,vk):
-        assert(vk, analytic)
-        self.vk=vk
-        self.log = logger()
-    def print(self,docs:list,orderList:list):
-        """
-        печатает ответ сервера в удобном виде, с заменой id объектов на их человеческие названия, порядок полей определяется orderList
-        возвращает обработанный ответ
-        @rtype:list
-        """
-        sortedDoc = []
-        docs = self.baseReplacer(docs)
-        for doc in docs:
-            assert isinstance(doc,dict)
-            sortedUser = []
-            for entry in orderList:
-
-                if entry in doc:
-                    sortedUser.append('%s - %s' %(entry, str(doc[entry])))
-            sortedDoc.append(sortedUser)
-        pprint(sortedDoc)
-        return  sortedDoc
-
-
-    def baseReplacer(self,rawListOfDicts:list):
-        '''
-        замена идентификаторов объектов по базе vk на их человеческие названия
-        @rtype: list
-        '''
-        for rawList in rawListOfDicts:#для словарей внутри списка
-            assert  isinstance(rawList,dict)
-            for field, replaceCmd in self.replacedFields.items():#для поля и команды, которая заменит значение поля
-                if field in rawList:
-                    if rawList[field] is 0:
-                        rawList[field]='Нет информации'
-                    else:
-                        if isinstance(replaceCmd,dict):
-                            machinedPart = rawList[field]
-                            if len(machinedPart)>0:
-                                machinedPart=machinedPart[0]
-                            else:
-                                rawList.pop(field)
-                                continue
-                            assert isinstance(machinedPart,dict)
-
-                            for key,value in replaceCmd.items():#для ключа и значение в словаре
-                                if key in machinedPart:
-                                    tt=value.replace('XX',str(machinedPart[key]))
-                                    ttt=self.vk.evalWithCache(tt)
-                                    if len(ttt) is 0:
-                                        machinedPart.pop(key)
-                                    else:
-                                        ttt=ttt[0]['name']
-                                    machinedPart[key]=ttt
-                            rawList[field]=machinedPart
-                        else:
-                            machinedPart = replaceCmd.replace('XX',str(rawList[field]))
-                            t3 = self.vk.evalWithCache(machinedPart)
-                            t4 = t3[0]['name']
-                            rawList[field] = t4
-        return rawListOfDicts
 
 
 
@@ -257,8 +162,8 @@ def main():
     vk = analytic(getCredent('credentials.txt'))
     tw = textViewer(vk)
 
-    #print(vk.mainResearch(226723565))
-    vk.test(3870390)
+    print(vk.mainResearch(226723565))
+    #vk.test(3870390)
     print ('input you method')
     while True:
         x = input()

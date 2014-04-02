@@ -1,9 +1,6 @@
 __author__ = 'salamander'
 from pprint import pprint
 
-
-
-
 class logger(object):
     cmdFileName = 'log1'
     responseFileName='log2'
@@ -22,6 +19,7 @@ class logger(object):
     def responseLog(self,cmd):
         pprint(cmd)
         pprint(cmd, self.responseFile)
+
 class reader(object):
     '''
     foo(int, string) -> list
@@ -67,3 +65,106 @@ class rawStringHandler(object):
     def jointString(str1, str2):
         return str1+','+str2
 
+class auxMath():
+    @staticmethod
+    def addToDict(samedict:dict,key):
+        """
+        добовляет выражение в частотный словарь
+        """
+        if key is None:
+            return samedict
+        if key in samedict:
+            samedict[key]+=1
+        else:
+            samedict[key]=1
+
+    @staticmethod
+    def findFrequentElem(samedict:dict):
+        """
+        находит максимальное значение в частотном словаре
+        """
+        max = 0
+        keymax = ''
+        for key,value in samedict.items():
+            if value > max:
+                max = value
+                keymax = key
+        return keymax
+
+
+
+class textViewer(object):
+    replacedFields = {'city':'database.getCitiesById(city_ids=XX)',
+                      'country':'database.getCountriesById(country_ids=XX)',
+                      'universities':{'id':'','faculty':'','chair':'',
+                                      'country':'database.getCountriesById(country_ids=XX)',
+                                      'city':'database.getCitiesById(city_ids=XX)'},
+                      'education':{'university':'', 'faculty':''}
+                    }
+    #universities - http://vk.com/dev/database.getFaculties
+    #обработка отдельно
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, 'instance'):
+             cls.instance = super(textViewer, cls).__new__(cls)
+        return cls.instance
+
+    def __init__(self,vk):
+        self.vk=vk
+        self.log = logger()
+    def print(self,docs:list,orderList:list):
+        """
+        печатает ответ сервера в удобном виде, с заменой id объектов на их человеческие названия, порядок полей определяется orderList
+        возвращает обработанный ответ
+        @rtype:list
+        """
+        sortedDoc = []
+        docs = self.baseReplacer(docs)
+        for doc in docs:
+            assert isinstance(doc,dict)
+            sortedUser = []
+            for entry in orderList:
+
+                if entry in doc:
+                    sortedUser.append('%s - %s' %(entry, str(doc[entry])))
+            sortedDoc.append(sortedUser)
+        pprint(sortedDoc)
+        return  sortedDoc
+
+
+    def baseReplacer(self,rawListOfDicts:list):
+        '''
+        замена идентификаторов объектов по базе vk на их человеческие названия
+        @rtype: list
+        '''
+        for rawList in rawListOfDicts:#для словарей внутри списка
+            assert  isinstance(rawList,dict)
+            for field, replaceCmd in self.replacedFields.items():#для поля и команды, которая заменит значение поля
+                if field in rawList:
+                    if rawList[field] is 0:
+                        rawList[field]='Нет информации'
+                    else:
+                        if isinstance(replaceCmd,dict):
+                            machinedPart = rawList[field]
+                            if len(machinedPart)>0:
+                                machinedPart=machinedPart[0]
+                            else:
+                                rawList.pop(field)
+                                continue
+                            assert isinstance(machinedPart,dict)
+
+                            for key,value in replaceCmd.items():#для ключа и значение в словаре
+                                if key in machinedPart:
+                                    tt=value.replace('XX',str(machinedPart[key]))
+                                    ttt=self.vk.evalWithCache(tt)
+                                    if len(ttt) is 0:
+                                        machinedPart.pop(key)
+                                    else:
+                                        ttt=ttt[0]['name']
+                                    machinedPart[key]=ttt
+                            rawList[field]=machinedPart
+                        else:
+                            machinedPart = replaceCmd.replace('XX',str(rawList[field]))
+                            t3 = self.vk.evalWithCache(machinedPart)
+                            t4 = t3[0]['name']
+                            rawList[field] = t4
+        return rawListOfDicts
