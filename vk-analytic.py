@@ -169,8 +169,11 @@ def main():
     vk = analytic(getCredent('credentials.txt'))
     tw = textViewer(vk)
     mainClass = mainController(vk,tw)
-    research = vk.mainResearch(226723565)
-    print(research[2])
+    #research = vk.mainResearch(226723565)
+    #print(research[2])
+    #print(vk.mainResearch(72858365)[2])
+    #print(vk.mainResearch(23528231)[2])
+    print(vk.mainResearch(14829246)[2])
 
     #vk.test(3870390)
     #mainClass.vkApiInterpreter()
