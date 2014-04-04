@@ -146,6 +146,26 @@ class auxMath():
         age = year - int(top)
         report = '''Примерный год рождения %s - %s гг., наиболее вероятно в %s г.\nПримерный возраст %s лет''' % (start,end,top,age)
         return report
+    @staticmethod
+    def universitiesReport(rankedListUniver:list, numberFriend:int):
+        top = rankedListUniver[0][0]
+        friendsWithUniversOverx = sum(auxMath.getMemberPair(rankedListUniver,1)) * 10
+        if friendsWithUniversOverx*10 <numberFriend:
+            report = 'Вероятно у этого человека нет высшего образования'
+        elif len(rankedListUniver) is 3:
+            top, midle, buttom = auxMath.getMemberPair(rankedListUniver)
+            report = 'Вероятный ВУЗ %s\nТак же имеются связи с ВУЗами %s и %s'%(top,midle,buttom)
+        else:
+            top = rankedListUniver[0][0]
+            report = 'Вероятный ВУЗ %s'%top
+        return report
+
+    @staticmethod
+    def beatifulOut(out:list):
+        for i,v in enumerate(out):
+            if i%2 is not 0:
+                print (v)
+
 
 
 class textViewer(object):

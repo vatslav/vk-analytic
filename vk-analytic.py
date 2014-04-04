@@ -137,31 +137,45 @@ class analytic(object):
         @rtype: str
         """
         peopleList = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
+        #частотные словари
         berd = {}
         univers = {}
         city = {}
+        friendsNumber = len(peopleList)
+        #добавление данных в частотные словари
         for people in peopleList:
             assert isinstance(people,dict)
             auxMath.addToDict(city,people.get('city'))
+
             bdate = people.get('bdate')
             if bdate is None:
                 continue
             assert isinstance(bdate,str)
             if bdate.count('.') is 2:
                 auxMath.addToDict(berd,bdate[-4:])
-        hotbdate = auxMath.findTopFreq(berd)
-        reportYers = auxMath.birthPeriodReport(hotbdate)
-        hotcity = auxMath.findTopFreq(city)
-        for i,v in enumerate(hotcity):
-            t = self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(hotcity[i][0]))
+            if 'universities' in people and len(people.get('universities')) > 0:
+                t = people.get('universities')[0]
+                auxMath.addToDict(univers,people.get('universities')[0].get('name'))
+        #обработка частотных ловарей. Выделение наиболее встречаемых
+        topbdate = auxMath.findTopFreq(berd)
+
+        topcity = auxMath.findTopFreq(city)
+        for i,v in enumerate(topcity):
+            t = self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(topcity[i][0]))
             if len(t) is 0:
                 t = "Не известно"
             else:
                 t = t[0]['name']
-            hotcity[i] = list(v)
-            hotcity[i][0] = t
-        reportCity = auxMath.cityReport(hotcity)
-        return (hotbdate,hotcity,reportYers,reportCity)
+            topcity[i] = list(v)
+            topcity[i][0] = t
+
+        toptuniversity = auxMath.findTopFreq(univers)
+
+
+        reportBirthDay = auxMath.birthPeriodReport(topbdate)
+        reportCity = auxMath.cityReport(topcity)
+        reportUniversity = auxMath.universitiesReport(toptuniversity,friendsNumber)
+        return (topbdate,reportBirthDay, topcity,reportCity, toptuniversity,reportUniversity)
 
     def test(self, id):
         x = self.evalWithCache("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
@@ -174,20 +188,25 @@ class mainController(object):
         self.vk=vk
         self.tw=tw
 
-    def vkApiInterpreter(self):
+    def vkApiInterpreter(self,beautifulOut=None):
         print ('input you method')
         while True:
             x = input()
             x = self.vk.eval(x)
-            print(x)
+            if beautifulOut is not None:
+                auxMath.beatifulOut(x)
+            else:
+                print(x)
 
-    def mainResearchInterpreter(self):
+    def mainResearchInterpreter(self,beautifulOut=None):
         print ('Enter the username(id or shortname) for the report')
         while True:
             x = input()
             x = self.vk.mainResearch(int(x))
-            for line in x[2:]:
-                print(line)
+            if beautifulOut is not None:
+                auxMath.beatifulOut(x)
+            else:
+                print(x)
 
 
     def test1(self):
@@ -210,12 +229,12 @@ def main():
     #print(research[2])
     #print(vk.mainResearch(72858365)[2])
     #print(vk.mainResearch(150798434)[2]) #78340794 182541327
-    #x = vk.mainResearch(182541327)[2:4]
-    #pprint(x)
+    x = vk.mainResearch(5859210)
+    auxMath.beatifulOut(x)
 
     #vk.test(3870390)
     #mainClass.vkApiInterpreter()
-    mainClass.mainResearchInterpreter()
+    #mainClass.mainResearchInterpreter()
     return 0
 
 if __name__ == '__main__':
