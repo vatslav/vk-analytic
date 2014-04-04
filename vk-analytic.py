@@ -18,9 +18,13 @@ def getCredent(file):
     @rtype: str
 
     '''
-    f = open(file,'r')
-    line =  f.readline().strip()
-    f.close()
+    try:
+        f = open(file,'r')
+        line =  f.readline().strip()
+        f.close()
+    except FileNotFoundError:
+        print("не найден файл с токеном авторизации")
+        exit(1)
     return line
 
 
@@ -105,7 +109,13 @@ class analytic(object):
         if cmd in self.cache:
             return self.cache[cmd]
         else:
-            response = eval('self.vk.%s'%cmd)
+            try:
+                response = eval('self.vk.%s'%cmd)
+            except vkontakte.VKError as e:
+                print(e.description)
+                if e.code==10:
+                    print('вероятно произошла ошибка автрорзации')
+                exit(1)
             self.cache[cmd]=response
             self.__logCache(cmd,response)
             return response
