@@ -143,7 +143,11 @@ class analytic(object):
         reportYers = auxMath.birthPeriodReport(hotbdate)
         hotcity = auxMath.findTopFreq(city)
         for i,v in enumerate(hotcity):
-            t = self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(hotcity[i][0]))[0]['name']
+            t = self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(hotcity[i][0]))
+            if len(t) is 0:
+                t = "Не известно"
+            else:
+                t = t[0]['name']
             hotcity[i] = list(v)
             hotcity[i][0] = t
         reportCity = auxMath.cityReport(hotcity)
@@ -153,7 +157,8 @@ class analytic(object):
         x = self.evalWithCache("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
         pprint(x)
 
-
+#нужен универсальный обработчик случаев отсутсвия инфы:
+#когда не чего не вернулось, когда вернулся 0
 class mainController(object):
     def __init__(self,vk,tw=None):
         self.vk=vk
@@ -194,9 +199,9 @@ def main():
     #research = vk.mainResearch(226723565)
     #print(research[2])
     #print(vk.mainResearch(72858365)[2])
-    #print(vk.mainResearch(150798434)[2])
-    x = vk.mainResearch(182541327)[2:4]
-    pprint(x)
+    #print(vk.mainResearch(150798434)[2]) #78340794 182541327
+    #x = vk.mainResearch(182541327)[2:4]
+    #pprint(x)
 
     #vk.test(3870390)
     #mainClass.vkApiInterpreter()
