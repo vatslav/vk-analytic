@@ -75,7 +75,7 @@ class analytic(object):
         if loggerObject is None:
             loggerObject = logger()
         self.logger = loggerObject
-        self.social = socialAnalyze(self.vk,self.logtxt,self.logger)
+        self.social = socialAnalyze(self.vk,self.logtxt,self.logger,self.cacheLogFile)
 
 
     def getMutal(self,id1, id2):
@@ -93,7 +93,7 @@ class analytic(object):
         if isinstance(ids,list):
             ids=str(ids)[1:-1]
         info = []
-        return self.vk.users.get(user_ids=ids, fields=kitFields)
+        return self.vk.users.get(user_ids=ids, fields=kitFields)[0]
 
     def eval(self,cmd):
         """
@@ -114,13 +114,7 @@ class analytic(object):
         if cmd in self.cache:
             return self.cache[cmd]
         else:
-            try:
-                response = eval('self.vk.%s'%cmd)
-            except vkontakte.VKError as e:
-                print(e.description)
-                if e.code==10:
-                    print('вероятно произошла ошибка автрорзации')
-                exit(1)
+            response = eval('self.vk.%s'%cmd)
             self.cache[cmd]=response
             self.__logCache(cmd,response)
             return response
@@ -138,6 +132,9 @@ class analytic(object):
         univers = {}
         city = {}
         friendsNumber = len(peopleList)
+        if friendsNumber < 3:
+            return (None, 'Слишком мало друзей, что бы провесьти анализ')
+
         #добавление данных в частотные словари
         for people in peopleList:
             assert isinstance(people,dict)
@@ -157,18 +154,22 @@ class analytic(object):
 
         topcity = auxMath.findTopFreq(city)
         for i,v in enumerate(topcity):
-            t = self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(topcity[i][0]))
+            if len(topcity[i]) is 0:
+                temp = 0
+            else:
+                temp = topcity[i][0]
+            t = self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(temp))
             if len(t) is 0:
                 t = "Не известно"
             else:
                 t = t[0]['name']
-            topcity[i] = list(v)
-            topcity[i][0] = t
+                topcity[i] = list(v)
+                topcity[i][0] = t
 
         toptuniversity = auxMath.findTopFreq(univers)
 
         if service is not None:
-            return (topbdate,reportBirthDay, topcity)
+            return (topbdate,toptuniversity, topcity)[0]
         reportBirthDay = auxMath.birthPeriodReport(topbdate)
         reportCity = auxMath.cityReport(topcity)
         reportUniversity = auxMath.universitiesReport(toptuniversity,friendsNumber)
@@ -182,8 +183,8 @@ class analytic(object):
 
 
 class socialAnalyze(analytic):
-    def __init__(self,vk,logtxt,logger):
-        self.vk, self.logtxt, self.logger = vk,logtxt,logger
+    def __init__(self,vk,logtxt,logger,cacheLogFile):
+        self.vk, self.logtxt, self.logger,self.cacheLogFile = vk,logtxt,logger,cacheLogFile
 
     #беру некоторый user id в Вконтакте например, http://vk.com/id200000000
     #в цикле пока переменную успешных опросов не достигнет 1000:
@@ -192,16 +193,33 @@ class socialAnalyze(analytic):
     #- увеличиваем переменную успешных анализов на 1
 
     def analyzeManyPeople(self):
-        id = 200000000
+        id = 78340794
         successProfile = 0
         neededOpenFriends = 30
+        bird = {}
+        city = {}
+        univers = {}
+        logFile = open('socialLog','w+')
+        lofFile2= open('socialLog2','wb')
 
         while True:
-            analyzedMan = self.mainResearch(id,service=True)
-            realMan = self.usersGet(id,self.researchFields)
-            print(realMan)
-            print(analyzedMan)
-            break
+            try:
+                realMan = self.usersGet(id,self.researchFields)
+                if 'universities' in realMan and 'city' in realMan and 'bdate' in realMan and \
+                len(realMan['universities'])>0  and realMan['city']>0 and realMan['bdate'].count('.') is 2:
+                    analyzedMan = self.mainResearch(id,service=True)
+                    out = ((realMan['bdate'],analyzedMan[0]), (realMan['universities'],analyzedMan[1]),(realMan['city'],analyzedMan[2]) )
+                    pickle.dump(out,lofFile2)
+                    pprint(out)
+                id +=1
+                successProfile +=1
+                if successProfile>1000:
+                    break
+            except vkontakte.VKError as e:
+                if e.code==15:
+                    id += 1
+
+
 
 
 
@@ -256,14 +274,14 @@ def main():
     #print(vk.mainResearch(150798434)[2]) #78340794 182541327
 
     #x = vk.social.analyzeManyPeople()
-    #x = vk.social.analyzeManyPeople()
+    x = vk.social.analyzeManyPeople()
 
-    x = vk.mainResearch(5859210)
-    print(x)
-    auxMath.beatifulOut(x)
+    #x = vk.mainResearch(5859210)
+    #print(x)
+    #auxMath.beatifulOut(x)
 
     #vk.test(3870390)
-    mainClass.vkApiInterpreter()
+    #mainClass.vkApiInterpreter()
     #mainClass.mainResearchInterpreter()
     return 0
 
