@@ -30,10 +30,10 @@ def getCredent(file):
 
 
 class analytic(object):
-    def __new__(cls, *args, **kwargs):
-        if not hasattr(cls, 'instance'):
-             cls.instance = super(analytic, cls).__new__(cls)
-        return cls.instance
+    #def __new__(cls, *args, **kwargs):
+    #    if not hasattr(cls, 'instance'):
+    #         cls.instance = super(analytic, cls).__new__(cls)
+    #    return cls.instance
     __allUserFields='sex,bdate,city,country,photo_50,photo_100,photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online,online_mobile,lists,domain,has_mobile,contacts,connections,site,education,universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message,status,last_seen,common_count,relation,relatives,counters'
     __kitUserFields='sex,bdate,city,country,online,lists,domain,contacts,connections,site,education,universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message,status,last_seen,common_count,relation,relatives,counters'
     __researchFields='bdate,city,education,nickname,universities'
@@ -93,8 +93,6 @@ class analytic(object):
         if isinstance(ids,list):
             ids=str(ids)[1:-1]
         info = []
-        print(ids)
-        print(self.__allUserFields)
         return self.vk.users.get(user_ids=ids, fields=kitFields)
 
     def eval(self,cmd):
@@ -182,28 +180,30 @@ class analytic(object):
 
 
 
+
+class socialAnalyze(analytic):
+    def __init__(self,vk,logtxt,logger):
+        self.vk, self.logtxt, self.logger = vk,logtxt,logger
+
     #беру некоторый user id в Вконтакте например, http://vk.com/id200000000
     #в цикле пока переменную успешных опросов не достигнет 1000:
     #- смотрим указана на странице полная дата рождения, учебное заведение и город и открыты ли более 30 друзей
     #- если да то делаем анализ и сравниваем с данными из анкеты + записываем результаты в лог
     #- увеличиваем переменную успешных анализов на 1
 
-class socialAnalyze(analytic):
-    def __new__(cls, *args, **kwargs):
-        if not hasattr(cls, 'instance'):
-             cls.instance = super(socialAnalyze, cls).__new__(cls)
-        return cls.instance
-
-    def __init__(self,vk,logtxt,logger):
-        self.vk, self.logtxt, self.logger = vk,logtxt,logger
-
-
-    def socialAnalyze(self):
-        startId = 200000000
+    def analyzeManyPeople(self):
+        id = 200000000
         successProfile = 0
         neededOpenFriends = 30
+
         while True:
-            man = self.mainResearch(startId,service=True)
+            analyzedMan = self.mainResearch(id,service=True)
+            realMan = self.usersGet(id,self.researchFields)
+            print(realMan)
+            print(analyzedMan)
+            break
+
+
 
 
 #нужен универсальный обработчик случаев отсутсвия инфы:
@@ -254,6 +254,10 @@ def main():
     #print(research[2])
     #print(vk.mainResearch(72858365)[2])
     #print(vk.mainResearch(150798434)[2]) #78340794 182541327
+
+    #x = vk.social.analyzeManyPeople()
+    #x = vk.social.analyzeManyPeople()
+
     x = vk.mainResearch(5859210)
     print(x)
     auxMath.beatifulOut(x)

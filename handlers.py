@@ -1,6 +1,6 @@
 __author__ = 'salamander'
 from pprint import pprint
-import math,datetime
+import math,datetime, webbrowser
 
 class logger(object):
     cmdFileName = 'log1'
@@ -165,6 +165,18 @@ class auxMath():
         for i,v in enumerate(out):
             if i%2 is not 0:
                 print (v)
+
+    @staticmethod
+    def regestration(appId, permission, v='5.17', page='page', rederectUrl='https://oauth.vk.com/blank.html'):
+        url = '''https://oauth.vk.com/authorize?
+ client_id=APP_ID&
+ scope=PERMISSIONS&
+ redirect_uri=REDIRECT_URI&
+ display=DISPLAY&
+ v=API_VERSION&
+ response_type=token '''
+        webbrowser.open(url)
+    #
 
 
 
