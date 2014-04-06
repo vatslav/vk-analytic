@@ -263,7 +263,7 @@ def main():
     auxMath.beatifulOut(x)
 
     #vk.test(3870390)
-    #mainClass.vkApiInterpreter()
+    mainClass.vkApiInterpreter()
     #mainClass.mainResearchInterpreter()
     return 0
 

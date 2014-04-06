@@ -167,14 +167,9 @@ class auxMath():
                 print (v)
 
     @staticmethod
-    def regestration(appId, permission, v='5.17', page='page', rederectUrl='https://oauth.vk.com/blank.html'):
-        url = '''https://oauth.vk.com/authorize?
- client_id=APP_ID&
- scope=PERMISSIONS&
- redirect_uri=REDIRECT_URI&
- display=DISPLAY&
- v=API_VERSION&
- response_type=token '''
+    def regestration(appId, permission='2080158', v='5.17', display='page', rederectUrl='https://oauth.vk.com/blank.html'):
+        url = '''https://oauth.vk.com/authorize?client_id=%s&scope=%s&redirect_uri=%s&
+ display=%s&v=%s&response_type=token''' % (appId,permission,rederectUrl,display,v)
         webbrowser.open(url)
     #
 
