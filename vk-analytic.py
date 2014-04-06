@@ -30,10 +30,15 @@ def getCredent(file):
 
 
 class analytic(object):
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, 'instance'):
+             cls.instance = super(analytic, cls).__new__(cls)
+        return cls.instance
     __allUserFields='sex,bdate,city,country,photo_50,photo_100,photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig,online,online_mobile,lists,domain,has_mobile,contacts,connections,site,education,universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message,status,last_seen,common_count,relation,relatives,counters'
     __kitUserFields='sex,bdate,city,country,online,lists,domain,contacts,connections,site,education,universities,schools,can_post,can_see_all_posts,can_see_audio,can_write_private_message,status,last_seen,common_count,relation,relatives,counters'
     __researchFields='bdate,city,education,nickname,universities'
-    researchFields='bdate,city,universities,exports,connections,contacts'
+    #researchFields='bdate,city,universities,exports,connections,contacts'
+    researchFields='bdate,city,universities'
     baseFields = 'first_name,last_name,uid'
     baseFields2 = 'online,user_id'
     baseFieldsFinally = baseFields + baseFields2
@@ -70,6 +75,8 @@ class analytic(object):
         if loggerObject is None:
             loggerObject = logger()
         self.logger = loggerObject
+        self.social = socialAnalyze(self.vk,self.logtxt,self.logger)
+
 
     def getMutal(self,id1, id2):
         """
@@ -120,23 +127,14 @@ class analytic(object):
             self.__logCache(cmd,response)
             return response
 
-    def birdReport(self,rankedListDates:list):
-        start = min(auxMath.getMemberPair(rankedListDates))
-        end = max(auxMath.getMemberPair(rankedListDates))
-        top = rankedListDates[0][0]
-        year = datetime.date.today().year
-        age = year - int(top)
-        report = 'премерное время рождения %s - %s гг., наиболее вероятно в %s г.\n' \
-                 'Примерный возраст %s лет' % (start,end,top,age)
-        return report
 
-    def mainResearch(self, id: int):
+    def mainResearch(self, id: int, service=None, fields=researchFields):
         """
         пытается угадать возраст, пол и ВУЗ человека по его друзьям
         Используется метод максимума (среди друзей как правило, больше всего друзей с одного и того же ВУЗа, того же возраста и из того же города, что и сам человек
         @rtype: str
         """
-        peopleList = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
+        peopleList = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),fields))
         #частотные словари
         berd = {}
         univers = {}
@@ -171,7 +169,8 @@ class analytic(object):
 
         toptuniversity = auxMath.findTopFreq(univers)
 
-
+        if service is not None:
+            return (topbdate,reportBirthDay, topcity)
         reportBirthDay = auxMath.birthPeriodReport(topbdate)
         reportCity = auxMath.cityReport(topcity)
         reportUniversity = auxMath.universitiesReport(toptuniversity,friendsNumber)
@@ -180,6 +179,32 @@ class analytic(object):
     def test(self, id):
         x = self.evalWithCache("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
         pprint(x)
+
+
+
+    #беру некоторый user id в Вконтакте например, http://vk.com/id200000000
+    #в цикле пока переменную успешных опросов не достигнет 1000:
+    #- смотрим указана на странице полная дата рождения, учебное заведение и город и открыты ли более 30 друзей
+    #- если да то делаем анализ и сравниваем с данными из анкеты + записываем результаты в лог
+    #- увеличиваем переменную успешных анализов на 1
+
+class socialAnalyze(analytic):
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, 'instance'):
+             cls.instance = super(socialAnalyze, cls).__new__(cls)
+        return cls.instance
+
+    def __init__(self,vk,logtxt,logger):
+        self.vk, self.logtxt, self.logger = vk,logtxt,logger
+
+
+    def socialAnalyze(self):
+        startId = 200000000
+        successProfile = 0
+        neededOpenFriends = 30
+        while True:
+            man = self.mainResearch(startId,service=True)
+
 
 #нужен универсальный обработчик случаев отсутсвия инфы:
 #когда не чего не вернулось, когда вернулся 0
@@ -230,6 +255,7 @@ def main():
     #print(vk.mainResearch(72858365)[2])
     #print(vk.mainResearch(150798434)[2]) #78340794 182541327
     x = vk.mainResearch(5859210)
+    print(x)
     auxMath.beatifulOut(x)
 
     #vk.test(3870390)
