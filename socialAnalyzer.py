@@ -14,13 +14,14 @@ class socialAnalyze(analytic):
     #- увеличиваем переменную успешных анализов на 1
 
     def analyzeManyPeople(self):
-        id = 78341048
+        id = 78340794
         successProfile = 0
         neededOpenFriends = 30
         bird = {}
         city = {}
         univers = {}
-        lofFile2= open('socialLog2','wb+')
+        lofFile2= open('socialLog2','wb')
+        lofFile2str= open('socialLog2str','w+')
 
         while True:
             try:
@@ -36,8 +37,9 @@ class socialAnalyze(analytic):
                     t = (realMan['universities'][0]['name'],analyzedMan[1][0])
                     t2 = (self.api.getCitiesById(realMan['city']),analyzedMan[2])
                     t0 = (realMan['bdate'],analyzedMan[0])
-                    out = ((realMan['bdate'],analyzedMan[0]), (realMan['universities'][0]['name'],analyzedMan[1][0]),(self.api.getCitiesById(realMan['city']),analyzedMan[2]) )
+                    out = ((realMan['bdate'],analyzedMan[0]), (realMan['universities'][0]['name'],analyzedMan[1]),(self.api.getCitiesById(realMan['city']),analyzedMan[2]) )
                     pickle.dump(out,lofFile2)
+                    print(str(out),file=lofFile2str)
                     pprint(out)
                 id +=1
                 successProfile +=1

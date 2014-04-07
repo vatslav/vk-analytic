@@ -30,6 +30,8 @@ class utilites(analytic):
         except (FileNotFoundError, EOFError):
             pass
 
+        lofFile2.close()
+
 
 if __name__ == '__main__':
 

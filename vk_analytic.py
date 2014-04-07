@@ -5,7 +5,7 @@ __author__ = 'salamander'
 import vkontakte
 from pprint import pprint
 from os.path import exists, isfile
-import pickle, datetime
+import pickle, datetime, timeit,time
 from copy import deepcopy
 from handlers import logger, textViewer, auxMath
 
@@ -120,10 +120,19 @@ class analytic(object):
         if cmd in self.cache:
             return self.cache[cmd]
         else:
-            response = eval('self.vk.%s'%cmd)
-            self.cache[cmd]=response
-            self.__logCache(cmd,response)
-            return response
+            try:
+                response = eval('self.vk.%s'%cmd)
+                self.cache[cmd]=response
+                self.__logCache(cmd,response)
+                return response
+            except vkontakte.VKError as e:
+                if e.code ==6:
+                    time.sleep(1)
+                    print('sleep!')
+                else:
+                    raise e
+
+
 
 
     def mainResearch(self, id: int, service=None, fields=researchFields):
@@ -137,6 +146,8 @@ class analytic(object):
         berd = {}
         univers = {}
         city = {}
+        if peopleList is None:
+            return (None, 'Слишком мало друзей, что бы провесьти анализ')
         friendsNumber = len(peopleList)
         if friendsNumber < 3:
             return (None, 'Слишком мало друзей, что бы провесьти анализ')
@@ -246,7 +257,7 @@ def main():
 
 
 
-    #vk.ut.readLog()
+    vk.ut.readLog()
     x = vk.social.analyzeManyPeople()
 
     #x = vk.mainResearch(5859210)
