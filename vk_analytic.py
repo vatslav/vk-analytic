@@ -7,8 +7,6 @@ from pprint import pprint
 from os.path import exists, isfile
 import pickle, datetime
 from copy import deepcopy
-from socialAnalyzer import *
-
 from handlers import logger, textViewer, auxMath
 
 
@@ -76,7 +74,13 @@ class analytic(object):
         if loggerObject is None:
             loggerObject = logger()
         self.logger = loggerObject
-        self.social = socialAnalyze(self.vk,self.logtxt,self.logger,self.cacheLogFile)
+        from socialAnalyzer import socialAnalyze
+        from handlers import vkapi
+        from utilites import utilites
+
+        self.api = vkapi(self.vk,self.logtxt,self.logger,self.cacheLogFile) #свои набор, для часто применяемых методов запросов к api vk
+        self.social = socialAnalyze(self.vk,self.logtxt,self.logger,self.cacheLogFile,self.api) #класс для социвального анализа в вк по теме
+        self.ut = utilites(self.vk,self.logtxt,self.logger,self.cacheLogFile,self.api)
 
 
     def getMutal(self,id1, id2):
@@ -94,7 +98,8 @@ class analytic(object):
         if isinstance(ids,list):
             ids=str(ids)[1:-1]
         info = []
-        return self.vk.users.get(user_ids=ids, fields=kitFields)[0]
+        t = self.vk.users.get(user_ids=ids, fields=kitFields)[0]
+        return t
 
     def eval(self,cmd):
         """
@@ -224,6 +229,8 @@ class mainController(object):
         #print(vk.researchFields2.split(','))
         #print (vk.getServerTime())
 
+
+
 def main():
     log = logger()
     vk = analytic(getCredent('credentials.txt'))
@@ -235,14 +242,20 @@ def main():
     #print(vk.mainResearch(150798434)[2]) #78340794 182541327
 
     #x = vk.social.analyzeManyPeople()
+    #mainClass.vkApiInterpreter()
+
+
+
+    #vk.ut.readLog()
     x = vk.social.analyzeManyPeople()
 
     #x = vk.mainResearch(5859210)
+
     #print(x)
     #auxMath.beatifulOut(x)
 
     #vk.test(3870390)
-    #mainClass.vkApiInterpreter()
+
     #mainClass.mainResearchInterpreter()
     return 0
 

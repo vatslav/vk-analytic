@@ -2,6 +2,7 @@ __author__ = 'salamander'
 from pprint import pprint
 import math,datetime, webbrowser
 
+
 class logger(object):
     cmdFileName = 'log1'
     responseFileName='log2'
@@ -250,3 +251,17 @@ class textViewer(object):
                             t4 = t3[0]['name']
                             rawList[field] = t4
         return rawListOfDicts
+
+import vk_analytic
+
+class vkapi(vk_analytic.analytic):
+    def __init__(self,vk,logtxt,logger,cacheLogFile):
+        self.vk, self.logtxt, self.logger,self.cacheLogFile = vk,logtxt,logger,cacheLogFile
+
+    def getCitiesById(self, id):
+        if id is 0 or id is '0' or id==['0']:
+            return 'Не определен'
+
+        return self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(id))[0]['name']
+
+
