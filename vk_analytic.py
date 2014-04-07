@@ -129,6 +129,7 @@ class analytic(object):
                 if e.code ==6:
                     time.sleep(1)
                     print('sleep!')
+                    self.evalWithCache(cmd)
                 else:
                     raise e
 
@@ -176,7 +177,7 @@ class analytic(object):
             else:
                 temp = topcity[i][0]
             t = self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(temp))
-            if len(t) is 0:
+            if t is None or len(t) is 0:
                 t = "Не известно"
             else:
                 t = t[0]['name']
