@@ -8,7 +8,8 @@ from os.path import exists, isfile
 import pickle, datetime, timeit,time
 from copy import deepcopy
 from handlers import logger, textViewer, auxMath
-
+#import logging
+import math
 
 def getCredent(file):
     '''
@@ -47,6 +48,8 @@ class analytic(object):
     cache = {}
     cachPath = 'cacheLog'
     cacheLogFile = None
+    timeForLastRequest=0
+    reqNumber = 0
 
     def __warmingUpCache(self):
         """
@@ -81,6 +84,11 @@ class analytic(object):
         self.api = vkapi(self.vk,self.logtxt,self.logger,self.cacheLogFile) #свои набор, для часто применяемых методов запросов к api vk
         self.social = socialAnalyze(self.vk,self.logtxt,self.logger,self.cacheLogFile,self.api) #класс для социвального анализа в вк по теме
         self.ut = utilites(self.vk,self.logtxt,self.logger,self.cacheLogFile,self.api)
+        self.timeForLastRequest = time.time()
+
+    def __del__(self):
+        self.cacheLogFile.close()
+        print('del1')
 
 
     def getMutal(self,id1, id2):
@@ -121,6 +129,14 @@ class analytic(object):
             return self.cache[cmd]
         else:
             try:
+                delta = time.time() -self.timeForLastRequest
+                if self.reqNumber>2 and delta<3:
+                    print(delta-3)
+                    self.reqNumber = -1
+                    time.sleep(3-delta)
+
+                self.reqNumber += 1
+                self.timeForLastRequest = time.time()
                 response = eval('self.vk.%s'%cmd)
                 self.cache[cmd]=response
                 self.__logCache(cmd,response)
@@ -244,37 +260,43 @@ class mainController(object):
 
 
 def main():
-    log = logger()
-    vk = analytic(getCredent('credentials.txt'))
-    tw = textViewer(vk)
-    mainClass = mainController(vk,tw)
-    #research = vk.mainResearch(226723565)
-    #print(research[2])
-    #print(vk.mainResearch(72858365)[2])
-    #print(vk.mainResearch(150798434)[2]) #78340794 182541327
+    try:
+        log = logger()
+        vk = analytic(getCredent('credentials.txt'))
+        tw = textViewer(vk)
+        mainClass = mainController(vk,tw)
+        #research = vk.mainResearch(226723565)
+        #print(research[2])
+        #print(vk.mainResearch(72858365)[2])
+        #print(vk.mainResearch(150798434)[2]) #78340794 182541327
 
-    #x = vk.social.analyzeManyPeople()
-    #mainClass.vkApiInterpreter()
+        #x = vk.social.analyzeManyPeople()
+        #mainClass.vkApiInterpreter()
 
 
 
-    vk.ut.readLog()
-    x = vk.social.analyzeManyPeople()
+        vk.ut.readLog()
+        x = vk.social.analyzeManyPeople()
 
-    #x = vk.mainResearch(5859210)
+        #x = vk.mainResearch(5859210)
 
-    #print(x)
-    #auxMath.beatifulOut(x)
+        #print(x)
+        #auxMath.beatifulOut(x)
 
-    #vk.test(3870390)
+        #vk.test(3870390)
 
-    #mainClass.mainResearchInterpreter()
-    return 0
+        #mainClass.mainResearchInterpreter()
+    except KeyboardInterrupt:
+        vk.social.logFile2str.close()
+        vk.social.logFile2.close()
+        vk.cacheLogFile.close()
+    return vk
 
 if __name__ == '__main__':
     try:
         main()
-    except EOFError:
+
+    except (EOFError):
         exit(0)
 
 
