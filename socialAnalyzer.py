@@ -22,7 +22,8 @@ class socialAnalyze(analytic):
         print('del run')
 
     def analyzeManyPeople(self):
-        id = 78340794
+        #78340794 init user
+        id = 78358439
         successProfile = 0
         neededOpenFriends = 30
         bird = {}
@@ -52,14 +53,15 @@ class socialAnalyze(analytic):
                     #self.logFile2.close()
                     #self.logFile2str.close()
                     pprint(str(out))
+                    successProfile +=1
                 id +=1
-                successProfile +=1
-                if successProfile>1000:
+                if successProfile>1000-150:
                     break
             except vkontakte.VKError as e:
                 if e.code==15:
                     id += 1
                 elif e.code is 14: #captra need
+                    print('captra need')
                     #обработчик ошибки для капчи, но тут походу предется править обертку вокруг api
                     exit(1)
                 elif e.code is 6: #Too many requests per second

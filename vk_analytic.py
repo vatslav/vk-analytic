@@ -128,26 +128,27 @@ class analytic(object):
         if cmd in self.cache:
             return self.cache[cmd]
         else:
-            try:
-                delta = time.time() -self.timeForLastRequest
-                if self.reqNumber>2 and delta<3:
-                    print(delta-3)
-                    self.reqNumber = -1
-                    time.sleep(3-delta)
+            while True:
+                try:
+                    delta = time.time() -self.timeForLastRequest
+                    if self.reqNumber>2 and delta<3:
+                        print(delta-3)
+                        self.reqNumber = -1
+                        time.sleep(3-delta)
 
-                self.reqNumber += 1
-                self.timeForLastRequest = time.time()
-                response = eval('self.vk.%s'%cmd)
-                self.cache[cmd]=response
-                self.__logCache(cmd,response)
-                return response
-            except vkontakte.VKError as e:
-                if e.code ==6:
-                    time.sleep(1)
-                    print('sleep!')
-                    self.evalWithCache(cmd)
-                else:
-                    raise e
+                    self.reqNumber += 1
+                    self.timeForLastRequest = time.time()
+                    response = eval('self.vk.%s'%cmd)
+                    self.cache[cmd]=response
+                    self.__logCache(cmd,response)
+                    return response
+                except vkontakte.VKError as e:
+                    if e.code ==6:
+                        time.sleep(1)
+                        print('sleep!')
+                        continue
+                    else:
+                        raise e
 
 
 
@@ -166,7 +167,7 @@ class analytic(object):
         if peopleList is None:
             return (None, 'Слишком мало друзей, что бы провесьти анализ')
         friendsNumber = len(peopleList)
-        if friendsNumber < 3:
+        if friendsNumber < 20:
             return (None, 'Слишком мало друзей, что бы провесьти анализ')
 
         #добавление данных в частотные словари
@@ -284,12 +285,18 @@ def main():
         #auxMath.beatifulOut(x)
 
         #vk.test(3870390)
-
+        vk.social.logFile2str.close()
+        vk.social.logFile2.close()
+        vk.cacheLogFile.close()
         #mainClass.mainResearchInterpreter()
     except KeyboardInterrupt:
         vk.social.logFile2str.close()
         vk.social.logFile2.close()
         vk.cacheLogFile.close()
+    #except:
+    #    vk.social.logFile2str.close()
+    #    vk.social.logFile2.close()
+    #    vk.cacheLogFile.close()
     return vk
 
 if __name__ == '__main__':
