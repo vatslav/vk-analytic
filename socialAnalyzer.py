@@ -30,6 +30,7 @@ class socialAnalyze(analytic):
                 if 'universities' in realMan and 'city' in realMan and 'bdate' in realMan and \
                 len(realMan['universities'])>0  and realMan['city']>0 and realMan['bdate'].count('.') is 2:
                     analyzedMan = self.mainResearch(id,service=True)
+                    print(analyzedMan)
                     out = ((realMan['bdate'],analyzedMan[0]), (realMan['universities'][0]['name'],analyzedMan[1][0]),(realMan['city'],analyzedMan[2]) )
                     t = (realMan['universities'][0]['name'],analyzedMan[1][0])
                     t2 = (realMan['city'],analyzedMan[2])
