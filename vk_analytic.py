@@ -37,6 +37,12 @@ class baseMind():
             for key, value in arg.items():
                 setattr(self, key, value)
 
+class openFile():
+    def __init__(self,file,mode):
+        self.file = open(file,mode)
+    def __del__(self):
+        self.file.close()
+
 class analytic(object):
     #def __new__(cls, *args, **kwargs):
     #    if not hasattr(cls, 'instance'):
@@ -58,6 +64,7 @@ class analytic(object):
     cacheLogFile = None
     timeForLastRequest=0
     reqNumber = 0
+
 
 
     #def logerLoader(self, path, file, uploadDict):
@@ -99,7 +106,8 @@ class analytic(object):
         from socialAnalyzer import socialAnalyze
         from handlers import vkapi
         from utilites import utilites
-        args = {'vk':self.vk,'logtxt':self.logtxt,'logger':self.logger,'cacheLogFile':self.cacheLogFile}
+        args = {'vk':self.vk,'logtxt':self.logtxt,'logger':self.logger,'cacheLogFile':self.cacheLogFile,'logFile2':self.logFile2,'logFile2str':self.logFile2str}
+        args['api']=vkapi(args)
 
         self.api = vkapi(args) #свои набор, для часто применяемых методов запросов к api vk
         self.social = socialAnalyze(args) #класс для социвального анализа в вк по теме
@@ -303,8 +311,8 @@ def main():
         #print(vk.mainResearch(72858365)[2])
         #print(vk.mainResearch(150798434)[2]) #78340794 182541327
 
-        print(vk.ut.getReadableBinCashLog())
-        print(len(vk.ut.getBinCashLog()))
+        #print(vk.ut.getReadableBinCashLog())
+        #print(len(vk.ut.getBinCashLog()))
         x = vk.social.analyzeManyPeople()
         #mainClass.vkApiInterpreter()
         #print(len(vk.ut.getBinCashLog()))

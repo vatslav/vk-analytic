@@ -55,5 +55,21 @@ class baseMind():
 class x(baseMind):
     pass
 
-c = baseMind(d=123,g=3452345)
+class openFile():
+    def __init__(self,file,mode):
+        self.file = open(file,mode)
+    def __del__(self):
+        print('close file!')
+        self.file.close()
+
+    def __call__(self, *args, **kwargs):
+        self.file.__call__(args,kwargs)
+
+x = openFile('log1','r')
+for d in x:
+    print(d)
+
+
+
+
 

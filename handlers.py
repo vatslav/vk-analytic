@@ -255,8 +255,6 @@ class textViewer(object):
 import vk_analytic
 
 class vkapi(vk_analytic.baseMind,vk_analytic.analytic):
-
-
     def getCitiesById(self, id):
         if id is 0 or id is '0' or id==['0'] or id is None:
             return 'Не определен'
