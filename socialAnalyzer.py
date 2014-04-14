@@ -42,22 +42,13 @@ class socialAnalyze(baseMind,analytic):
                 realMan = self.usersGet(id,self.researchFields)
                 if 'universities' in realMan and 'city' in realMan and 'bdate' in realMan and \
                 len(realMan['universities'])>0  and realMan['city']>0 and realMan['bdate'].count('.') is 2:
-
                     analyzedMan = self.mainResearch(id,service=True)
                     if analyzedMan[0] is None:
                         id +=1
                         continue
-
-                    #t = (realMan['universities'][0]['name'],analyzedMan[1][0])
-                    #t2 = (self.api.getCitiesById(realMan['city']),analyzedMan[2])
-                    #t0 = (realMan['bdate'],analyzedMan[0])
                     out = ((realMan['bdate'],analyzedMan[0]), (realMan['universities'][0]['name'],analyzedMan[1]),(self.api.getCitiesById(realMan['city']),analyzedMan[2]),id )
-                    #self.logFile2= open('socialLog2','ab')
-                    #self.logFile2str= open('socialLog2str','a')
                     pickle.dump(out,self.logFile2)
                     self.logFile2str.write(str(out)+'\n')
-                    #self.logFile2.close()
-                    #self.logFile2str.close()
                     pprint(str(out))
                     successProfile +=1
                 id +=1

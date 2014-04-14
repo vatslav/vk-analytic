@@ -9,7 +9,7 @@ class utilites(baseMind,analytic):
         webbrowser.open(url)
 
     def getBinCashLog(self):
-        cashFile = open(self.cachPath,'rb+')
+        cashFile = open(self.logBinPath,'ab')
         res = []
         try:
             line = pickle.load(cashFile)

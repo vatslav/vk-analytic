@@ -61,6 +61,8 @@ class analytic(object):
     logtxt = []
     cache = {}
     cachPath = 'cacheLog'
+    logBinPath = 'socialLog3'
+    logPath = 'socialLog3str'
     cacheLogFile = None
     timeForLastRequest=0
     reqNumber = 0
@@ -83,6 +85,7 @@ class analytic(object):
             self.cacheLogFile = open(self.cachPath,'rb+')
             while True:
                 unpickleObj = pickle.load(self.cacheLogFile)
+
                 unpickleObj = unpickleObj.popitem()
                 self.cache[unpickleObj[0]]=unpickleObj[1]
 
@@ -95,8 +98,8 @@ class analytic(object):
         pickle.dump({cmd:response},self.cacheLogFile)
 
     def __init__(self,tok,log=1,loggerObject=None):
-        self.logFile2= open('socialLog3','ab')
-        self.logFile2str= open('socialLog3str','a')
+        self.logFile2= open(self.logBinPath,'ab')
+        self.logFile2str= open(self.logPath,'a')
         self.vk=vkontakte.API(token=tok)
         self.__warmingUpCache()
         self.logtxt=log
@@ -313,10 +316,11 @@ def main():
 
         #print(vk.ut.getReadableBinCashLog())
         #print(len(vk.ut.getBinCashLog()))
+        #print(vk.ut.getReadableBinCashLog())
         x = vk.social.analyzeManyPeople()
         #mainClass.vkApiInterpreter()
         #print(len(vk.ut.getBinCashLog()))
-        #print(vk.ut.getReadableBinCashLog())
+
 
         #print(vk.ut.getExistedId())
         #print(vk.ut.getIdFromTextLog())
@@ -338,8 +342,11 @@ def main():
         vk.cacheLogFile.close()
         #mainClass.mainResearchInterpreter()
     except KeyboardInterrupt:
-        vk.social.logFile2str.close()
-        vk.social.logFile2.close()
+        print(vk.ut.getReadableBinCashLog())
+        print(len(vk.ut.getBinCashLog()))
+        print('close files!')
+        vk.logFile2str.close()
+        vk.logFile2.close()
         vk.cacheLogFile.close()
     #except:
     #    vk.social.logFile2str.close()
