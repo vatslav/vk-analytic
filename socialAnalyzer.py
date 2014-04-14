@@ -19,6 +19,8 @@ class socialAnalyze(baseMind,analytic):
         print('del run')
 
     def analyzeManyPeople(self):
+        self.logFile2= open(self.logBinPath,'ab')
+        self.logFile2str= open(self.logPath,'a')
         #78340794 init user
         #id = 78395684
         successProfile = 0
@@ -26,15 +28,14 @@ class socialAnalyze(baseMind,analytic):
         bird = {}
         city = {}
         univers = {}
-        ids = self.ut.getExistedId()
-        ids2 = self.ut.getIdFromTextLog()
+        ids = list(set(self.ut.getExistedId()))
+        ids2 = list(set(self.ut.getIdFromTextLog()))
         for id in ids:
             if id in ids2:
-                ids2.pop(id)
+                ids2.remove(id)
         print(len(ids2))
-        ids2 = list(set(ids2))
         ids2.sort()
-        print(len(ids2))
+        print('len=%s'%len(ids2))
 
         for id in ids2:
             try:

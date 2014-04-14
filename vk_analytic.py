@@ -98,8 +98,8 @@ class analytic(object):
         pickle.dump({cmd:response},self.cacheLogFile)
 
     def __init__(self,tok,log=1,loggerObject=None):
-        self.logFile2= open(self.logBinPath,'ab')
-        self.logFile2str= open(self.logPath,'a')
+        self.logFile2= None
+        self.logFile2str= None
         self.vk=vkontakte.API(token=tok)
         self.__warmingUpCache()
         self.logtxt=log
@@ -345,8 +345,8 @@ def main():
         print(vk.ut.getReadableBinCashLog())
         print(len(vk.ut.getBinCashLog()))
         print('close files!')
-        vk.logFile2str.close()
-        vk.logFile2.close()
+        vk.social.logFile2str.close()
+        vk.social.logFile2.close()
         vk.cacheLogFile.close()
     #except:
     #    vk.social.logFile2str.close()

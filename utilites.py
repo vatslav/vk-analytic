@@ -9,16 +9,16 @@ class utilites(baseMind,analytic):
         webbrowser.open(url)
 
     def getBinCashLog(self):
-        cashFile = open(self.logBinPath,'ab')
+        cashFile = open(self.logBinPath,'rb')
         res = []
         try:
-            line = pickle.load(cashFile)
-            assert isinstance(line,dict)
-            for k,v in line.items():
-                for l2 in v:
-                    res.append(l2)
+            while True:
+                line = pickle.load(cashFile)
+                #assert isinstance(line,tuple)
+                res.append(line)
         except (FileNotFoundError, EOFError):
             pass
+        cashFile.close()
         return res
 
     def getReadableBinCashLog(self):
@@ -57,7 +57,7 @@ class utilites(baseMind,analytic):
         cash = self.getBinCashLog()
         res = []
         for line in cash:
-            res.append(line['uid'])
+            res.append(line[3])
         return res
 
 
