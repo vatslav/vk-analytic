@@ -8,8 +8,8 @@ from pprint import pprint
 class socialAnalyze(analytic):
     def __init__(self,vk,logtxt,logger,cacheLogFile,api):
         self.vk, self.logtxt, self.logger,self.cacheLogFile,self.api = vk,logtxt,logger,cacheLogFile,api
-        self.logFile2= open('socialLog2','ab')
-        self.logFile2str= open('socialLog2str','a')
+        self.logFile2= open('socialLog3','ab')
+        self.logFile2str= open('socialLog3str','a')
     #беру некоторый user id в Вконтакте например, http://vk.com/id200000000
     #в цикле пока переменную успешных опросов не достигнет 1000:
     #- смотрим указана на странице полная дата рождения, учебное заведение и город и открыты ли более 30 друзей
@@ -23,7 +23,7 @@ class socialAnalyze(analytic):
 
     def analyzeManyPeople(self):
         #78340794 init user
-        id = 78358439
+        id = 78395684
         successProfile = 0
         neededOpenFriends = 30
         bird = {}
@@ -37,15 +37,16 @@ class socialAnalyze(analytic):
                 realMan = self.usersGet(id,self.researchFields)
                 if 'universities' in realMan and 'city' in realMan and 'bdate' in realMan and \
                 len(realMan['universities'])>0  and realMan['city']>0 and realMan['bdate'].count('.') is 2:
+
                     analyzedMan = self.mainResearch(id,service=True)
                     if analyzedMan[0] is None:
                         id +=1
                         continue
 
-                    t = (realMan['universities'][0]['name'],analyzedMan[1][0])
-                    t2 = (self.api.getCitiesById(realMan['city']),analyzedMan[2])
-                    t0 = (realMan['bdate'],analyzedMan[0])
-                    out = ((realMan['bdate'],analyzedMan[0]), (realMan['universities'][0]['name'],analyzedMan[1]),(self.api.getCitiesById(realMan['city']),analyzedMan[2]) )
+                    #t = (realMan['universities'][0]['name'],analyzedMan[1][0])
+                    #t2 = (self.api.getCitiesById(realMan['city']),analyzedMan[2])
+                    #t0 = (realMan['bdate'],analyzedMan[0])
+                    out = ((realMan['bdate'],analyzedMan[0]), (realMan['universities'][0]['name'],analyzedMan[1]),(self.api.getCitiesById(realMan['city']),analyzedMan[2]),id )
                     #self.logFile2= open('socialLog2','ab')
                     #self.logFile2str= open('socialLog2str','a')
                     pickle.dump(out,self.logFile2)
@@ -55,7 +56,7 @@ class socialAnalyze(analytic):
                     pprint(str(out))
                     successProfile +=1
                 id +=1
-                if successProfile>1000-150:
+                if successProfile>75:
                     break
             except vkontakte.VKError as e:
                 if e.code==15:
@@ -63,9 +64,10 @@ class socialAnalyze(analytic):
                 elif e.code is 14: #captra need
                     print('captra need')
                     #обработчик ошибки для капчи, но тут походу предется править обертку вокруг api
-                    exit(1)
+                    time.sleep(5)
                 elif e.code is 6: #Too many requests per second
-                    time.sleep(1)
+                    print('sleep run!?!')
+
 
                 else:
                     print(e)

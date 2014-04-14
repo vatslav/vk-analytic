@@ -51,6 +51,15 @@ class analytic(object):
     timeForLastRequest=0
     reqNumber = 0
 
+
+    #def logerLoader(self, path, file, uploadDict):
+    #    try:
+    #        file = open(file, 'rb+')
+    #        while True:
+    #            unpickleObj = pickle.load(file)
+
+
+
     def __warmingUpCache(self):
         """
         прогрев кеша из файла. Используется при инициализации экземпляра класса
@@ -108,7 +117,22 @@ class analytic(object):
         info = []
         t = self.vk.users.get(user_ids=ids, fields=kitFields)[0]
         return t
+    def timeDelay(self):
+        "вызывается перед обращением к серверам vk api и следит, за тем что бы система не превысила лимит запросов в секунду"
+        curTime = time.time()
+        delta =  curTime-self.timeForLastRequest
+        if self.reqNumber>2 and delta<3:
+            print(delta-3)
+            self.reqNumber = -1
+            self.timeForLastRequest = time.time()
+            delta = 3-delta
+            if delta>1:
+                delta=1
+            time.sleep(delta)
+            return
 
+        self.reqNumber += 1
+        self.timeForLastRequest = curTime
     def eval(self,cmd):
         """
         выполняет произвольную команду к api vk
@@ -130,14 +154,7 @@ class analytic(object):
         else:
             while True:
                 try:
-                    delta = time.time() -self.timeForLastRequest
-                    if self.reqNumber>2 and delta<3:
-                        print(delta-3)
-                        self.reqNumber = -1
-                        time.sleep(3-delta)
-
-                    self.reqNumber += 1
-                    self.timeForLastRequest = time.time()
+                    self.timeDelay()
                     response = eval('self.vk.%s'%cmd)
                     self.cache[cmd]=response
                     self.__logCache(cmd,response)
@@ -159,7 +176,8 @@ class analytic(object):
         Используется метод максимума (среди друзей как правило, больше всего друзей с одного и того же ВУЗа, того же возраста и из того же города, что и сам человек
         @rtype: str
         """
-        peopleList = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),fields))
+
+        peopleList = self.evalWithCache("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),fields))
         #частотные словари
         berd = {}
         univers = {}
@@ -193,6 +211,7 @@ class analytic(object):
                 temp = 0
             else:
                 temp = topcity[i][0]
+
             t = self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(temp))
             if t is None or len(t) is 0:
                 t = "Не известно"
