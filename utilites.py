@@ -1,11 +1,9 @@
 __author__ = 'salamander'
 import webbrowser, pickle,re
 from handlers import *
-from vk_analytic import analytic
+from vk_analytic import analytic,baseMind
 
-class utilites(analytic):
-    def __init__(self,vk,logtxt,logger,cacheLogFile,api):
-        self.vk, self.logtxt, self.logger,self.cacheLogFile,self.api = vk,logtxt,logger,cacheLogFile,api
+class utilites(baseMind,analytic):
 
     def openurl(url):
         webbrowser.open(url)
@@ -53,6 +51,13 @@ class utilites(analytic):
         res = list(res)
         res.sort()
 
+        return res
+
+    def getExistedId(self):
+        cash = self.getBinCashLog()
+        res = []
+        for line in cash:
+            res.append(line['uid'])
         return res
 
 

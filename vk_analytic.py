@@ -29,6 +29,13 @@ def getCredent(file):
     return line
 
 
+class baseMind():
+    def __init__(self,*args,**kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+        for arg in args:
+            for key, value in arg.items():
+                setattr(self, key, value)
 
 class analytic(object):
     #def __new__(cls, *args, **kwargs):
@@ -81,6 +88,8 @@ class analytic(object):
         pickle.dump({cmd:response},self.cacheLogFile)
 
     def __init__(self,tok,log=1,loggerObject=None):
+        self.logFile2= open('socialLog3','ab')
+        self.logFile2str= open('socialLog3str','a')
         self.vk=vkontakte.API(token=tok)
         self.__warmingUpCache()
         self.logtxt=log
@@ -90,11 +99,13 @@ class analytic(object):
         from socialAnalyzer import socialAnalyze
         from handlers import vkapi
         from utilites import utilites
+        args = {'vk':self.vk,'logtxt':self.logtxt,'logger':self.logger,'cacheLogFile':self.cacheLogFile}
 
-        self.api = vkapi(self.vk,self.logtxt,self.logger,self.cacheLogFile) #свои набор, для часто применяемых методов запросов к api vk
-        self.social = socialAnalyze(self.vk,self.logtxt,self.logger,self.cacheLogFile,self.api) #класс для социвального анализа в вк по теме
-        self.ut = utilites(self.vk,self.logtxt,self.logger,self.cacheLogFile,self.api)
+        self.api = vkapi(args) #свои набор, для часто применяемых методов запросов к api vk
+        self.social = socialAnalyze(args) #класс для социвального анализа в вк по теме
+        self.ut = utilites(args)
         self.timeForLastRequest = time.time()
+        self.social.ut = self.ut
 
 
     def __del__(self):
@@ -292,11 +303,15 @@ def main():
         #print(vk.mainResearch(72858365)[2])
         #print(vk.mainResearch(150798434)[2]) #78340794 182541327
 
-        #x = vk.social.analyzeManyPeople()
+        print(vk.ut.getReadableBinCashLog())
+        print(len(vk.ut.getBinCashLog()))
+        x = vk.social.analyzeManyPeople()
         #mainClass.vkApiInterpreter()
         #print(len(vk.ut.getBinCashLog()))
-        #print(vk.ut.readableBinCashLog())
-        print(vk.ut.getIdFromTextLog())
+        #print(vk.ut.getReadableBinCashLog())
+
+        #print(vk.ut.getExistedId())
+        #print(vk.ut.getIdFromTextLog())
 
 
 

@@ -254,9 +254,8 @@ class textViewer(object):
 
 import vk_analytic
 
-class vkapi(vk_analytic.analytic):
-    def __init__(self,vk,logtxt,logger,cacheLogFile):
-        self.vk, self.logtxt, self.logger,self.cacheLogFile = vk,logtxt,logger,cacheLogFile
+class vkapi(vk_analytic.baseMind,vk_analytic.analytic):
+
 
     def getCitiesById(self, id):
         if id is 0 or id is '0' or id==['0'] or id is None:

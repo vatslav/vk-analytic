@@ -1,15 +1,12 @@
 from cgi import logfile
 
 __author__ = 'django'
-from vk_analytic import analytic
+from vk_analytic import baseMind,analytic
 import vkontakte, pickle, handlers, time, timeit
 from pprint import pprint
 
-class socialAnalyze(analytic):
-    def __init__(self,vk,logtxt,logger,cacheLogFile,api):
-        self.vk, self.logtxt, self.logger,self.cacheLogFile,self.api = vk,logtxt,logger,cacheLogFile,api
-        self.logFile2= open('socialLog3','ab')
-        self.logFile2str= open('socialLog3str','a')
+class socialAnalyze(baseMind,analytic):
+
     #беру некоторый user id в Вконтакте например, http://vk.com/id200000000
     #в цикле пока переменную успешных опросов не достигнет 1000:
     #- смотрим указана на странице полная дата рождения, учебное заведение и город и открыты ли более 30 друзей
@@ -23,15 +20,23 @@ class socialAnalyze(analytic):
 
     def analyzeManyPeople(self):
         #78340794 init user
-        id = 78395684
+        #id = 78395684
         successProfile = 0
         neededOpenFriends = 30
         bird = {}
         city = {}
         univers = {}
+        ids = self.ut.getExistedId()
+        ids2 = self.ut.getIdFromTextLog()
+        for id in ids:
+            if id in ids2:
+                ids2.pop(id)
+        print(len(ids2))
+        ids2 = list(set(ids2))
+        ids2.sort()
+        print(len(ids2))
 
-
-        while True:
+        for id in ids2:
             try:
                 print(id)
                 realMan = self.usersGet(id,self.researchFields)
