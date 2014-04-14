@@ -11,6 +11,7 @@ from handlers import logger, textViewer, auxMath
 #import logging
 import math
 
+
 def getCredent(file):
     '''
     вытаскивает токен авторизации из файла credentials.txt
@@ -94,6 +95,7 @@ class analytic(object):
         self.social = socialAnalyze(self.vk,self.logtxt,self.logger,self.cacheLogFile,self.api) #класс для социвального анализа в вк по теме
         self.ut = utilites(self.vk,self.logtxt,self.logger,self.cacheLogFile,self.api)
         self.timeForLastRequest = time.time()
+
 
     def __del__(self):
         self.cacheLogFile.close()
@@ -292,11 +294,15 @@ def main():
 
         #x = vk.social.analyzeManyPeople()
         #mainClass.vkApiInterpreter()
+        #print(len(vk.ut.getBinCashLog()))
+        #print(vk.ut.readableBinCashLog())
+        print(vk.ut.getIdFromTextLog())
 
 
 
-        vk.ut.readLog()
-        x = vk.social.analyzeManyPeople()
+
+        #vk.ut.readLog()
+        #x = vk.social.analyzeManyPeople()
 
         #x = vk.mainResearch(5859210)
 
