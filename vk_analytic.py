@@ -5,11 +5,11 @@ __author__ = 'salamander'
 import vkontakte
 from pprint import pprint
 from os.path import exists, isfile
-import pickle, datetime
+import pickle, datetime, timeit,time
 from copy import deepcopy
-from socialAnalyzer import *
-
 from handlers import logger, textViewer, auxMath
+#import logging
+import math
 
 
 def getCredent(file):
@@ -29,6 +29,19 @@ def getCredent(file):
     return line
 
 
+class baseMind():
+    def __init__(self,*args,**kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+        for arg in args:
+            for key, value in arg.items():
+                setattr(self, key, value)
+
+class openFile():
+    def __init__(self,file,mode):
+        self.file = open(file,mode)
+    def __del__(self):
+        self.file.close()
 
 class analytic(object):
     #def __new__(cls, *args, **kwargs):
@@ -48,7 +61,21 @@ class analytic(object):
     logtxt = []
     cache = {}
     cachPath = 'cacheLog'
+    logBinPath = 'socialLog3'
+    logPath = 'socialLog3str'
     cacheLogFile = None
+    timeForLastRequest=0
+    reqNumber = 0
+
+
+
+    #def logerLoader(self, path, file, uploadDict):
+    #    try:
+    #        file = open(file, 'rb+')
+    #        while True:
+    #            unpickleObj = pickle.load(file)
+
+
 
     def __warmingUpCache(self):
         """
@@ -58,6 +85,7 @@ class analytic(object):
             self.cacheLogFile = open(self.cachPath,'rb+')
             while True:
                 unpickleObj = pickle.load(self.cacheLogFile)
+
                 unpickleObj = unpickleObj.popitem()
                 self.cache[unpickleObj[0]]=unpickleObj[1]
 
@@ -70,13 +98,30 @@ class analytic(object):
         pickle.dump({cmd:response},self.cacheLogFile)
 
     def __init__(self,tok,log=1,loggerObject=None):
+        self.logFile2= open(self.logBinPath,'ab')
+        self.logFile2str= open(self.logPath,'a')
         self.vk=vkontakte.API(token=tok)
         self.__warmingUpCache()
         self.logtxt=log
         if loggerObject is None:
             loggerObject = logger()
         self.logger = loggerObject
-        self.social = socialAnalyze(self.vk,self.logtxt,self.logger,self.cacheLogFile)
+        from socialAnalyzer import socialAnalyze
+        from handlers import vkapi
+        from utilites import utilites
+        args = {'vk':self.vk,'logtxt':self.logtxt,'logger':self.logger,'cacheLogFile':self.cacheLogFile,'logFile2':self.logFile2,'logFile2str':self.logFile2str}
+        args['api']=vkapi(args)
+
+        self.api = vkapi(args) #свои набор, для часто применяемых методов запросов к api vk
+        self.social = socialAnalyze(args) #класс для социвального анализа в вк по теме
+        self.ut = utilites(args)
+        self.timeForLastRequest = time.time()
+        self.social.ut = self.ut
+
+
+    def __del__(self):
+        self.cacheLogFile.close()
+        print('del1')
 
 
     def getMutal(self,id1, id2):
@@ -94,8 +139,24 @@ class analytic(object):
         if isinstance(ids,list):
             ids=str(ids)[1:-1]
         info = []
-        return self.vk.users.get(user_ids=ids, fields=kitFields)[0]
+        t = self.vk.users.get(user_ids=ids, fields=kitFields)[0]
+        return t
+    def timeDelay(self):
+        "вызывается перед обращением к серверам vk api и следит, за тем что бы система не превысила лимит запросов в секунду"
+        curTime = time.time()
+        delta =  curTime-self.timeForLastRequest
+        if self.reqNumber>2 and delta<3:
+            print(delta-3)
+            self.reqNumber = -1
+            self.timeForLastRequest = time.time()
+            delta = 3-delta
+            if delta>1:
+                delta=1
+            time.sleep(delta)
+            return
 
+        self.reqNumber += 1
+        self.timeForLastRequest = curTime
     def eval(self,cmd):
         """
         выполняет произвольную команду к api vk
@@ -115,10 +176,22 @@ class analytic(object):
         if cmd in self.cache:
             return self.cache[cmd]
         else:
-            response = eval('self.vk.%s'%cmd)
-            self.cache[cmd]=response
-            self.__logCache(cmd,response)
-            return response
+            while True:
+                try:
+                    self.timeDelay()
+                    response = eval('self.vk.%s'%cmd)
+                    self.cache[cmd]=response
+                    self.__logCache(cmd,response)
+                    return response
+                except vkontakte.VKError as e:
+                    if e.code ==6:
+                        time.sleep(1)
+                        print('sleep!')
+                        continue
+                    else:
+                        raise e
+
+
 
 
     def mainResearch(self, id: int, service=None, fields=researchFields):
@@ -127,13 +200,16 @@ class analytic(object):
         Используется метод максимума (среди друзей как правило, больше всего друзей с одного и того же ВУЗа, того же возраста и из того же города, что и сам человек
         @rtype: str
         """
-        peopleList = self.eval("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),fields))
+
+        peopleList = self.evalWithCache("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),fields))
         #частотные словари
         berd = {}
         univers = {}
         city = {}
+        if peopleList is None:
+            return (None, 'Слишком мало друзей, что бы провесьти анализ')
         friendsNumber = len(peopleList)
-        if friendsNumber < 3:
+        if friendsNumber < 20:
             return (None, 'Слишком мало друзей, что бы провесьти анализ')
 
         #добавление данных в частотные словари
@@ -159,8 +235,9 @@ class analytic(object):
                 temp = 0
             else:
                 temp = topcity[i][0]
+
             t = self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(temp))
-            if len(t) is 0:
+            if t is None or len(t) is 0:
                 t = "Не известно"
             else:
                 t = t[0]['name']
@@ -224,32 +301,64 @@ class mainController(object):
         #print(vk.researchFields2.split(','))
         #print (vk.getServerTime())
 
+
+
 def main():
-    log = logger()
-    vk = analytic(getCredent('credentials.txt'))
-    tw = textViewer(vk)
-    mainClass = mainController(vk,tw)
-    #research = vk.mainResearch(226723565)
-    #print(research[2])
-    #print(vk.mainResearch(72858365)[2])
-    #print(vk.mainResearch(150798434)[2]) #78340794 182541327
+    try:
+        log = logger()
+        vk = analytic(getCredent('credentials.txt'))
+        tw = textViewer(vk)
+        mainClass = mainController(vk,tw)
+        #research = vk.mainResearch(226723565)
+        #print(research[2])
+        #print(vk.mainResearch(72858365)[2])
+        #print(vk.mainResearch(150798434)[2]) #78340794 182541327
 
-    #x = vk.social.analyzeManyPeople()
-    x = vk.social.analyzeManyPeople()
+        #print(vk.ut.getReadableBinCashLog())
+        #print(len(vk.ut.getBinCashLog()))
+        #print(vk.ut.getReadableBinCashLog())
+        x = vk.social.analyzeManyPeople()
+        #mainClass.vkApiInterpreter()
+        #print(len(vk.ut.getBinCashLog()))
 
-    #x = vk.mainResearch(5859210)
-    #print(x)
-    #auxMath.beatifulOut(x)
 
-    #vk.test(3870390)
-    #mainClass.vkApiInterpreter()
-    #mainClass.mainResearchInterpreter()
-    return 0
+        #print(vk.ut.getExistedId())
+        #print(vk.ut.getIdFromTextLog())
+
+
+
+
+        #vk.ut.readLog()
+        #x = vk.social.analyzeManyPeople()
+
+        #x = vk.mainResearch(5859210)
+
+        #print(x)
+        #auxMath.beatifulOut(x)
+
+        #vk.test(3870390)
+        vk.social.logFile2str.close()
+        vk.social.logFile2.close()
+        vk.cacheLogFile.close()
+        #mainClass.mainResearchInterpreter()
+    except KeyboardInterrupt:
+        print(vk.ut.getReadableBinCashLog())
+        print(len(vk.ut.getBinCashLog()))
+        print('close files!')
+        vk.logFile2str.close()
+        vk.logFile2.close()
+        vk.cacheLogFile.close()
+    #except:
+    #    vk.social.logFile2str.close()
+    #    vk.social.logFile2.close()
+    #    vk.cacheLogFile.close()
+    return vk
 
 if __name__ == '__main__':
     try:
         main()
-    except EOFError:
+
+    except (EOFError):
         exit(0)
 
 

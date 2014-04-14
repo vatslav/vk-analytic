@@ -10,7 +10,7 @@ except ImportError:
     import simplejson as json
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode
-
+from urllib.error import URLError
 API_URL = 'http://api.vk.com/api.php'
 SECURE_API_URL = 'https://api.vkontakte.ru/method/'
 DEFAULT_TIMEOUT = 1.0
@@ -149,7 +149,13 @@ class _API():
                    "Content-Type": "application/x-www-form-urlencoded"}
         
         req = Request(url=url, headers=headers, data=data.encode())
-        return urlopen(req, timeout=timeout)
+        while True:
+            try:
+                return urlopen(req, timeout=timeout)
+            except (URLError,ConnectionResetError) as e:
+                print(e)
+                time.sleep(5)
+
 
 
 
