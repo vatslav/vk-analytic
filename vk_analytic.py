@@ -316,7 +316,8 @@ def main():
 
         #print(vk.ut.getReadableBinCashLog())
         #print(len(vk.ut.getBinCashLog()))
-        print(vk.ut.getReadableBinCashLog())
+        #print(vk.ut.getReadableBinCashLog())
+        print(vk.social.analiz(0,0))
         #x = vk.social.analyzeManyPeople()
         #mainClass.vkApiInterpreter()
         #print(len(vk.ut.getBinCashLog()))
@@ -337,9 +338,10 @@ def main():
         #auxMath.beatifulOut(x)
 
         #vk.test(3870390)
-        vk.social.logFile2str.close()
-        vk.social.logFile2.close()
-        vk.cacheLogFile.close()
+        if vk.social.logFile2str is not None:
+            vk.social.logFile2str.close()
+            vk.social.logFile2.close()
+            vk.cacheLogFile.close()
         #mainClass.mainResearchInterpreter()
     except KeyboardInterrupt:
         print(vk.ut.getReadableBinCashLog())

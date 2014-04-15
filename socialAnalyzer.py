@@ -68,5 +68,15 @@ class socialAnalyze(baseMind,analytic):
                     print(e)
                     exit(1)
 
+    def analiz(self,x,y=None):
+        cash = self.ut.getBinCashLog()
+        res = []
+        for line in cash:
+            if y is None:
+                res.append(line[x])
+            else:
+                res.append(line[x][y])
+        return res
+
 
 
