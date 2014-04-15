@@ -77,6 +77,19 @@ class socialAnalyze(baseMind,analytic):
             else:
                 res.append(line[x][y])
         return res
-
+    def makeCsv(self):
+        cash = self.ut.getBinCashLog()
+        l = cash[0]
+        res = ''
+        for line in cash:
+            for block in line:
+                if not isinstance(block,str):
+                    for elem in block:
+                        if not isinstance(elem,str):
+                            for subelem in elem:
+                                res+='%s,'%subelem
+                        else:res += '%s,'%elem
+                else:res += block
+            line+='\n'
 
 

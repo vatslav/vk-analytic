@@ -318,6 +318,7 @@ def main():
         #print(len(vk.ut.getBinCashLog()))
         #print(vk.ut.getReadableBinCashLog())
         print(vk.social.analiz(0,0))
+        vk.social.makeCsv()
         #x = vk.social.analyzeManyPeople()
         #mainClass.vkApiInterpreter()
         #print(len(vk.ut.getBinCashLog()))
