@@ -53,8 +53,6 @@ class socialAnalyze(baseMind,analytic):
                     pprint(str(out))
                     successProfile +=1
                 id +=1
-                if successProfile>75:
-                    break
             except vkontakte.VKError as e:
                 if e.code==15:
                     id += 1
