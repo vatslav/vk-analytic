@@ -77,6 +77,7 @@ class socialAnalyze(baseMind,analytic):
             else:
                 res.append(line[x][y])
         return res
+
     def makeCsv(self):
         cash = self.ut.getBinCashLog()
         l = cash[0]
@@ -91,5 +92,16 @@ class socialAnalyze(baseMind,analytic):
                         else:res += '%s,'%elem
                 else:res += block
             line+='\n'
+        #[] - rebase to 0,0
+        #колонки с выводами
+        #уникальность
+    def logAnalysis(self):
+        self.logFile2str= open(self.logPath,'a')
+        cash = self.ut.getBinCashLog()
+        bitCash = cash[0:10]
+        for obj in cash:
+            for  elem in
+
+        a=1
 
 

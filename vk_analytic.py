@@ -309,36 +309,11 @@ def main():
         vk = analytic(getCredent('credentials.txt'))
         tw = textViewer(vk)
         mainClass = mainController(vk,tw)
-        #research = vk.mainResearch(226723565)
-        #print(research[2])
-        #print(vk.mainResearch(72858365)[2])
-        #print(vk.mainResearch(150798434)[2]) #78340794 182541327
 
-        #print(vk.ut.getReadableBinCashLog())
-        #print(len(vk.ut.getBinCashLog()))
-        #print(vk.ut.getReadableBinCashLog())
-        print(vk.social.analiz(0,0))
-        vk.social.makeCsv()
-        #x = vk.social.analyzeManyPeople()
-        #mainClass.vkApiInterpreter()
-        #print(len(vk.ut.getBinCashLog()))
+        vk.social.logAnalysis()
+        #print(vk.social.analiz(0,0))
+        #vk.social.makeCsv()
 
-
-        #print(vk.ut.getExistedId())
-        #print(vk.ut.getIdFromTextLog())
-
-
-
-
-        #vk.ut.readLog()
-        #x = vk.social.analyzeManyPeople()
-
-        #x = vk.mainResearch(5859210)
-
-        #print(x)
-        #auxMath.beatifulOut(x)
-
-        #vk.test(3870390)
         if vk.social.logFile2str is not None:
             vk.social.logFile2str.close()
             vk.social.logFile2.close()
@@ -365,3 +340,32 @@ if __name__ == '__main__':
         exit(0)
 
 
+        #research = vk.mainResearch(226723565)
+        #print(research[2])
+        #print(vk.mainResearch(72858365)[2])
+        #print(vk.mainResearch(150798434)[2]) #78340794 182541327
+
+        #print(vk.ut.getReadableBinCashLog())
+        #print(len(vk.ut.getBinCashLog()))
+        #print(vk.ut.getReadableBinCashLog())
+
+        #x = vk.social.analyzeManyPeople()
+        #mainClass.vkApiInterpreter()
+        #print(len(vk.ut.getBinCashLog()))
+
+
+        #print(vk.ut.getExistedId())
+        #print(vk.ut.getIdFromTextLog())
+
+
+
+
+        #vk.ut.readLog()
+        #x = vk.social.analyzeManyPeople()
+
+        #x = vk.mainResearch(5859210)
+
+        #print(x)
+        #auxMath.beatifulOut(x)
+
+        #vk.test(3870390)

@@ -74,6 +74,7 @@ class utilites(baseMind,analytic):
         lofFile2.close()
 
 
+
 if __name__ == '__main__':
 
     x = input()
