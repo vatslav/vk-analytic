@@ -314,10 +314,9 @@ def main():
         #print(vk.social.analiz(0,0))
         #vk.social.makeCsv()
 
-        if vk.social.logFile2str is not None:
-            vk.social.logFile2str.close()
-            vk.social.logFile2.close()
-            vk.cacheLogFile.close()
+        if vk.social.logFile2str is not None:vk.social.logFile2str.close()
+        if vk.social.logFile2 is not None: vk.social.logFile2.close()
+        if vk.cacheLogFile is not None:  vk.cacheLogFile.close()
         #mainClass.mainResearchInterpreter()
     except KeyboardInterrupt:
         print(vk.ut.getReadableBinCashLog())

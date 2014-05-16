@@ -99,9 +99,9 @@ class socialAnalyze(baseMind,analytic):
         self.logFile2str= open(self.logPath,'a')
         cash = self.ut.getBinCashLog()
         bitCash = cash[0:10]
-        for obj in cash:
-            for  elem in
-
-        a=1
+            #for obj in cash:
+            #    for  elem in
+            #
+            #a=1
 
 
