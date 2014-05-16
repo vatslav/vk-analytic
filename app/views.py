@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect
 from app import app
 from app.forms import LoginForm
 from app.core import vk_analytic
-vk_analytic.main()
+reporter = vk_analytic.simpleRunner()
 #@app.route('/')
 #@app.route('/index')
 #def index():
@@ -30,10 +30,9 @@ def main():
     #    flash('Login requeted for OpenId= %s , remember_me = %s '%( \
     #        form.openid.data,str(form.remember_me.data)))
     #    return redirect('/index')
-
-
-    report = '''this very
-    very long report'''
+    report ='a'
+    report = reporter.report(5859210)
+    #a = str(vk_analytic.researcheOneMan(5859210))
 
     return  render_template('main.html',
                             title='Дипломный проект',

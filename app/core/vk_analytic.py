@@ -308,6 +308,15 @@ class mainController(object):
         #print (vk.getServerTime())
 
 
+class simpleRunner:
+    def __init__(self):
+        self.vk = analytic(getCredent('app/core/credentials.txt'))
+    def report(self,id):
+        report = self.vk.mainResearch(id)
+        report = auxMath.beatifulOut(report)
+        return report
+
+
 
 def main():
     try:

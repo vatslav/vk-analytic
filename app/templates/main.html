@@ -28,8 +28,7 @@
         '','Toolbar=1,Location=0,Directories=0,Status=0,Menubar=0,Scrollbars=0,Resizable=0,Width=550,Height=400');">Авторизация вконтакте</A>
 <br>
 <textarea readonly disabled cols="150" rows="30">
-    {% if report %}
-        report: {{ report }}!
+    {% if report %}{{ report }}!
     {% else %}
         report is empty
     {% endif %}

@@ -163,9 +163,11 @@ class auxMath():
 
     @staticmethod
     def beatifulOut(out:list):
+        res = ''
         for i,v in enumerate(out):
             if i%2 is not 0:
-                print (v)
+                res +=v
+        return res
 
     @staticmethod
     def regestration(appId, permission='2080158', v='5.17', display='page', rederectUrl='https://oauth.vk.com/blank.html'):
