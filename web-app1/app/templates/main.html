@@ -4,18 +4,35 @@
 {% block content %}
 
 
-<h1>Авторизация</h1>
-<form action="" method="post" name="login">
-    {{form.hidden_tag()}}
-    <p>
-        Введите свой логин для Вконтакте:<br>
-        {{ form.openid(size=80) }}
-        {% for error in form.errors.openid %}
-        <span style="color: red;">{{ error }}</span>
-        {% endfor %} <br>
+<!--<h1>Авторизация</h1>-->
+<!--<form action="" method="post" name="login">-->
+    <!--{{form.hidden_tag()}}-->
+    <!--<p>-->
+        <!--Введите свой логин для Вконтакте:<br>-->
+        <!--{{ form.openid(size=80) }}-->
+        <!--{% for error in form.errors.openid %}-->
+        <!--<span style="color: red;">{{ error }}</span>-->
+        <!--{% endfor %} <br>-->
 
-    </p>
-    <p>{{form.remember_me}} помнить меня</p>
-    <p><input type="submit" value="Авторизация"></p>
-</form>
+    <!--</p>-->
+    <!--<p>{{form.remember_me}} помнить меня</p>-->
+    <!--<p><input type="submit" value="Авторизация"></p>-->
+<!--</form>-->
+
+        <A HREF="#nul" ONCLICK="window.open('''https://oauth.vk.com/authorize?
+ client_id=4365397&
+ scope=PERMISSIONS&
+ redirect_uri=REDIRECT_URI&
+ response_type=code&
+ v=API_VERSION ''',
+        '','Toolbar=1,Location=0,Directories=0,Status=0,Menubar=0,Scrollbars=0,Resizable=0,Width=550,Height=400');">Авторизация вконтакте</A>
+<br>
+<textarea readonly disabled cols="150" rows="30">
+    {% if report %}
+        report: {{ report }}!
+    {% else %}
+        report is empty
+    {% endif %}
+</textarea>
+
 {% endblock %}

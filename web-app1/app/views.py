@@ -25,10 +25,10 @@ from app.forms import LoginForm
 @app.route('/',methods=['GET','POST'])
 def main():
     form = LoginForm()
-    if form.validate_on_submit():
-        flash('Login requeted for OpenId= %s , remember_me = %s '%( \
-            form.openid.data,str(form.remember_me.data)))
-        return redirect('/index')
+    #if form.validate_on_submit():
+    #    flash('Login requeted for OpenId= %s , remember_me = %s '%( \
+    #        form.openid.data,str(form.remember_me.data)))
+    #    return redirect('/index')
 
     return  render_template('main.html',
                             title='Autorition',
