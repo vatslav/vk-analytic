@@ -7,7 +7,7 @@ from pprint import pprint
 from os.path import exists, isfile
 import pickle, datetime, timeit,time
 from copy import deepcopy
-from handlers import logger, textViewer, auxMath
+from app.core.handlers import logger, textViewer, auxMath
 #import logging
 import math
 
@@ -42,6 +42,7 @@ class openFile():
         self.file = open(file,mode)
     def __del__(self):
         self.file.close()
+
 
 class analytic(object):
     #def __new__(cls, *args, **kwargs):
@@ -106,9 +107,9 @@ class analytic(object):
         if loggerObject is None:
             loggerObject = logger()
         self.logger = loggerObject
-        from socialAnalyzer import socialAnalyze
-        from handlers import vkapi
-        from utilites import utilites
+        from app.core.socialAnalyzer import socialAnalyze
+
+        from app.core.utilites import utilites
         args = {'vk':self.vk,'logtxt':self.logtxt,'logger':self.logger,'cacheLogFile':self.cacheLogFile,'logFile2':self.logFile2,'logFile2str':self.logFile2str}
         args['api']=vkapi(args)
 
@@ -259,7 +260,12 @@ class analytic(object):
 
 
 
+class vkapi(baseMind,analytic):
+    def getCitiesById(self, id):
+        if id is 0 or id is '0' or id==['0'] or id is None:
+            return 'Не определен'
 
+        return self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(id))[0]['name']
 
 
 #нужен универсальный обработчик случаев отсутсвия инфы:
@@ -305,12 +311,17 @@ class mainController(object):
 
 def main():
     try:
+        print('start main')
         log = logger()
-        vk = analytic(getCredent('credentials.txt'))
+        vk = analytic(getCredent('app/core/credentials.txt'))
         tw = textViewer(vk)
         mainClass = mainController(vk,tw)
+        x = vk.mainResearch(5859210)
 
-        vk.social.logAnalysis()
+        print(x)
+
+
+        #vk.social.logAnalysis()
         #print(vk.social.analiz(0,0))
         #vk.social.makeCsv()
 

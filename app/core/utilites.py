@@ -1,7 +1,7 @@
 __author__ = 'salamander'
 import webbrowser, pickle,re
-from handlers import *
-from vk_analytic import analytic,baseMind
+from app.core.handlers import *
+from app.core.vk_analytic import analytic,baseMind
 
 class utilites(baseMind,analytic):
 

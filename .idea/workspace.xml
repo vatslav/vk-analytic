@@ -2,9 +2,38 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1df9a63e-5638-4eb4-ad81-b2266f09a9de" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app1/app/templates/base.html" afterPath="$PROJECT_DIR$/web-app1/app/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app1/app/templates/main.html" afterPath="$PROJECT_DIR$/web-app1/app/templates/main.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web-app1/app/views.py" afterPath="$PROJECT_DIR$/web-app1/app/views.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/cacheLog" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/credentials.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/garbage.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/handlers.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/log1" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/log2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/logArhive/socialLog3str" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/logArhive/vk_api" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/socialAnalyzer.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/socialLog" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/socialLog2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/socialLog3" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/socialLog3str" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/socialLog3str-processed" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/socialLog3str-processed.ods" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/socialLog3str.csv" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/util2.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/utilites.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/vk_analytic.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/vk_auth.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/core/vkontakte.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app1/app/__init__.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app1/app/forms.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app1/app/templates/base.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app1/app/templates/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app1/app/templates/login.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app1/app/templates/main.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app1/app/views.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app1/config.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app1/run.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app1/setup.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/web-app1/virtualenv.py" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="vk-analytic.iws" />
@@ -17,7 +46,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/vk-analytic$persona.coverage" NAME="persona Coverage Results" MODIFIED="1400239212243" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/web-app2" />
+    <SUITE FILE_PATH="coverage/vk-analytic$persona.coverage" NAME="persona Coverage Results" MODIFIED="1400262066129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/web-app2" />
     <SUITE FILE_PATH="coverage/vk-analytic$vk_auth.coverage" NAME="vk_auth Coverage Results" MODIFIED="1395659429897" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/vk-analytic$handlers.coverage" NAME="handlers Coverage Results" MODIFIED="1395679080247" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/vk-analytic$flaskr.coverage" NAME="flaskr Coverage Results" MODIFIED="1399489265933" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/flask-server" />
@@ -25,8 +54,8 @@
     <SUITE FILE_PATH="coverage/vk-analytic$garbage.coverage" NAME="garbage Coverage Results" MODIFIED="1395679280422" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/vk-analytic$vk_analytic.coverage" NAME="vk_analytic Coverage Results" MODIFIED="1400230346892" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/core" />
     <SUITE FILE_PATH="coverage/vk-analytic$run.coverage" NAME="run Coverage Results" MODIFIED="1399489296970" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/flask-server" />
-    <SUITE FILE_PATH="coverage/vk-analytic$run__1_.coverage" NAME="run (1) Coverage Results" MODIFIED="1400231499835" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/vk-analytic$run__2_.coverage" NAME="run (2) Coverage Results" MODIFIED="1400239314613" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/web-app1" />
+    <SUITE FILE_PATH="coverage/vk-analytic$run__1_.coverage" NAME="run (1) Coverage Results" MODIFIED="1400266677211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/vk-analytic$run__2_.coverage" NAME="run (2) Coverage Results" MODIFIED="1400263646944" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/web-app1" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -40,37 +69,8 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="vkontakte.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/vkontakte.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2505">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="persona.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app2/persona.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="975">
-              <folding>
-                <element signature="e#0#74#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/web-app1/app/templates/main.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="47" selection-start="977" selection-end="977" vertical-scroll-proportion="0.57746476" vertical-offset="230" max-vertical-offset="645">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="run.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app1/run.py">
+        <entry file="file://$PROJECT_DIR$/run.py">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
               <folding />
@@ -78,30 +78,19 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="forms.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app1/app/forms.py">
+      <file leaf-file-name="socialAnalyzer.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/core/socialAnalyzer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
-              <folding>
-                <element signature="e#22#52#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app1/app/templates/login.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="615">
+            <state line="6" column="0" selection-start="181" selection-end="181" vertical-scroll-proportion="0.0" vertical-offset="1256" max-vertical-offset="1695">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app1/app/views.py">
+        <entry file="file://$PROJECT_DIR$/app/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="15" selection-start="685" selection-end="685" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="810">
+            <state line="4" column="18" selection-start="154" selection-end="154" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900">
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
               </folding>
@@ -109,28 +98,48 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="base.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app1/app/templates/base.html">
+      <file leaf-file-name="serving.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python3.3/dist-packages/werkzeug/serving.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="37" selection-start="289" selection-end="326" vertical-scroll-proportion="-6.875" vertical-offset="0" max-vertical-offset="285">
+            <state line="705" column="0" selection-start="26087" selection-end="26087" vertical-scroll-proportion="0.0" vertical-offset="10351" max-vertical-offset="11220">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="virtualenv.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app1/virtualenv.py">
+      <file leaf-file-name="vk_analytic.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/core/vk_analytic.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="36990">
+            <state line="110" column="0" selection-start="3787" selection-end="3787" vertical-scroll-proportion="-4.257143" vertical-offset="1501" max-vertical-offset="5790">
+              <folding>
+                <element signature="e#152#168#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="utilites.py" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/core/utilites.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="3" column="14" selection-start="101" selection-end="101" vertical-scroll-proportion="0.09955752" vertical-offset="0" max-vertical-offset="1350">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web-app2/templates/index.html">
+      <file leaf-file-name="handlers.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/core/handlers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="3" column="174" selection-start="88" selection-end="258" vertical-scroll-proportion="-1.875" vertical-offset="0" max-vertical-offset="450">
+            <state line="254" column="0" selection-start="98572" selection-end="98572" vertical-scroll-proportion="0.0" vertical-offset="3521" max-vertical-offset="3960">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/core/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="1" column="22" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="135">
               <folding />
             </state>
           </provider>
@@ -154,22 +163,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/flask-server/templates/base.html" />
-        <option value="$PROJECT_DIR$/flask-server/templates/index.html" />
-        <option value="$PROJECT_DIR$/flask-server/config.py" />
-        <option value="$PROJECT_DIR$/flask-server/flaskr.py" />
-        <option value="$PROJECT_DIR$/flask-server/app/__init__.py" />
-        <option value="$PROJECT_DIR$/flask-server/app/templates/base.html" />
-        <option value="$PROJECT_DIR$/flask-server/app/templates/main.html" />
         <option value="$PROJECT_DIR$/flask-server/app/views.py" />
         <option value="$PROJECT_DIR$/run.py" />
-        <option value="$PROJECT_DIR$/app/views.py" />
         <option value="$PROJECT_DIR$/core/socialAnalyzer.py" />
         <option value="$PROJECT_DIR$/core/vk_analytic.py" />
         <option value="$PROJECT_DIR$/app/__init__.py" />
-        <option value="$PROJECT_DIR$/web-app1/app/views.py" />
         <option value="$PROJECT_DIR$/web-app1/app/templates/base.html" />
         <option value="$PROJECT_DIR$/web-app1/app/templates/main.html" />
+        <option value="$PROJECT_DIR$/web-app1/core/__init__.py" />
+        <option value="$PROJECT_DIR$/web-app1/app/core/__init__.py" />
+        <option value="$PROJECT_DIR$/web-app1/app/views.py" />
+        <option value="$PROJECT_DIR$/app/core/socialAnalyzer.py" />
+        <option value="$PROJECT_DIR$/app/core/handlers.py" />
+        <option value="$PROJECT_DIR$/app/core/__init__.py" />
+        <option value="$PROJECT_DIR$/app/views.py" />
+        <option value="$PROJECT_DIR$/app/core/vk_analytic.py" />
+        <option value="$PROJECT_DIR$/app/core/utilites.py" />
       </list>
     </option>
   </component>
@@ -234,97 +243,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="web-app2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vk-analytic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vk-analytic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vk-analytic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vk-analytic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app2" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vk-analytic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vk-analytic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app1" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vk-analytic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vk-analytic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app1" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vk-analytic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vk-analytic" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="web-app1" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -348,7 +267,7 @@
       <PyConsoleSettings />
     </option>
   </component>
-  <component name="RunManager" selected="Python.run (2)">
+  <component name="RunManager" selected="Python.run (1)">
     <configuration default="false" name="run (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -364,7 +283,9 @@
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/run.py" />
       <option name="PARAMETERS" value="" />
+      <RunnerSettings RunnerId="PyDebugRunner" />
       <RunnerSettings RunnerId="PythonRunner" />
+      <ConfigurationWrapper RunnerId="PyDebugRunner" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
@@ -603,10 +524,10 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.run (2)" />
-        <item index="1" class="java.lang.String" itemvalue="Python.persona" />
-        <item index="2" class="java.lang.String" itemvalue="Python.__init__" />
-        <item index="3" class="java.lang.String" itemvalue="Python.run (1)" />
+        <item index="0" class="java.lang.String" itemvalue="Python.run (1)" />
+        <item index="1" class="java.lang.String" itemvalue="Python.run (2)" />
+        <item index="2" class="java.lang.String" itemvalue="Python.persona" />
+        <item index="3" class="java.lang.String" itemvalue="Python.__init__" />
         <item index="4" class="java.lang.String" itemvalue="Python.vk_analytic" />
       </list>
     </recent_temporary>
@@ -743,11 +664,11 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14450423" sideWeight="0.67391306" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14450423" sideWeight="0.7484472" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39751554" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14450423" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32608697" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2515528" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32919255" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -813,43 +734,20 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="51" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/app/core/vk_analytic.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="54" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/vkontakte.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2505">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-app2/templates/layout.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app1/app/templates/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="379">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/vk_analytic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="318" column="39" selection-start="10978" selection-end="10978" vertical-scroll-proportion="4.9360614" vertical-offset="2840" max-vertical-offset="5625">
-          <folding>
-            <element signature="e#152#168#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/socialAnalyzer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="0" selection-start="3665" selection-end="3755" vertical-scroll-proportion="0.5396419" vertical-offset="1304" max-vertical-offset="1695">
           <folding />
         </state>
       </provider>
@@ -863,20 +761,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-app1/virtualenv.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="36990">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web-app1/app/templates/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/web-app2/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="3" column="174" selection-start="88" selection-end="258" vertical-scroll-proportion="-1.875" vertical-offset="0" max-vertical-offset="450">
@@ -884,41 +768,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-app1/run.py">
+    <entry file="file://$PROJECT_DIR$/run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="379">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-app1/app/templates/base.html">
+    <entry file="file://$PROJECT_DIR$/app/core/handlers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="37" selection-start="289" selection-end="326" vertical-scroll-proportion="-6.875" vertical-offset="0" max-vertical-offset="285">
+        <state line="254" column="0" selection-start="98572" selection-end="98572" vertical-scroll-proportion="0.0" vertical-offset="3521" max-vertical-offset="3960">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-app1/app/forms.py">
+    <entry file="file://$PROJECT_DIR$/app/core/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="210">
-          <folding>
-            <element signature="e#22#52#0" expanded="true" />
-          </folding>
+        <state line="1" column="22" selection-start="44" selection-end="44" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="135">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-app1/app/views.py">
+    <entry file="file://$PROJECT_DIR$/app/core/socialAnalyzer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="15" selection-start="685" selection-end="685" vertical-scroll-proportion="0.0" vertical-offset="360" max-vertical-offset="810">
+        <state line="6" column="0" selection-start="181" selection-end="181" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1695">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python3.3/dist-packages/werkzeug/serving.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="705" column="0" selection-start="26087" selection-end="26087" vertical-scroll-proportion="0.0" vertical-offset="10351" max-vertical-offset="11220">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="18" selection-start="154" selection-end="154" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="900">
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web-app1/app/templates/main.html">
+    <entry file="file://$PROJECT_DIR$/app/core/vk_analytic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="47" selection-start="977" selection-end="977" vertical-scroll-proportion="0.57746476" vertical-offset="230" max-vertical-offset="645">
+        <state line="110" column="0" selection-start="3787" selection-end="3787" vertical-scroll-proportion="-4.257143" vertical-offset="1501" max-vertical-offset="5790">
+          <folding>
+            <element signature="e#152#168#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/core/utilites.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="14" selection-start="101" selection-end="101" vertical-scroll-proportion="0.09955752" vertical-offset="0" max-vertical-offset="1350">
           <folding />
         </state>
       </provider>

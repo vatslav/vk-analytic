@@ -252,13 +252,8 @@ class textViewer(object):
                             rawList[field] = t4
         return rawListOfDicts
 
-import vk_analytic
 
-class vkapi(vk_analytic.baseMind,vk_analytic.analytic):
-    def getCitiesById(self, id):
-        if id is 0 or id is '0' or id==['0'] or id is None:
-            return 'Не определен'
 
-        return self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(id))[0]['name']
+
 
 

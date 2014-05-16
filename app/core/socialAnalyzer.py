@@ -1,8 +1,8 @@
 from cgi import logfile
 
 __author__ = 'django'
-from vk_analytic import baseMind,analytic
-import vkontakte, pickle, handlers, time, timeit
+from app.core.vk_analytic import baseMind,analytic
+import vkontakte, pickle,app.core.handlers, time, timeit
 from pprint import pprint
 
 class socialAnalyze(baseMind,analytic):

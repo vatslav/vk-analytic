@@ -1,7 +1,8 @@
 from flask import render_template, flash, redirect
 from app import app
 from app.forms import LoginForm
-
+from app.core import vk_analytic
+vk_analytic.main()
 #@app.route('/')
 #@app.route('/index')
 #def index():
@@ -30,9 +31,14 @@ def main():
     #        form.openid.data,str(form.remember_me.data)))
     #    return redirect('/index')
 
+
+    report = '''this very
+    very long report'''
+
     return  render_template('main.html',
-                            title='Autorition',
+                            title='Дипломный проект',
                             form = form,
+                            report = report,
                             providers = app.config['OPENID_PROVIDERS'])
 
 @app.route('/login/',methods=['GET','POST'])
