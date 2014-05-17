@@ -100,9 +100,14 @@ class auxMath():
         '''
         for pair in samelist:
             if len(pair) is 0:
-                yield pair
+                print(pair)
+                #yield pair
             else:
-                yield pair[memberNumber]
+                res = pair[memberNumber]
+                if res is 0:
+                    res = 'Неизвестно'
+                yield res
+
 
     @staticmethod
     def findTopFreq(samedict:dict,sizeOfTop=3):
@@ -154,7 +159,9 @@ class auxMath():
         if friendsWithUniversOverx*10 <numberFriend:
             report = 'Вероятно у этого человека нет высшего образования'
         elif len(rankedListUniver) is 3:
-            top, midle, buttom = auxMath.getMemberPair(rankedListUniver)
+            tripleResult= list(auxMath.getMemberPair(rankedListUniver))
+
+            top, midle, buttom = tripleResult
             report = 'Вероятный ВУЗ %s\nТак же имеются связи с ВУЗами %s и %s'%(top,midle,buttom)
         else:
             top = rankedListUniver[0][0]
@@ -166,7 +173,7 @@ class auxMath():
         res = ''
         for i,v in enumerate(out):
             if i%2 is not 0:
-                res +=v
+                res += v+' '
         return res
 
     @staticmethod
