@@ -19,15 +19,15 @@
     <!--<p><input type="submit" value="Авторизация"></p>-->
 <!--</form>-->
 
-        <A HREF="#nul" ONCLICK="window.open('''https://oauth.vk.com/authorize?
- client_id=4365397&
- scope=PERMISSIONS&
- redirect_uri=REDIRECT_URI&
- response_type=code&
- v=API_VERSION ''',
+        <A HREF="#nul" ONCLICK="window.open('https://oauth.vk.com/authorize? \
+ client_id=4365397&\
+ scope=PERMISSIONS&\
+ redirect_uri=REDIRECT_URI&\
+ response_type=code&\
+ v=API_VERSION ',
         '','Toolbar=1,Location=0,Directories=0,Status=0,Menubar=0,Scrollbars=0,Resizable=0,Width=550,Height=400');">Авторизация вконтакте</A>
 <br>
-<textarea readonly disabled cols="80" rows="4">
+<textarea readonly disabled cols="100" rows="5">
     {% if report %}{{ report }}!
     {% else %}
         report is empty

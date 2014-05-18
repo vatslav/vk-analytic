@@ -100,8 +100,8 @@ class auxMath():
         '''
         for pair in samelist:
             if len(pair) is 0:
-                print(pair)
-                #yield pair
+
+                yield pair
             else:
                 res = pair[memberNumber]
                 if res is 0:

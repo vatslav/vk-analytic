@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'salamander'
 #взять средие(лушче медиану) от друзей пользователя по городу, возрасту и ВУЗу
-import vkontakte
+from app.core import vkontakte
 from pprint import pprint
 from os.path import exists, isfile
 import pickle, datetime, timeit,time
