@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import cookielib
 import urllib2
 import urllib
@@ -11,54 +12,54 @@ class FormParser(HTMLParser):
         self.params = {}
         self.in_form = False
         self.form_parsed = False
-        self.method = "GET"
+        self.method = u"GET"
 
     def handle_starttag(self, tag, attrs):
         tag = tag.lower()
-        if tag == "form":
+        if tag == u"form":
             if self.form_parsed:
-                raise RuntimeError("Second form on page")
+                raise RuntimeError(u"Second form on page")
             if self.in_form:
-                raise RuntimeError("Already in form")
+                raise RuntimeError(u"Already in form")
             self.in_form = True 
         if not self.in_form:
             return
         attrs = dict((name.lower(), value) for name, value in attrs)
-        if tag == "form":
-            self.url = attrs["action"] 
-            if "method" in attrs:
-                self.method = attrs["method"]
-        elif tag == "input" and "type" in attrs and "name" in attrs:
-            if attrs["type"] in ["hidden", "text", "password"]:
-                self.params[attrs["name"]] = attrs["value"] if "value" in attrs else ""
+        if tag == u"form":
+            self.url = attrs[u"action"] 
+            if u"method" in attrs:
+                self.method = attrs[u"method"]
+        elif tag == u"input" and u"type" in attrs and u"name" in attrs:
+            if attrs[u"type"] in [u"hidden", u"text", u"password"]:
+                self.params[attrs[u"name"]] = attrs[u"value"] if u"value" in attrs else u""
 
     def handle_endtag(self, tag):
         tag = tag.lower()
-        if tag == "form":
+        if tag == u"form":
             if not self.in_form:
-                raise RuntimeError("Unexpected end of <form>")
+                raise RuntimeError(u"Unexpected end of <form>")
             self.in_form = False
             self.form_parsed = True
 
 def auth_user(email, password, client_id, scope, opener):
     response = opener.open(
-        "http://oauth.vk.com/oauth/authorize?" + \
-        "redirect_uri=http://oauth.vk.com/blank.html&response_type=token&" + \
-        "client_id=%s&scope=%s&display=wap" % (client_id, ",".join(scope))
+        u"http://oauth.vk.com/oauth/authorize?" + \
+        u"redirect_uri=http://oauth.vk.com/blank.html&response_type=token&" + \
+        u"client_id=%s&scope=%s&display=wap" % (client_id, u",".join(scope))
         )
     doc = response.read()
     parser = FormParser()
     parser.feed(doc)
     parser.close()
-    if not parser.form_parsed or parser.url is None or "pass" not in parser.params or \
-      "email" not in parser.params:
-          raise RuntimeError("Something wrong")
-    parser.params["email"] = email
-    parser.params["pass"] = password
-    if parser.method == "post":
+    if not parser.form_parsed or parser.url is None or u"pass" not in parser.params or \
+      u"email" not in parser.params:
+          raise RuntimeError(u"Something wrong")
+    parser.params[u"email"] = email
+    parser.params[u"pass"] = password
+    if parser.method == u"post":
         response = opener.open(parser.url, urllib.urlencode(parser.params))
     else:
-        raise NotImplementedError("Method '%s'" % parser.method)
+        raise NotImplementedError(u"Method '%s'" % parser.method)
     return response.read(), response.geturl()
 
 def give_access(doc, opener):
@@ -66,11 +67,11 @@ def give_access(doc, opener):
     parser.feed(doc)
     parser.close()
     if not parser.form_parsed or parser.url is None:
-          raise RuntimeError("Something wrong")
-    if parser.method == "post":
+          raise RuntimeError(u"Something wrong")
+    if parser.method == u"post":
         response = opener.open(parser.url, urllib.urlencode(parser.params))
     else:
-        raise NotImplementedError("Method '%s'" % parser.method)
+        raise NotImplementedError(u"Method '%s'" % parser.method)
     return response.geturl()
 
 
@@ -81,18 +82,18 @@ def auth(email, password, client_id, scope):
         urllib2.HTTPCookieProcessor(cookielib.CookieJar()),
         urllib2.HTTPRedirectHandler())
     doc, url = auth_user(email, password, client_id, scope, opener)
-    if urlparse(url).path != "/blank.html":
+    if urlparse(url).path != u"/blank.html":
         # Need to give access to requested scope
         url = give_access(doc, opener)
-    if urlparse(url).path != "/blank.html":
-        raise RuntimeError("Expected success here "+urlparse(url).path)
+    if urlparse(url).path != u"/blank.html":
+        raise RuntimeError(u"Expected success here "+urlparse(url).path)
 
     def split_key_value(kv_pair):
-        kv = kv_pair.split("=")
+        kv = kv_pair.split(u"=")
         return kv[0], kv[1]
 
-    answer = dict(split_key_value(kv_pair) for kv_pair in urlparse(url).fragment.split("&"))
-    if "access_token" not in answer or "user_id" not in answer:
-        raise RuntimeError("Missing some values in answer")
-    return answer["access_token"], answer["user_id"] 
+    answer = dict(split_key_value(kv_pair) for kv_pair in urlparse(url).fragment.split(u"&"))
+    if u"access_token" not in answer or u"user_id" not in answer:
+        raise RuntimeError(u"Missing some values in answer")
+    return answer[u"access_token"], answer[u"user_id"] 
 

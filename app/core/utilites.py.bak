@@ -1,8 +1,7 @@
-__author__ = u'salamander'
+__author__ = 'salamander'
 import webbrowser, pickle,re
 from app.core.handlers import *
 from app.core.vk_analytic import analytic,baseMind
-from io import open
 
 class utilites(baseMind,analytic):
 
@@ -10,7 +9,7 @@ class utilites(baseMind,analytic):
         webbrowser.open(url)
 
     def getBinCashLog(self):
-        cashFile = open(self.logBinPath,u'rb')
+        cashFile = open(self.logBinPath,'rb')
         res = []
         try:
             while True:
@@ -24,19 +23,19 @@ class utilites(baseMind,analytic):
 
     def getReadableBinCashLog(self):
         cash = self.getBinCashLog()
-        res = u''
+        res = ''
         for elem in cash:
-            res += (unicode(elem)+u'\n')
+            res += (str(elem)+'\n')
         return res
     def getReadableCashLog(self):
-        cash = open(u'socialLog3str',u'r')
-        res = u''
+        cash = open('socialLog3str','r')
+        res = ''
         for line in cash:
             res += line
         return res
 
     def getCashLog(self):
-        cash = open(u'socialLog3str',u'r')
+        cash = open('socialLog3str','r')
         res = []
         for line in cash:
             res.append(line)
@@ -45,7 +44,7 @@ class utilites(baseMind,analytic):
     def getIdFromTextLog(self):
         cash = self.getCashLog()
         res = []
-        p = re.compile(ur'((\d+)\))$')
+        p = re.compile(r'((\d+)\))$')
         for line in cash:
             res.append(int(re.findall(p,line)[0][0][:-1]))
         res = set(res)
@@ -64,11 +63,11 @@ class utilites(baseMind,analytic):
 
 
     def readLog(self):
-        lofFile2= open(u'socialLog3',u'rb')
+        lofFile2= open('socialLog3','rb')
         try:
             line = pickle.load(lofFile2)
             for v in line:
-                print line
+                print(line)
         except (FileNotFoundError, EOFError):
             pass
 
@@ -76,10 +75,10 @@ class utilites(baseMind,analytic):
 
 
 
-if __name__ == u'__main__':
+if __name__ == '__main__':
 
-    x = raw_input()
+    x = input()
     if x.isalnum():
-        utilites.openurl(u'https://vk.com/id%s'%x)
+        utilites.openurl('https://vk.com/id%s'%x)
 
 

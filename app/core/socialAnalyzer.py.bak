@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 from cgi import logfile
-from io import open
 
-__author__ = u'django'
+__author__ = 'django'
 from app.core.vk_analytic import baseMind,analytic,vkontakte
 import pickle,app.core.handlers, time, timeit
 from pprint import pprint
@@ -18,11 +16,11 @@ class socialAnalyze(baseMind,analytic):
     def __del__(self):
         self.logFile2str.close()
         self.logFile2.close()
-        print u'del run'
+        print('del run')
 
     def analyzeManyPeople(self):
-        self.logFile2= open(self.logBinPath,u'ab')
-        self.logFile2str= open(self.logPath,u'a')
+        self.logFile2= open(self.logBinPath,'ab')
+        self.logFile2str= open(self.logPath,'a')
         #78340794 init user
         #id = 78395684
         successProfile = 0
@@ -35,39 +33,39 @@ class socialAnalyze(baseMind,analytic):
         for id in ids:
             if id in ids2:
                 ids2.remove(id)
-        print len(ids2)
+        print(len(ids2))
         ids2.sort()
-        print u'len=%s'%len(ids2)
+        print('len=%s'%len(ids2))
 
         for id in ids2:
             try:
-                print id
+                print(id)
                 realMan = self.usersGet(id,self.researchFields)
-                if u'universities' in realMan and u'city' in realMan and u'bdate' in realMan and \
-                len(realMan[u'universities'])>0  and realMan[u'city']>0 and realMan[u'bdate'].count(u'.') is 2:
+                if 'universities' in realMan and 'city' in realMan and 'bdate' in realMan and \
+                len(realMan['universities'])>0  and realMan['city']>0 and realMan['bdate'].count('.') is 2:
                     analyzedMan = self.mainResearch(id,service=True)
                     if analyzedMan[0] is None:
                         id +=1
                         continue
-                    out = ((realMan[u'bdate'],analyzedMan[0]), (realMan[u'universities'][0][u'name'],analyzedMan[1]),(self.api.getCitiesById(realMan[u'city']),analyzedMan[2]),id )
+                    out = ((realMan['bdate'],analyzedMan[0]), (realMan['universities'][0]['name'],analyzedMan[1]),(self.api.getCitiesById(realMan['city']),analyzedMan[2]),id )
                     pickle.dump(out,self.logFile2)
-                    self.logFile2str.write(unicode(out)+u'\n')
-                    pprint(unicode(out))
+                    self.logFile2str.write(str(out)+'\n')
+                    pprint(str(out))
                     successProfile +=1
                 id +=1
-            except vkontakte.VKError, e:
+            except vkontakte.VKError as e:
                 if e.code==15:
                     id += 1
                 elif e.code is 14: #captra need
-                    print u'captra need'
+                    print('captra need')
                     #обработчик ошибки для капчи, но тут походу предется править обертку вокруг api
                     time.sleep(5)
                 elif e.code is 6: #Too many requests per second
-                    print u'sleep run!?!'
+                    print('sleep run!?!')
 
 
                 else:
-                    print e
+                    print(e)
                     exit(1)
 
     def analiz(self,x,y=None):
@@ -83,22 +81,22 @@ class socialAnalyze(baseMind,analytic):
     def makeCsv(self):
         cash = self.ut.getBinCashLog()
         l = cash[0]
-        res = u''
+        res = ''
         for line in cash:
             for block in line:
-                if not isinstance(block,unicode):
+                if not isinstance(block,str):
                     for elem in block:
-                        if not isinstance(elem,unicode):
+                        if not isinstance(elem,str):
                             for subelem in elem:
-                                res+=u'%s,'%subelem
-                        else:res += u'%s,'%elem
+                                res+='%s,'%subelem
+                        else:res += '%s,'%elem
                 else:res += block
-            line+=u'\n'
+            line+='\n'
         #[] - rebase to 0,0
         #колонки с выводами
         #уникальность
     def logAnalysis(self):
-        self.logFile2str= open(self.logPath,u'a')
+        self.logFile2str= open(self.logPath,'a')
         cash = self.ut.getBinCashLog()
         bitCash = cash[0:10]
             #for obj in cash:

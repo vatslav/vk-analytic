@@ -8,3 +8,6 @@ if len(sys.argv)>1:
     app.run(host='0.0.0.0')
 else:
     app.run(host='127.0.0.1', debug=True)
+
+for x in range(10):
+    a=x

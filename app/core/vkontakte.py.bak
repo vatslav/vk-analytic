@@ -1,7 +1,6 @@
 # coding: utf-8
 import random
 import time
-import urllib
 import re
 from hashlib import md5
 from functools import partial
@@ -9,13 +8,12 @@ try:
     import json
 except ImportError:
     import simplejson as json
-import http
-
+from urllib.request import urlopen, Request
+from urllib.parse import urlencode
+from urllib.error import URLError
 API_URL = 'http://api.vk.com/api.php'
 SECURE_API_URL = 'https://api.vkontakte.ru/method/'
-DEFAULT_TIMEOUT = 1
-REQUEST_ENCODING = 'utf8'
-
+DEFAULT_TIMEOUT = 1.0
 
 # See full list of VK API methods here:
 # http://vk.com/developers.php?o=-1&p=%D0%A0%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%82%D0%BE%D0%B4%D1%8B_API&s=0
@@ -24,7 +22,7 @@ COMPLEX_METHODS = ['secure', 'ads', 'messages', 'likes', 'friends',
     'groups', 'photos', 'wall', 'newsfeed', 'notifications', 'audio',
     'video', 'docs', 'places', 'storage', 'notes', 'pages',
     'activity', 'offers', 'questions', 'subscriptions',
-    'users', 'status', 'polls', 'account', 'auth', 'stats','database' ]
+    'users', 'status', 'polls', 'account', 'auth', 'stats', 'database']
 
 
 class VKError(Exception):
@@ -50,10 +48,10 @@ class VKError(Exception):
 
 def _encode(s):
     if isinstance(s, (dict, list, tuple)):
-        s = json.dumps(s, ensure_ascii=False, encoding=REQUEST_ENCODING)
+        s = json.dumps(s, ensure_ascii=False)
 
-    if isinstance(s, unicode):
-        s = s.encode(REQUEST_ENCODING)
+    if isinstance(s, str):
+        s = s.encode()
 
     return s # this can be number, etc.
 
@@ -61,7 +59,7 @@ def _encode(s):
 def signature(api_secret, params):
     keys = sorted(params.keys())
     param_str = "".join(["%s=%s" % (str(key), _encode(params[key])) for key in keys])
-    return md5(param_str + str(api_secret)).hexdigest()
+    return md5((param_str + str(api_secret)).encode()).hexdigest()
 
 # We have to support this:
 #
@@ -71,7 +69,7 @@ def signature(api_secret, params):
 #
 # It works this way: API class has 'get' method but _API class doesn't.
 
-class _API(object):
+class _API():
     def __init__(self, api_id=None, api_secret=None, token=None, **defaults):
 
         if not (api_id and api_secret or token):
@@ -83,16 +81,17 @@ class _API(object):
         self.defaults = defaults
         self.method_prefix = ''
 
-    def _get(self, method, timeout=DEFAULT_TIMEOUT, **kwargs):
-        status, response = self._request(method, timeout=timeout, **kwargs)
+    def _get(self, method, timeout=None, **kwargs):
+        response = self._request(method, timeout=timeout, **kwargs)
+        status = response.code
         if not (200 <= status <= 299):
             raise VKError({
                 'error_code': status,
-                'error_msg': "HTTP error",
+                'error_msg': response.msg,
                 'request_params': kwargs,
             })
 
-        data = json.loads(response, strict=False)
+        data = json.loads(response.read().decode(), strict=False)
         if "error" in data:
             raise VKError(data["error"])
         return data['response']
@@ -120,7 +119,7 @@ class _API(object):
 
     def _request(self, method, timeout=DEFAULT_TIMEOUT, **kwargs):
 
-        for key, value in kwargs.iteritems():
+        for key, value in kwargs.items():
             kwargs[key] = _encode(value)
 
         if self.token:
@@ -131,7 +130,6 @@ class _API(object):
             params.update(kwargs)
             params['timestamp'] = int(time.time())
             url = SECURE_API_URL + method
-            secure = True
         else:
             # http://vkontakte.ru/developers.php?oid=-1&p=Взаимодействие_приложения_с_API
             params = dict(
@@ -145,15 +143,20 @@ class _API(object):
             params['timestamp'] = int(time.time())
             params['sig'] = self._signature(params)
             url = API_URL
-            secure = False
-        data = urllib.urlencode(params)
-
+        data = urlencode(params)
+        
         headers = {"Accept": "application/json",
                    "Content-Type": "application/x-www-form-urlencoded"}
+        
+        req = Request(url=url, headers=headers, data=data.encode())
+        while True:
+            try:
+                return urlopen(req, timeout=timeout)
+            except (URLError,ConnectionResetError) as e:
+                print(e)
+                time.sleep(5)
 
-        # urllib2 doesn't support timeouts for python 2.5 so
-        # custom function is used for making http requests
-        return http.post(url, data, headers, timeout, secure=secure)
+
 
 
 class API(_API):

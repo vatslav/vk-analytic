@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
-__author__ = u'salamander'
+__author__ = 'salamander'
 from pprint import pprint
 import math,datetime, webbrowser
-from io import open
 
 
 class logger(object):
-    cmdFileName = u'log1'
-    responseFileName=u'log2'
+    cmdFileName = 'log1'
+    responseFileName='log2'
     _instance = None
     def __new__(cls, *args, **kwargs):
         if not cls._instance:
@@ -15,8 +13,8 @@ class logger(object):
                                 cls, *args, **kwargs)
         return cls._instance
     def __init__(self):
-        self.cmdFile = open(self.cmdFileName,u'a')
-        self.responseFile = open(self.responseFileName,u'a')
+        self.cmdFile = open(self.cmdFileName,'a')
+        self.responseFile = open(self.responseFileName,'a')
     def comandLog(self,cmd):
         pprint(cmd)
         pprint(cmd, self.cmdFile)
@@ -25,13 +23,13 @@ class logger(object):
         pprint(cmd, self.responseFile)
 
 class reader(object):
-    u'''
+    '''
     foo(int, string) -> list
     '''
     debug=1
     @staticmethod
     def rawHandler(req):
-        u'''
+        '''
         @rtype: dict
         '''
         return req[0]
@@ -43,15 +41,15 @@ class reader(object):
         return reader.rawHandler(req).values()
     @staticmethod
     def read(req):
-        print req
-        if isinstance(req,unicode) or isinstance(req,int) or isinstance(req[0],int):
-            print req
+        print (req)
+        if isinstance(req,str) or isinstance(req,int) or isinstance(req[0],int):
+            print (req)
         elif isinstance(req,list) or isinstance(req,tuple):
 
-            arr = [(unicode(i[0]),i[1]) for i in reader.rawHandler(req).items()]
+            arr = [(str(i[0]),i[1]) for i in reader.rawHandler(req).items()]
             for x,y in arr:
-                print x,y
-        else:raise RuntimeError(u'unknow type of requst, this type is %s'%type(req))
+                print (x,y)
+        else:raise RuntimeError('unknow type of requst, this type is %s'%type(req))
     @staticmethod
     def r():
         return 1
@@ -61,18 +59,18 @@ class reader(object):
 class rawStringHandler(object):
     @staticmethod
     def str2dict(string):
-        assert isinstance(string,unicode)
-        string = string.replace(u' ',u'')
-        listCmd = string.split(u',')
+        assert isinstance(string,str)
+        string = string.replace(' ','')
+        listCmd = string.split(',')
         return listCmd
     @staticmethod
     def jointString(str1, str2):
-        return str1+u','+str2
+        return str1+','+str2
 
 class auxMath():
     @staticmethod
-    def addToDict(samedict,key):
-        u"""
+    def addToDict(samedict:dict,key):
+        """
         добовляет выражение в частотный словарь
         """
         if key is None:
@@ -83,12 +81,12 @@ class auxMath():
             samedict[key]=1
 
     @staticmethod
-    def findFrequentElem(samedict):
-        u"""
+    def findFrequentElem(samedict:dict):
+        """
         находит максимальное значение в частотном словаре
         """
         max = 0
-        keymax = u''
+        keymax = ''
         for key,value in samedict.items():
             if value > max:
                 max = value
@@ -96,8 +94,8 @@ class auxMath():
         return keymax
 
     @staticmethod
-    def getMemberPair(samelist, memberNumber=0):
-        u'''
+    def getMemberPair(samelist:dict, memberNumber=0):
+        '''
         в словаре вида [(key,value),(key,value)] возвращает итератор Key`ев
         '''
         for pair in samelist:
@@ -107,17 +105,17 @@ class auxMath():
             else:
                 res = pair[memberNumber]
                 if res is 0:
-                    res = u'Неизвестно'
+                    res = 'Неизвестно'
                 yield res
 
 
     @staticmethod
-    def findTopFreq(samedict,sizeOfTop=3):
-        u"""
+    def findTopFreq(samedict:dict,sizeOfTop=3):
+        """
         находит максимальное значение в частотном словаре
         """
 
-        dateRange = [[] for i in xrange(sizeOfTop)]
+        dateRange = [[] for i in range(sizeOfTop)]
         a={}
         for i, v in enumerate(dateRange):
             max = 0
@@ -128,59 +126,59 @@ class auxMath():
         return dateRange
 
     @staticmethod
-    def freqSelection(sameList):
+    def freqSelection(sameList:list):
         for i,v in enumerate(sameList):
             if v[1]*3 < sameList[i+1][1]:
                 del sameList[i+1:]
 
     @staticmethod
-    def cityReport(rankedListCity):
+    def cityReport(rankedListCity:list):
 
         top =rankedListCity[0][0]
         if len(rankedListCity) is 3:
             top, midle, buttom = auxMath.getMemberPair(rankedListCity)
-            report = u'Вероятный город проживания %s\nТак же имеются связи с городами %s и %s'%(top,midle,buttom)
+            report = 'Вероятный город проживания %s\nТак же имеются связи с городами %s и %s'%(top,midle,buttom)
         else:
             top = rankedListCity[0][0]
-            report = u'Вероятный город проживания %s'%top
+            report = 'Вероятный город проживания %s'%top
         return report
 
     @staticmethod
-    def birthPeriodReport(rankedListDates):
+    def birthPeriodReport(rankedListDates:list):
         start = min(auxMath.getMemberPair(rankedListDates))
         end = max(auxMath.getMemberPair(rankedListDates))
         top = rankedListDates[0][0]
         year = datetime.date.today().year
         age = year - int(top)
-        report = u'''Примерный год рождения %s - %s гг., наиболее вероятно в %s г.\nПримерный возраст %s лет''' % (start,end,top,age)
+        report = '''Примерный год рождения %s - %s гг., наиболее вероятно в %s г.\nПримерный возраст %s лет''' % (start,end,top,age)
         return report
     @staticmethod
-    def universitiesReport(rankedListUniver, numberFriend):
+    def universitiesReport(rankedListUniver:list, numberFriend:int):
         top = rankedListUniver[0][0]
         friendsWithUniversOverx = sum(auxMath.getMemberPair(rankedListUniver,1)) * 10
         if friendsWithUniversOverx*10 <numberFriend:
-            report = u'Вероятно у этого человека нет высшего образования'
+            report = 'Вероятно у этого человека нет высшего образования'
         elif len(rankedListUniver) is 3:
             tripleResult= list(auxMath.getMemberPair(rankedListUniver))
 
             top, midle, buttom = tripleResult
-            report = u'Вероятный ВУЗ %s\nТак же имеются связи с ВУЗами %s и %s'%(top,midle,buttom)
+            report = 'Вероятный ВУЗ %s\nТак же имеются связи с ВУЗами %s и %s'%(top,midle,buttom)
         else:
             top = rankedListUniver[0][0]
-            report = u'Вероятный ВУЗ %s'%top
+            report = 'Вероятный ВУЗ %s'%top
         return report
 
     @staticmethod
-    def beatifulOut(out):
-        res = u''
+    def beatifulOut(out:list):
+        res = ''
         for i,v in enumerate(out):
             if i%2 is not 0:
-                res += v+u' '
+                res += v+' '
         return res
 
     @staticmethod
-    def regestration(appId, permission=u'2080158', v=u'5.17', display=u'page', rederectUrl=u'https://oauth.vk.com/blank.html'):
-        url = u'''https://oauth.vk.com/authorize?client_id=%s&scope=%s&redirect_uri=%s&
+    def regestration(appId, permission='2080158', v='5.17', display='page', rederectUrl='https://oauth.vk.com/blank.html'):
+        url = '''https://oauth.vk.com/authorize?client_id=%s&scope=%s&redirect_uri=%s&
  display=%s&v=%s&response_type=token''' % (appId,permission,rederectUrl,display,v)
         webbrowser.open(url)
     #
@@ -188,25 +186,25 @@ class auxMath():
 
 
 class textViewer(object):
-    replacedFields = {u'city':u'database.getCitiesById(city_ids=XX)',
-                      u'country':u'database.getCountriesById(country_ids=XX)',
-                      u'universities':{u'id':u'',u'faculty':u'',u'chair':u'',
-                                      u'country':u'database.getCountriesById(country_ids=XX)',
-                                      u'city':u'database.getCitiesById(city_ids=XX)'},
-                      u'education':{u'university':u'', u'faculty':u''}
+    replacedFields = {'city':'database.getCitiesById(city_ids=XX)',
+                      'country':'database.getCountriesById(country_ids=XX)',
+                      'universities':{'id':'','faculty':'','chair':'',
+                                      'country':'database.getCountriesById(country_ids=XX)',
+                                      'city':'database.getCitiesById(city_ids=XX)'},
+                      'education':{'university':'', 'faculty':''}
                     }
     #universities - http://vk.com/dev/database.getFaculties
     #обработка отдельно
     def __new__(cls, *args, **kwargs):
-        if not hasattr(cls, u'instance'):
+        if not hasattr(cls, 'instance'):
              cls.instance = super(textViewer, cls).__new__(cls)
         return cls.instance
 
     def __init__(self,vk):
         self.vk=vk
         self.log = logger()
-    def printer(self,docs,orderList):
-        u"""
+    def print(self,docs:list,orderList:list):
+        """
         печатает ответ сервера в удобном виде, с заменой id объектов на их человеческие названия, порядок полей определяется orderList
         возвращает обработанный ответ
         @rtype:list
@@ -219,14 +217,14 @@ class textViewer(object):
             for entry in orderList:
 
                 if entry in doc:
-                    sortedUser.append(u'%s - %s' %(entry, unicode(doc[entry])))
+                    sortedUser.append('%s - %s' %(entry, str(doc[entry])))
             sortedDoc.append(sortedUser)
         pprint(sortedDoc)
         return  sortedDoc
 
 
-    def baseReplacer(self,rawListOfDicts):
-        u'''
+    def baseReplacer(self,rawListOfDicts:list):
+        '''
         замена идентификаторов объектов по базе vk на их человеческие названия
         @rtype: list
         '''
@@ -235,7 +233,7 @@ class textViewer(object):
             for field, replaceCmd in self.replacedFields.items():#для поля и команды, которая заменит значение поля
                 if field in rawList:
                     if rawList[field] is 0:
-                        rawList[field]=u'Нет информации'
+                        rawList[field]='Нет информации'
                     else:
                         if isinstance(replaceCmd,dict):
                             machinedPart = rawList[field]
@@ -248,18 +246,18 @@ class textViewer(object):
 
                             for key,value in replaceCmd.items():#для ключа и значение в словаре
                                 if key in machinedPart:
-                                    tt=value.replace(u'XX',unicode(machinedPart[key]))
+                                    tt=value.replace('XX',str(machinedPart[key]))
                                     ttt=self.vk.evalWithCache(tt)
                                     if len(ttt) is 0:
                                         machinedPart.pop(key)
                                     else:
-                                        ttt=ttt[0][u'name']
+                                        ttt=ttt[0]['name']
                                     machinedPart[key]=ttt
                             rawList[field]=machinedPart
                         else:
-                            machinedPart = replaceCmd.replace(u'XX',unicode(rawList[field]))
+                            machinedPart = replaceCmd.replace('XX',str(rawList[field]))
                             t3 = self.vk.evalWithCache(machinedPart)
-                            t4 = t3[0][u'name']
+                            t4 = t3[0]['name']
                             rawList[field] = t4
         return rawListOfDicts
 
