@@ -20,6 +20,7 @@ def getCredent(file):
 
     '''
     try:
+        print(file)
         f = open(file,'r')
         line =  f.readline().strip()
         f.close()

@@ -1,8 +1,9 @@
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect,request
 from app import app
 from app.forms import LoginForm
 from app.core import vk_analytic
 reporter = vk_analytic.simpleRunner()
+import urllib
 #@app.route('/')
 #@app.route('/index')
 #def index():
@@ -52,3 +53,17 @@ def loginn():
                             title='Sign In',
                             form = form,
                             providers = app.config['OPENID_PROVIDERS'])
+@app.route('/auth/')
+def auth():
+    appid = str(4365397)
+    secret = ''
+    url = 'vk-analisys.com/auth'
+    #print('1 %s' % request.method)
+    #print('2 %s' %str(request.args.get('code')))
+    #print('1 %s' %str(request.query_string))
+    #dangder!
+    code = request.args.get('code')
+    req = 'https://oauth.vk.com/access_token?client_id=%s&client_secret=%s&code=%s&redirect_uri=%s' % (appid,secret,code,url)
+    return request.args.get('code')
+
+

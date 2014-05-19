@@ -1,6 +1,6 @@
 # Object file
 *.o
-
+credentials*
 # Ada Library Information
 *.ali
 /venv/
