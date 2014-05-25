@@ -3,4 +3,6 @@
 credentials*
 # Ada Library Information
 *.ali
-/venv/
+/venv/*
+.pyc
+.idea/*

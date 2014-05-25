@@ -24,6 +24,10 @@ def getCredent(file):
         f = open(file,'r')
         line =  f.readline().strip()
         f.close()
+        if line is '':
+            #raise RuntimeError('secret app key is empty')
+            print('secret app key is empty')
+            exit(1)
     except FileNotFoundError:
         print("не найден файл с токеном авторизации")
         exit(1)
