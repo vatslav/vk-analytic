@@ -52,6 +52,10 @@ class utilites(baseMind,analytic):
         res.sort()
 
         return res
+    def createStandaloneToken(self):
+        url = 'https://oauth.vk.com/authorize?client_id=4365397&scope=friends&redirect_uri=https://oauth.vk.com/blank.html&display=popup&v=5.21&response_type=token'
+        webbrowser.open(url)
+
 
     def getExistedId(self):
         cash = self.getBinCashLog()

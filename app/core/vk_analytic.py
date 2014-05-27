@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 __author__ = 'salamander'
 #взять средие(лушче медиану) от друзей пользователя по городу, возрасту и ВУЗу
+
 from app.core import vkontakte
 from pprint import pprint
 from os.path import exists, isfile
 import pickle, datetime, timeit,time
 from copy import deepcopy
 from app.core.handlers import logger, textViewer, auxMath
-#import logging
+#import logging 5859210
 import math
 
 
@@ -21,11 +22,14 @@ def getCredent(file):
     '''
     try:
         print(file)
+        if not isfile(file):
+            file = file.split('/')[2]
+            if not isfile(file):
+                raise FileNotFoundError('error cred path file')
         f = open(file,'r')
         line =  f.readline().strip()
         f.close()
         if line is '':
-            #raise RuntimeError('secret app key is empty')
             print('secret app key is empty')
             exit(1)
     except FileNotFoundError:
@@ -114,7 +118,7 @@ class analytic(object):
         self.logger = loggerObject
         from app.core.socialAnalyzer import socialAnalyze
 
-        from app.core.utilites import utilites
+        from app.core.myutilites import utilites
         args = {'vk':self.vk,'logtxt':self.logtxt,'logger':self.logger,'cacheLogFile':self.cacheLogFile,'logFile2':self.logFile2,'logFile2str':self.logFile2str}
         args['api']=vkapi(args)
 
@@ -177,6 +181,7 @@ class analytic(object):
         выполняет запрос к серверу vk с кешированием в оперативной памяти. (Кеш не обновляется со временем)
         @rtype: list
         """
+        return eval('self.vk.%s'%cmd)
         if cmd is '':
             return ''
         if cmd in self.cache:
@@ -276,8 +281,8 @@ class vkapi(baseMind,analytic):
 #нужен универсальный обработчик случаев отсутсвия инфы:
 #когда не чего не вернулось, когда вернулся 0
 class mainController(object):
-    def __init__(self,vk,tw=None):
-        self.vk=vk
+    def __init__(self,vk=None,tw=None):
+        self.vk=analytic(getCredent('app/core/credentials.txt'))
         self.tw=tw
 
     def vkApiInterpreter(self,beautifulOut=None):
@@ -314,8 +319,8 @@ class mainController(object):
 
 
 class simpleRunner:
-    def __init__(self):
-        self.vk = analytic(getCredent('app/core/credentials.txt'))
+    def __init__(self,vk=analytic(getCredent('app/core/credentials.txt'))):
+        self.vk = vk
     def report(self,id):
         report = self.vk.mainResearch(id)
         report = auxMath.beatifulOut(report)
@@ -325,13 +330,13 @@ class simpleRunner:
 
 def main():
     try:
-        print('start main')
-        log = logger()
-        vk = analytic(getCredent('app/core/credentials.txt'))
-        tw = textViewer(vk)
-        mainClass = mainController(vk,tw)
-        x = vk.mainResearch(5859210)
+        #controller = mainController()
+        #controller.vkApiInterpreter()
 
+
+
+        repoter = simpleRunner()
+        x = repoter.report(5859210)
         print(x)
 
 
@@ -339,9 +344,6 @@ def main():
         #print(vk.social.analiz(0,0))
         #vk.social.makeCsv()
 
-        if vk.social.logFile2str is not None:vk.social.logFile2str.close()
-        if vk.social.logFile2 is not None: vk.social.logFile2.close()
-        if vk.cacheLogFile is not None:  vk.cacheLogFile.close()
         #mainClass.mainResearchInterpreter()
     except KeyboardInterrupt:
         print(vk.ut.getReadableBinCashLog())
@@ -362,34 +364,3 @@ if __name__ == '__main__':
 
     except (EOFError):
         exit(0)
-
-
-        #research = vk.mainResearch(226723565)
-        #print(research[2])
-        #print(vk.mainResearch(72858365)[2])
-        #print(vk.mainResearch(150798434)[2]) #78340794 182541327
-
-        #print(vk.ut.getReadableBinCashLog())
-        #print(len(vk.ut.getBinCashLog()))
-        #print(vk.ut.getReadableBinCashLog())
-
-        #x = vk.social.analyzeManyPeople()
-        #mainClass.vkApiInterpreter()
-        #print(len(vk.ut.getBinCashLog()))
-
-
-        #print(vk.ut.getExistedId())
-        #print(vk.ut.getIdFromTextLog())
-
-
-
-
-        #vk.ut.readLog()
-        #x = vk.social.analyzeManyPeople()
-
-        #x = vk.mainResearch(5859210)
-
-        #print(x)
-        #auxMath.beatifulOut(x)
-
-        #vk.test(3870390)

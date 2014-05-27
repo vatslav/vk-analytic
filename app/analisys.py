@@ -3,7 +3,8 @@
 import urllib
 import json
 import sys
-from app.core import vk_analytic
+import re
+#from app.core import vk_analytic
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, make_response
 from flask import request
@@ -12,7 +13,7 @@ from flask import request
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-reporter = vk_analytic.simpleRunner()
+#reporter = vk_analytic.simpleRunner()
 
 # хранить в конфигурационном файле
 # хранить в конфигурационном файле
@@ -109,8 +110,12 @@ def token():
         req = urllib.request.urlopen(url)
         data = req.read().decode('utf8')
         resp = json.loads(data)
-        data = data.split(':')[3].split(',')[0]
-        print('%s'%data)
+        userid= re.findall('user_id":\d+',data)[0].split(':')[1]
+        tok = re.findall('token":"\w+',data)[0].split('"')[2]
+        print(data)
+        print(data.split(',')[2])
+        print('%s'%userid)
+        print(tok)
         #report = reporter.report(int(data))
 
         #return  render_template('main.html',report = report)
@@ -135,7 +140,8 @@ def run(args):
     host='127.0.0.1'
     if len(args)>1:
         host='0.0.0.0'
-    app.run(host=host)
+    host='0.0.0.0'
+    app.run(host=host,debug=True)
 
 
 if __name__ == '__main__':
