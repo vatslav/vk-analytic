@@ -319,8 +319,8 @@ class mainController(object):
 
 
 class simpleRunner:
-    def __init__(self,vk=analytic(getCredent('app/core/credentials.txt'))):
-        self.vk = vk
+    def __init__(self,cred=getCredent('app/core/credentials.txt')):
+        self.vk = analytic(cred)
     def report(self,id):
         report = self.vk.mainResearch(id)
         report = auxMath.beatifulOut(report)

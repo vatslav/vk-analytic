@@ -4,7 +4,7 @@ import urllib
 import json
 import sys
 import re
-#from app.core import vk_analytic
+from app.core import vk_analytic
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, make_response
 from flask import request
@@ -13,7 +13,7 @@ from flask import request
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-#reporter = vk_analytic.simpleRunner()
+
 
 # хранить в конфигурационном файле
 # хранить в конфигурационном файле
@@ -98,6 +98,13 @@ def vklogin():
        return redirect('/oauth2/vk/token?code={}'.format(code))
     return "Success"
 
+@app.route('/test/')
+def test():
+        userid = 5859210
+        reporter = vk_analytic.simpleRunner()
+        report = reporter.report(int(userid))
+
+        return  render_template('report.html',report = report)
 
 @app.route('/oauth2/vk/token')
 def token():
@@ -112,13 +119,11 @@ def token():
         resp = json.loads(data)
         userid= re.findall('user_id":\d+',data)[0].split(':')[1]
         tok = re.findall('token":"\w+',data)[0].split('"')[2]
-        print(data)
-        print(data.split(',')[2])
-        print('%s'%userid)
-        print(tok)
-        #report = reporter.report(int(data))
 
-        #return  render_template('main.html',report = report)
+        reporter = vk_analytic.simpleRunner()
+        report = reporter.report(int(userid))
+
+        return  render_template('report.html',report = report)
 
         return json.dumps(resp)
         if resp and resp.get("access_token", None):
