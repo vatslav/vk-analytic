@@ -181,7 +181,6 @@ class analytic(object):
         выполняет запрос к серверу vk с кешированием в оперативной памяти. (Кеш не обновляется со временем)
         @rtype: list
         """
-        return eval('self.vk.%s'%cmd)
         if cmd is '':
             return ''
         if cmd in self.cache:
