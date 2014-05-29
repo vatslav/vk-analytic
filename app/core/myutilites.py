@@ -1,9 +1,9 @@
 __author__ = 'salamander'
 import webbrowser, pickle,re
-from app.core.handlers import *
-from app.core.vk_analytic import analytic,baseMind
+#from app.core.handlers import *
+#from app.core.vk_analytic import analytic,baseMind
 
-class utilites(baseMind,analytic):
+class utilites():
 
     def openurl(url):
         webbrowser.open(url)
@@ -77,12 +77,19 @@ class utilites(baseMind,analytic):
 
         lofFile2.close()
 
-
+    def cleanSocialLog(self):
+        import fileinput
+        import sys
+        import re
+        
+        path = 'logArhive/socialLog.csv'
+        p = '\w;;;;$'
+        def replaceAll(file):
+            for line in fileinput.input(file, inplace=1):
+                if len(re.findall(p,line))>0:
+                    sys.stdout.write(line)
+        replaceAll(path)
 
 if __name__ == '__main__':
-
-    x = input()
-    if x.isalnum():
-        utilites.openurl('https://vk.com/id%s'%x)
-
-
+    ut = utilites()
+    ut.cleanSocialLog()
