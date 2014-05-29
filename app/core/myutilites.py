@@ -123,7 +123,11 @@ rCity,aCity,aCityScore,bCity,bCityScore,cCity,cCityScore,id'.split(',')
             yar = int(yar)
             otherYear = int(otherYear)
             delta = datetime.timedelta(days=100)
-            return datetime.date(yar,moth,1)-delta < datetime.date(otherYear,1,1) < datetime.date(yar,moth,1)+delta
+            min = datetime.date(yar,moth,1)-delta
+            mid =  datetime.date(otherYear,1,1)
+            max = datetime.date(yar,moth,1)+delta
+            res = min<mid <max
+            return  res
 
         for line in f:
             if 'RealDate;aDate;score;' in line:
@@ -172,6 +176,14 @@ rCity,aCity,aCityScore,bCity,bCityScore,cCity,cCityScore,id'.split(',')
             if trancDate(namedLine.rYear,namedLine.rMouth,namedLine.aDate):
                 statistic.aTruncDate+=1
                 foundInAnyDate = 1
+
+                if (namedLine.aDate in namedLine.rYear) != trancDate(namedLine.rYear,namedLine.rMouth,namedLine.aDate) and (namedLine.aDate in namedLine.rYear):
+                    s= namedLine.aDate
+                    s2=namedLine.rYear
+                    s3 = trancDate(namedLine.rYear,namedLine.rMouth,namedLine.aDate)
+                    s4 = (namedLine.aDate in namedLine.rYear) != trancDate(namedLine.rYear,namedLine.rMouth,namedLine.aDate)
+                    print((s,s2))
+
             if trancDate(namedLine.rYear,namedLine.rMouth,namedLine.bDate):
                 statistic.bTruncDate+=1
                 foundInAnyDate=1
@@ -181,7 +193,7 @@ rCity,aCity,aCityScore,bCity,bCityScore,cCity,cCityScore,id'.split(',')
             if foundInAnyDate:statistic.fTruncDate+=1
 
             #trancTwo
-            if trancDate(namedLine.rYear,namedLine.rMouth,namedLine.aDate,delta=730):
+            if trancDate(namedLine.rYear,namedLine.rMouth,namedLine.aDate,delta=7300):
                 statistic.aTrancDateTwo+=1
                 foundInAnyDateTwo = 1
             if trancDate(namedLine.rYear,namedLine.rMouth,namedLine.bDate,delta=730):
