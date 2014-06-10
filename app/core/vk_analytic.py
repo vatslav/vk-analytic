@@ -11,7 +11,7 @@ from copy import deepcopy
 from app.core.handlers import logger, textViewer, auxMath
 #import logging 5859210
 import math
-
+import base64
 
 def getCredent(file):
     '''
@@ -182,8 +182,8 @@ class analytic(object):
         """
         if cmd is '':
             return ''
-        if cmd in self.cache:
-            return self.cache[cmd]
+        #if cmd in self.cache:
+        #    return self.cache[cmd]
         else:
             while True:
                 try:
@@ -320,10 +320,16 @@ class mainController(object):
 class simpleRunner:
     #def __init__(self,cred=getCredent('app/core/credentials.txt')):
     def __init__(self,cred=None):
+        #cred=getCredent('app/core/credentials.txt')
+        cred=None
         self.vk = analytic(cred)
     def report(self,id):
         report = self.vk.mainResearch(id)
         report = auxMath.beatifulOut(report)
+        f = open('resultLog.txt','a+')
+        f.write(str(id))
+        #f.write(str(report))
+        f.close()
         return report
 
 
@@ -331,7 +337,7 @@ class simpleRunner:
 def main():
 
         repoter = simpleRunner()
-        x = repoter.report(12213956)
+        x = repoter.report(212835149)
         print(x)
         a=1
 

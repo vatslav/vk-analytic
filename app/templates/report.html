@@ -1,17 +1,17 @@
 <!doctype html>
-<title>OAuth</title>
+<title>Отчет</title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 <div class=page>
-  <h1>Результаты</h1>
+  <h1>Отчет</h1>
   <div class=metanav>
-    <a href="/"> В начало</a>
+    <a href="/logout">Выход</a>
   </div>
     <div class=flash>{{ email }}</div>
     <br>
 <textarea readonly disabled cols="100" rows="5">
     {% if report %}{{report}}!
     {% else %}
-        report is empty
+        Отчет не сформирован
     {% endif %}
 </textarea>
 </div>

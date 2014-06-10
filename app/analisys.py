@@ -8,6 +8,7 @@ from app.core import vk_analytic
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, make_response
 from flask import request
+from app.core.vkontakte import VKError
 
 
 app = Flask(__name__)
@@ -120,8 +121,13 @@ def token():
         userid= re.findall('user_id":\d+',data)[0].split(':')[1]
         tok = re.findall('token":"\w+',data)[0].split('"')[2]
 
-        reporter = vk_analytic.simpleRunner()
-        report = reporter.report(int(userid))
+        reporter = vk_analytic.simpleRunner(cred=tok)
+        try:
+            report = reporter.report(int(userid))
+        except VKError as e:
+            if e.code is 6:
+                pass
+
 
         return  render_template('report.html',report = report)
 

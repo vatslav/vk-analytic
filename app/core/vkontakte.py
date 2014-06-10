@@ -130,13 +130,18 @@ class _API():
             params.update(kwargs)
             params['timestamp'] = int(time.time())
             url = SECURE_API_URL + method
+        elif self.token is None and self.api_id is None:
+            params = dict()
+            params.update(kwargs)
+            params['timestamp'] = int(time.time())
+            url = SECURE_API_URL + method
         else:
             # http://vkontakte.ru/developers.php?oid=-1&p=Взаимодействие_приложения_с_API
             params = dict(
                 api_id=str(self.api_id),
                 method=method,
                 format='JSON',
-                v='3.0',
+                v='5.2',
                 random=random.randint(0, 2 ** 30),
             )
             params.update(kwargs)
