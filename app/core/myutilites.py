@@ -117,7 +117,7 @@ rCity,aCity,aCityScore,bCity,bCityScore,cCity,cCityScore,id'.split(',')
         #    for l2 in l1:nameStatisticField.append(l2)
         nameStatisticField = ['aDate', 'bDate', 'cDate', 'fDate', 'aTruncDate', 'bTruncDate', 'cTruncDate', 'fTruncDate', 'aTrancDateTwo', 'bTrancDateTwo', 'cTrancDateTwo', 'fTrancDateTwo', 'aUniversity', 'bUniversity', 'cUniversity', 'fUniversity', 'aCity', 'bCity', 'cCity', 'fCity', 'aAllFound', 'bAllFound', 'cAllFound', 'fAllFound']
         statistic = mydictTwo.fromkeys(nameStatisticField,0)
-
+        
         import datetime
         def trancDate(yar,moth, otherYear,delta=100):
             if yar in otherYear:
@@ -181,14 +181,6 @@ rCity,aCity,aCityScore,bCity,bCityScore,cCity,cCityScore,id'.split(',')
             if trancDate(namedLine.rYear,namedLine.rMouth,namedLine.aDate):
                 statistic.aTruncDate+=1
                 foundInAnyDate = 1
-
-                if (namedLine.aDate in namedLine.rYear) != trancDate(namedLine.rYear,namedLine.rMouth,namedLine.aDate) and (namedLine.aDate in namedLine.rYear):
-                    s= namedLine.aDate
-                    s2=namedLine.rYear
-                    s3 = trancDate(namedLine.rYear,namedLine.rMouth,namedLine.aDate)
-                    s4 = (namedLine.aDate in namedLine.rYear) != trancDate(namedLine.rYear,namedLine.rMouth,namedLine.aDate)
-                    print((s,s2))
-
             if trancDate(namedLine.rYear,namedLine.rMouth,namedLine.bDate):
                 statistic.bTruncDate+=1
                 foundInAnyDate=1
@@ -200,14 +192,17 @@ rCity,aCity,aCityScore,bCity,bCityScore,cCity,cCityScore,id'.split(',')
             #trancTwo
             if trancDate(namedLine.rYear,namedLine.rMouth,namedLine.aDate,delta=730):
                 statistic.aTrancDateTwo+=1
-                foundInAnyDateTwo = 1
+                foundInAnyDateTwo = True
             if trancDate(namedLine.rYear,namedLine.rMouth,namedLine.bDate,delta=730):
                 statistic.bTrancDateTwo+=1
-                foundInAnyDateTwo=1
+                foundInAnyDateTwo= True
             if trancDate(namedLine.rYear,namedLine.rMouth,namedLine.cDate,delta=730):
                 statistic.cTrancDateTwo+=1
-                foundInAnyDateTwo=1
-            if foundInAnyDate:statistic.fTrancDateTwo+=1
+                foundInAnyDateTwo= True
+            if foundInAnyDateTwo:
+                statistic.fTrancDateTwo+=1
+
+
 
             #allFound
             if foundAllInA is 3: statistic.aAllFound+=1
@@ -217,7 +212,8 @@ rCity,aCity,aCityScore,bCity,bCityScore,cCity,cCityScore,id'.split(',')
 
         statistic
         print(statistic)
-        print(['%s - %s'%(name,statistic[name]) for name in nameStatisticField])
+        print(['%s:%s\n'%(name,statistic[name]) for name in nameStatisticField])
+
 
 
 

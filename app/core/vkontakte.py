@@ -72,8 +72,8 @@ def signature(api_secret, params):
 class _API():
     def __init__(self, api_id=None, api_secret=None, token=None, **defaults):
 
-        if not (api_id and api_secret or token):
-            raise ValueError("Arguments api_id and api_secret or token are required")
+        #if not (api_id and api_secret or token):
+        #    raise ValueError("Arguments api_id and api_secret or token are required")
 
         self.api_id = api_id
         self.api_secret = api_secret

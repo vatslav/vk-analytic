@@ -124,14 +124,13 @@ class analytic(object):
 
         self.api = vkapi(args) #свои набор, для часто применяемых методов запросов к api vk
         self.social = socialAnalyze(args) #класс для социвального анализа в вк по теме
-        self.ut = utilites(args)
+        self.ut = utilites()
         self.timeForLastRequest = time.time()
         self.social.ut = self.ut
 
 
     def __del__(self):
         self.cacheLogFile.close()
-        print('del1')
 
 
     def getMutal(self,id1, id2):
@@ -281,7 +280,8 @@ class vkapi(baseMind,analytic):
 #когда не чего не вернулось, когда вернулся 0
 class mainController(object):
     def __init__(self,vk=None,tw=None):
-        self.vk=analytic(getCredent('app/core/credentials.txt'))
+        #self.vk=analytic(getCredent('app/core/credentials.txt'))
+        self.vk=analytic(vk)
         self.tw=tw
 
     def vkApiInterpreter(self,beautifulOut=None):
@@ -318,7 +318,8 @@ class mainController(object):
 
 
 class simpleRunner:
-    def __init__(self,cred=getCredent('app/core/credentials.txt')):
+    #def __init__(self,cred=getCredent('app/core/credentials.txt')):
+    def __init__(self,cred=None):
         self.vk = analytic(cred)
     def report(self,id):
         report = self.vk.mainResearch(id)
@@ -328,38 +329,14 @@ class simpleRunner:
 
 
 def main():
-    try:
-        #controller = mainController()
-        #controller.vkApiInterpreter()
-
-
 
         repoter = simpleRunner()
-        x = repoter.report(5859210)
+        x = repoter.report(12213956)
         print(x)
+        a=1
 
 
-        #vk.social.logAnalysis()
-        #print(vk.social.analiz(0,0))
-        #vk.social.makeCsv()
 
-        #mainClass.mainResearchInterpreter()
-    except KeyboardInterrupt:
-        print(vk.ut.getReadableBinCashLog())
-        print(len(vk.ut.getBinCashLog()))
-        print('close files!')
-        vk.social.logFile2str.close()
-        vk.social.logFile2.close()
-        vk.cacheLogFile.close()
-    #except:
-    #    vk.social.logFile2str.close()
-    #    vk.social.logFile2.close()
-    #    vk.cacheLogFile.close()
-    return vk
 
 if __name__ == '__main__':
-    try:
-        main()
-
-    except (EOFError):
-        exit(0)
+    main()

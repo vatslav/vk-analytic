@@ -14,7 +14,7 @@ class socialAnalyze(baseMind,analytic):
     #- увеличиваем переменную успешных анализов на 1
 
     def __del__(self):
-        self.logFile2str.close()
+        #self.logFile2str.close()
         self.logFile2.close()
         print('del run')
 
