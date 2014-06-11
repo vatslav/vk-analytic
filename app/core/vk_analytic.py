@@ -327,8 +327,8 @@ class simpleRunner:
         report = self.vk.mainResearch(id)
         report = auxMath.beatifulOut(report)
         f = open('resultLog.txt','a+')
-        f.write(str(id))
-        #f.write(str(report))
+        f.write(str(id)+'\n')
+        #f.write(report)
         f.close()
         return report
 

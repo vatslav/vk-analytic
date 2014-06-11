@@ -9,11 +9,10 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, make_response
 from flask import request
 from app.core.vkontakte import VKError
-
+from urllib.error import HTTPError
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-
 
 
 # хранить в конфигурационном файле
@@ -110,48 +109,48 @@ def test():
 @app.route('/oauth2/vk/token')
 def token():
     code = request.args.get('code')
-    print(code)
-    print('run token')
     if code:
         url = get_url_vk_token(VK_TOKEN, code)
-
-        req = urllib.request.urlopen(url)
-        data = req.read().decode('utf8')
-        resp = json.loads(data)
-        userid= re.findall('user_id":\d+',data)[0].split(':')[1]
-        tok = re.findall('token":"\w+',data)[0].split('"')[2]
-
-        reporter = vk_analytic.simpleRunner(cred=tok)
         try:
+            req = urllib.request.urlopen(url)
+
+            data = req.read().decode('utf8')
+            resp = json.loads(data)
+
+            userid= re.findall('user_id":\d+',data)[0].split(':')[1]
+            tok = re.findall('token":"\w+',data)[0].split('"')[2]
+
+            reporter = vk_analytic.simpleRunner(cred=tok)
             report = reporter.report(int(userid))
         except VKError as e:
-            if e.code is 6:
-                pass
+            return render_template('error.html',error=str(e.code))
+        except HTTPError:
+            return render_template('error.html',error='Не верный формат code, мы записали вас в свои логи...')
+        except:
+            return render_template('error.html',error='Вы сделали нечто странное, мы записали вас в свои логи...')
 
 
         return  render_template('report.html',report = report)
-
-        return json.dumps(resp)
-        if resp and resp.get("access_token", None):
-
-
-
-            max_age = resp.get("expires_in", None)
-            response = make_response(redirect('/'))
-            response.set_cookie('email', resp.get("email", None), max_age=max_age)
-            response.set_cookie('access_token', resp.get("access_token", None), max_age=max_age)
-
-            return response
-
-        return redirect('/')
+        #if resp and resp.get("access_token", None):
+        #
+        #
+        #
+        #    max_age = resp.get("expires_in", None)
+        #    response = make_response(redirect('/'))
+        #    response.set_cookie('email', resp.get("email", None), max_age=max_age)
+        #    response.set_cookie('access_token', resp.get("access_token", None), max_age=max_age)
+        #
+        #    return response
+        #
+        #return redirect('/')
     else:
-        return "Try request with code"
+        return render_template('error.html',error = 'Не верный формат code, мы записали вас в свои логи...')
 
 def run(args):
     host='127.0.0.1'
     if len(args)>1:
         host='0.0.0.0'
-    host='0.0.0.0'
+
     app.run(host=host,debug=True)
 
 
