@@ -6,12 +6,10 @@
   <div class=metanav>
     <a href="/logout">Выход</a>
   </div>
-    <div class=flash>{{ email }}</div>
-    <br>
-<textarea disabled cols="100" rows="5">
+
     {% if report %}{{report}}
     {% else %}
         Отчет не сформирован
     {% endif %}
-</textarea>
+
 </div>

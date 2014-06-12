@@ -6,14 +6,14 @@ import sys
 import re
 from app.core import vk_analytic
 from flask import Flask, request, session, g, redirect, url_for, abort, \
-     render_template, flash, make_response
+     render_template, flash, make_response, Markup
 from flask import request
 from app.core.vkontakte import VKError
 from urllib.error import HTTPError
 
 app = Flask(__name__)
 app.config.from_object(__name__)
-
+debug=True
 
 # хранить в конфигурационном файле
 # хранить в конфигурационном файле
@@ -59,7 +59,10 @@ def main():
     access_token = request.cookies.get('access_token')
     email = request.cookies.get('email')
     if not access_token:
-        vk_login_url=get_url_vk_code(VK_CODE)
+        if debug:
+            vk_login_url=get_url_vk_code(VK_CODE)
+        else:
+            vk_login_url='http://www.bit.ly/1oOBPkI'
         return render_template('login.html', vk_login_url=vk_login_url)
     else:
         return render_template('main.html', email=email)
@@ -104,6 +107,8 @@ def test():
         reporter = vk_analytic.simpleRunner()
         report = reporter.report(int(userid))
 
+        report = report.replace('\n','<br>')
+        report = Markup(report)
         return  render_template('report.html',report = report)
 
 @app.route('/oauth2/vk/token')
@@ -146,10 +151,16 @@ def token():
     else:
         return render_template('error.html',error = 'Не верный формат code, мы записали вас в свои логи...')
 
+@app.route('/034fcfa2b4acc7c9f08ae55593a5f23b5a17db9b249a546a1cd711b79b0d197f.html')
+def yaMeTrica():
+    return 'postoffice-034fcfa2b4acc7c9f08ae55593a5f23b5a17db9b249a546a1cd711b79b0d197f'
+
 def run(args):
+    global debug
     host='127.0.0.1'
     if len(args)>1:
         host='0.0.0.0'
+        debug=False
 
     app.run(host=host,debug=True)
 

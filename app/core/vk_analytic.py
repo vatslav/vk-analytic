@@ -182,8 +182,8 @@ class analytic(object):
         """
         if cmd is '':
             return ''
-        #if cmd in self.cache:
-        #    return self.cache[cmd]
+        if cmd in self.cache:
+            return self.cache[cmd]
         else:
             while True:
                 try:
