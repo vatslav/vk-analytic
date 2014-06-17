@@ -279,27 +279,10 @@ class analytic(object):
         reportBirthDay = auxMath.birthPeriodReport(topbdate,profile,(74,86))
         reportCity = auxMath.cityReport(topcity,self.getCityName(profile.city),(76,94),eventName)
         reportUniversity = auxMath.universitiesReport(toptuniversity,friendsNumber, profile.un,eventName,(39,68))
-        #bitReport = self.megaReport(topbdate,reportBirthDay, topcity,reportCity, toptuniversity,reportUniversity, profile)
 
 
         return (topbdate,reportBirthDay, topcity,reportCity, toptuniversity,reportUniversity)
 
-    def megaReport(self,topbdate,reportBirthDay, topcity,reportCity, toptuniversity,reportUniversity, profile):
-        obj = dict(vuz='университет',voz='возраст',gor='город')
-        event = dict(ver='верефицирован', find='найден')
-        opasity = 'точность'
-        persent = dict(vuz='47',voz='57',gor='75')
-        curEvent = ''
-        report = ''
-
-        if profile.city in topbdate:
-            curEvent = event.ver
-        else:curEvent = event.find
-        report.join('%s %s %s %s'%('город',topbdate))
-
-
-        bigReport = ''
-        bigReport.join('')
 
 
 

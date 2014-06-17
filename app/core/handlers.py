@@ -141,14 +141,14 @@ class auxMath():
         event = eventName[0] if profile in [x[0] for x in rankedListCity] else eventName[1]
         #if 3 citys
         if len(rankedListCity) is 3:
-            report = 'город %s %s. Точность %s \nТак же имеются связи с городами %s и %s. Точность для 3 городов составляе %s %%'%(top,event,accuracy[0],midle,buttom,accuracy[1])
+            report = 'город %s %s. Точность %s \nТак же имеются связи с городами %s и %s. Точность для 3 городов составляе %s %%\n'%(top,event,accuracy[0],midle,buttom,accuracy[1])
         elif len(rankedListCity) is 2:
-            report='город %s %s. Точность %s \nТак же есть связь с городом %s. Точность для 2 городов составляе %s %%'%(top,event,accuracy[0],rankedListCity[1][0],accuracy[1])
+            report='город %s %s. Точность %s \nТак же есть связь с городом %s. Точность для 2 городов составляе %s %%\n'%(top,event,accuracy[0],rankedListCity[1][0],accuracy[1])
         elif  len(rankedListCity) is 1:
             top = rankedListCity[0][0]
-            report = 'город %s %s. Точность %s%%'%(top,event,accuracy[0])
+            report = 'город %s %s. Точность %s%%\n'%(top,event,accuracy[0])
         else:
-            report = 'не удалось %s город'%(event)#++accuracy
+            report = 'не удалось %s город\n'%(event)#++accuracy
 
         return report
 
@@ -201,7 +201,7 @@ class auxMath():
         res = ''
         for i,v in enumerate(out):
             if i%2 is not 0:
-                res += v+' '
+                res += v+''
         return res
 
     @staticmethod
