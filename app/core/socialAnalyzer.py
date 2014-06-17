@@ -14,9 +14,11 @@ class socialAnalyze(baseMind,analytic):
     #- увеличиваем переменную успешных анализов на 1
 
     def __del__(self):
-        #self.logFile2str.close()
-        self.logFile2.close()
-        print('del run')
+        if self.logFile2str is not None:
+            self.logFile2str.close()
+        if self.logFile2 is not None:
+            self.logFile2.close()
+
 
     def analyzeManyPeople(self):
         self.logFile2= open(self.logBinPath,'ab')

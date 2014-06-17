@@ -217,10 +217,10 @@ class analytic(object):
         univers = {}
         city = {}
         if peopleList is None:
-            return (None, 'Слишком мало друзей, что бы провесьти анализ')
+            return (None, 'Слишком мало друзей, что бы провести анализ')
         friendsNumber = len(peopleList)
         if friendsNumber < 20:
-            return (None, 'Слишком мало друзей, что бы провесьти анализ')
+            return (None, 'Слишком мало друзей, что бы провести анализ')
 
         #добавление данных в частотные словари
         for people in peopleList:
@@ -242,7 +242,7 @@ class analytic(object):
         toptuniversity = auxMath.findTopFreq(univers)
         #работа с профайлом пользователя
         userData = self.evalWithCache("users.get(user_ids=%s,order='name', fields='%s')"%(str(id),fields) )[0]
-        print(userData)
+
         profile = mydict()
         profile['year'] = None
         profile['city'] = userData.get('city')
@@ -250,7 +250,7 @@ class analytic(object):
         if userBdate.count('.') is 2:
             profile['year'] = userBdate[-4:]
         profile['un'] = userData.get('universities')[0].get('name')
-        print(profile)
+
 
 
 

@@ -143,7 +143,7 @@ class auxMath():
         if len(rankedListCity) is 3:
             report = 'город %s %s. Точность %s \nТак же имеются связи с городами %s и %s. Точность для 3 городов составляе %s %%\n'%(top,event,accuracy[0],midle,buttom,accuracy[1])
         elif len(rankedListCity) is 2:
-            report='город %s %s. Точность %s \nТак же есть связь с городом %s. Точность для 2 городов составляе %s %%\n'%(top,event,accuracy[0],rankedListCity[1][0],accuracy[1])
+            report='город %s %s. Точность %s %%\nТак же есть связь с городом %s. Точность для 2 городов составляе %s %%\n'%(top,event,accuracy[0],rankedListCity[1][0],accuracy[1])
         elif  len(rankedListCity) is 1:
             top = rankedListCity[0][0]
             report = 'город %s %s. Точность %s%%\n'%(top,event,accuracy[0])
