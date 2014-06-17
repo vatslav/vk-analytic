@@ -238,6 +238,23 @@ class analytic(object):
         #обработка частотных ловарей. Выделение наиболее встречаемых
         topbdate = auxMath.findTopFreq(berd)
 
+        toptuniversity = auxMath.findTopFreq(univers)
+        #работа с профайлом пользователя
+        userData = self.evalWithCache("users.get(user_ids=%s,order='name', fields='%s')"%(str(id),fields) )[0]
+        print(userData)
+        profile = mydict()
+        profile['year'] = None
+        profile['city'] = userData.get('city')
+        userBdate = userData.get('bdate')
+        if userBdate.count('.') is 2:
+            profile['year'] = userBdate[-4:]
+        profile['un'] = userData.get('universities')[0].get('name')
+        print(profile)
+
+
+
+
+
         topcity = auxMath.findTopFreq(city)
         for i,v in enumerate(topcity):
             if len(topcity[i]) is 0:
@@ -253,14 +270,37 @@ class analytic(object):
                 topcity[i] = list(v)
                 topcity[i][0] = t
 
-        toptuniversity = auxMath.findTopFreq(univers)
+
 
         if service is not None:
             return (topbdate,toptuniversity, topcity)
-        reportBirthDay = auxMath.birthPeriodReport(topbdate)
+        reportBirthDay = auxMath.birthPeriodReport(topbdate,profile,(75,90))
         reportCity = auxMath.cityReport(topcity)
         reportUniversity = auxMath.universitiesReport(toptuniversity,friendsNumber)
+        #bitReport = self.megaReport(topbdate,reportBirthDay, topcity,reportCity, toptuniversity,reportUniversity, profile)
+
+
         return (topbdate,reportBirthDay, topcity,reportCity, toptuniversity,reportUniversity)
+
+    def megaReport(self,topbdate,reportBirthDay, topcity,reportCity, toptuniversity,reportUniversity, profile):
+        obj = dict(vuz='университет',voz='возраст',gor='город')
+        event = dict(ver='верефицирован', find='найден')
+        opasity = 'точность'
+        persent = dict(vuz='47',voz='57',gor='75')
+        curEvent = ''
+        report = ''
+
+        if profile.city in topbdate:
+            curEvent = event.ver
+        else:curEvent = event.find
+        report.join('%s %s %s %s'%('город',topbdate))
+
+
+        bigReport = ''
+        bigReport.join('')
+
+
+
 
     def test(self, id):
         x = self.evalWithCache("friends.get(user_id=%s,order='name', fields='%s')"%(str(id),self.researchFields))
@@ -316,6 +356,17 @@ class mainController(object):
         #print(vk.researchFields2.split(','))
         #print (vk.getServerTime())
 
+class mydict(dict):
+    '''
+    словарь,у которого доступ к элементам возможен как к методам, а в случае отсутсвии элемента возвращается None
+    '''
+    def __getattr__(self, key):
+        try:
+            return self[key]
+        except AttributeError:
+            return None
+    def __setattr__(self, key, value):
+        self[key] = value
 
 class simpleRunner:
     #def __init__(self,cred=getCredent('app/core/credentials.txt')):
@@ -326,6 +377,7 @@ class simpleRunner:
     def report(self,id):
         report = self.vk.mainResearch(id)
         report = auxMath.beatifulOut(report)
+        #report = ''.join(report)
         f = open('resultLog.txt','a+')
         f.write(str(id)+'\n')
         #f.write(report)
@@ -336,8 +388,9 @@ class simpleRunner:
 
 def main():
 
-        repoter = simpleRunner()
-        x = repoter.report(212835149)
+        repoter = simpleRunner()#212835149
+        x = repoter.report(5091268)#5859210
+
         print(x)
         a=1
 

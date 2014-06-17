@@ -102,11 +102,10 @@ def vklogin():
     return "Success"
 
 @app.route('/test/')
-def test():
-        userid = 5859210
+def test():#78340794
+        userid = 78340794
         reporter = vk_analytic.simpleRunner()
         report = reporter.report(int(userid))
-
         report = report.replace('\n','<br>')
         report = Markup(report)
         return  render_template('report.html',report = report)
@@ -134,7 +133,8 @@ def token():
         except:
             return render_template('error.html',error='Вы сделали нечто странное, мы записали вас в свои логи...')
 
-
+        report = report.replace('\n','<br>')
+        report = Markup(report)
         return  render_template('report.html',report = report)
         #if resp and resp.get("access_token", None):
         #
@@ -162,7 +162,7 @@ def run(args):
         host='0.0.0.0'
         debug=False
 
-    app.run(host=host,debug=True)
+    app.run(host=host,debug=debug)
 
 
 if __name__ == '__main__':
@@ -171,4 +171,4 @@ if __name__ == '__main__':
     #    host='0.0.0.0'
     #    app.run(host=host)
     #    exit(0)
-    app.run(host='0.0.0.0',debug=True)
+    app.run(host='127.0.0.1',debug=True)

@@ -144,13 +144,28 @@ class auxMath():
         return report
 
     @staticmethod
-    def birthPeriodReport(rankedListDates:list):
+    def birthPeriodReport(rankedListDates:list,profile:dict,persentCity):
         start = min(auxMath.getMemberPair(rankedListDates))
         end = max(auxMath.getMemberPair(rankedListDates))
         top = rankedListDates[0][0]
         year = datetime.date.today().year
         age = year - int(top)
-        report = '''Примерный год рождения %s - %s гг., наиболее вероятно в %s г.\nПримерный возраст %s лет''' % (start,end,top,age)
+
+        event = 'найден'
+        percent = 0
+        top = int(top)
+        top = '%s - %s'%(top-1,top+1)
+        midle = '%s - %s'%(start,end)
+        a=74
+        b=86
+        if top in midle:a=b
+
+        if profile.year in rankedListDates:
+            event =  'верефицирован'
+
+        report = '%s год рождения %s с точностью %s%% \n'%(top,event,a)
+        if a!=b:report += 'Возможные годы рождения %s - %s гг, вероятность этого периода %s\n' % (start,end,b)
+
         return report
     @staticmethod
     def universitiesReport(rankedListUniver:list, numberFriend:int):
