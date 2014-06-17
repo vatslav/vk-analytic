@@ -132,15 +132,24 @@ class auxMath():
                 del sameList[i+1:]
 
     @staticmethod
-    def cityReport(rankedListCity:list):
+    def cityReport(rankedListCity:list,profile:dict,accuracy,eventName):
 
-        top =rankedListCity[0][0]
+        top, midle, buttom = auxMath.getMemberPair(rankedListCity)
+        #remove zero city
+        rankedListCity = [x for x in rankedListCity if x[0]!=0]
+        #change event type
+        event = eventName[0] if profile in [x[0] for x in rankedListCity] else eventName[1]
+        #if 3 citys
         if len(rankedListCity) is 3:
-            top, midle, buttom = auxMath.getMemberPair(rankedListCity)
-            report = 'Вероятный город проживания %s\nТак же имеются связи с городами %s и %s'%(top,midle,buttom)
-        else:
+            report = 'город %s %s. Точность %s \nТак же имеются связи с городами %s и %s. Точность для 3 городов составляе %s %%'%(top,event,accuracy[0],midle,buttom,accuracy[1])
+        elif len(rankedListCity) is 2:
+            report='город %s %s. Точность %s \nТак же есть связь с городом %s. Точность для 2 городов составляе %s %%'%(top,event,accuracy[0],rankedListCity[1][0],accuracy[1])
+        elif  len(rankedListCity) is 1:
             top = rankedListCity[0][0]
-            report = 'Вероятный город проживания %s'%top
+            report = 'город %s %s. Точность %s%%'%(top,event,accuracy[0])
+        else:
+            report = 'не удалось %s город'%(event)#++accuracy
+
         return report
 
     @staticmethod
@@ -156,31 +165,35 @@ class auxMath():
         top = int(top)
         top = '%s - %s'%(top-1,top+1)
         midle = '%s - %s'%(start,end)
-        a=74
-        b=86
+        a=persentCity[0]
+        b=persentCity[1]
         if top in midle:a=b
 
-        if profile.year in rankedListDates:
+        if profile.year in [x[0] for x in rankedListDates]:
             event =  'верефицирован'
 
-        report = '%s год рождения %s с точностью %s%% \n'%(top,event,a)
-        if a!=b:report += 'Возможные годы рождения %s - %s гг, вероятность этого периода %s\n' % (start,end,b)
+        report = '%s год рождения %s. Точностью %s%%\n'%(top,event,a)
+        if a!=b:report += 'Возможные годы рождения %s - %s гг, вероятность этого периода %s%%\n' % (start,end,b)
 
         return report
     @staticmethod
-    def universitiesReport(rankedListUniver:list, numberFriend:int):
+    def universitiesReport(rankedListUniver:list, numberFriend:int, profile, eventName, percent):
         top = rankedListUniver[0][0]
         friendsWithUniversOverx = sum(auxMath.getMemberPair(rankedListUniver,1)) * 10
         if friendsWithUniversOverx*10 <numberFriend:
             report = 'Вероятно у этого человека нет высшего образования'
         elif len(rankedListUniver) is 3:
             tripleResult= list(auxMath.getMemberPair(rankedListUniver))
+            event = eventName[0] if profile in tripleResult else eventName[1]
 
             top, midle, buttom = tripleResult
-            report = 'Вероятный ВУЗ %s\nТак же имеются связи с ВУЗами %s и %s'%(top,midle,buttom)
+            report = 'ВУЗ %s %s. Точность %s%%\nТак же имеются связи с ВУЗами %s и %s. Точность для 3 вузов состовляет %s%%'%(top,event,percent[0],midle,buttom,percent[1])
         else:
+            tripleResult= list(auxMath.getMemberPair(rankedListUniver))
+            event = eventName[0] if profile in tripleResult else eventName[1]
+
             top = rankedListUniver[0][0]
-            report = 'Вероятный ВУЗ %s'%top
+            report = 'ВУЗ %s %s. Точность %s'%(top,event,percent[0])
         return report
 
     @staticmethod

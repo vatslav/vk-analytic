@@ -200,7 +200,8 @@ class analytic(object):
                     else:
                         raise e
 
-
+    def getCityName(self,id):
+        return self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(id))[0].get('name')
 
 
     def mainResearch(self, id: int, service=None, fields=researchFields):
@@ -270,13 +271,14 @@ class analytic(object):
                 topcity[i] = list(v)
                 topcity[i][0] = t
 
+        eventName=('верефицирован',"найден")
 
 
         if service is not None:
             return (topbdate,toptuniversity, topcity)
-        reportBirthDay = auxMath.birthPeriodReport(topbdate,profile,(75,90))
-        reportCity = auxMath.cityReport(topcity)
-        reportUniversity = auxMath.universitiesReport(toptuniversity,friendsNumber)
+        reportBirthDay = auxMath.birthPeriodReport(topbdate,profile,(74,86))
+        reportCity = auxMath.cityReport(topcity,self.getCityName(profile.city),(76,94),eventName)
+        reportUniversity = auxMath.universitiesReport(toptuniversity,friendsNumber, profile.un,eventName,(39,68))
         #bitReport = self.megaReport(topbdate,reportBirthDay, topcity,reportCity, toptuniversity,reportUniversity, profile)
 
 
