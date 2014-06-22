@@ -13,10 +13,11 @@
                     <hr>
                 </div>
                 <div class="col-md-6">
-                    <img class="img-responsive img-border-left"  src="{{ url_for('static', filename='img/slide-2.jpg')}}" alt="">
+                    <img class="img-responsive img-border-left"  src="{{ url_for('static', filename='img/watson.jpg')}}" alt="">
                 </div>
                 <div class="col-md-6">
                     {% if report %} {{report}}
+                    Верифицирован - означает, что
                     {% else %}
                     <p> <strong> Результаты анализа неопределены. Повторите попытку или обратитесь к разработчику</strong></p>
                     {% endif %}

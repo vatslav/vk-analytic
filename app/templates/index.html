@@ -16,13 +16,13 @@
                         <!-- Wrapper for slides -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <img class="img-responsive img-full" src="{{ url_for('static', filename='img/slide-1-.jpg')}}" alt="">
+                                <img class="img-responsive img-full" src="{{ url_for('static', filename='img/map-2.jpg')}}" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-responsive img-full" src="{{ url_for('static', filename='img/slide-2-.jpg')}}" alt="">
+                                <img class="img-responsive img-full" src="{{ url_for('static', filename='img/network-3.jpg')}}" alt="">
                             </div>
                             <div class="item">
-                                <img class="img-responsive img-full" src="{{ url_for('static', filename='img/slide-3-.jpg')}}" alt="">
+                                <img class="img-responsive img-full" src="{{ url_for('static', filename='img/matrix.jpg')}}" alt="">
                             </div>
                         </div>
 
@@ -35,7 +35,7 @@
                         </a>
                     </div>
                     <h2>
-                        <small>Добро пожаловать</small>
+                        <small>Добро пожаловать!</small>
                     </h2>
                     <h1>
                         <span class="brand-name"><a href="{{ vk_login_url }}" target="_blank">Начать прямо сейчас!</a></span>
@@ -80,5 +80,31 @@
 
     </div>
     <!-- /.container -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter25247264 = new Ya.Metrika({id:25247264,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
 
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/25247264" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 {% endblock %}

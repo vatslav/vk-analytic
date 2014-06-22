@@ -170,7 +170,7 @@ class auxMath():
         if top in midle:a=b
 
         if profile.year in [x[0] for x in rankedListDates]:
-            event =  'верефицирован'
+            event =  'верифицирован'
 
         report = '%s год рождения %s. Точностью %s%%\n'%(top,event,a)
         if a!=b:report += 'Возможные годы рождения %s - %s гг, вероятность этого периода %s%%\n' % (start,end,b)
