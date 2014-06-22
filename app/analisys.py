@@ -54,40 +54,6 @@ def get_url_vk_token(config=VK_TOKEN, code=""):
     return url
 
 
-@app.route('/in2')
-def main():
-    access_token = request.cookies.get('access_token')
-    email = request.cookies.get('email')
-    if not access_token:
-        if debug:
-            vk_login_url=get_url_vk_code(VK_CODE)
-        else:
-            vk_login_url='http://www.bit.ly/1oOBPkI'
-        return render_template('index.html')# vk_login_url=vk_login_url
-    else:
-        return render_template('index.html')
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-    if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid password'
-        else:
-            session['logged_in'] = True
-            flash('You were logged in')
-            return redirect(url_for('show_entries'))
-    return render_template('login.html', error=error, social_url=get_url_vk_code(VK_CODE))
-
-
-@app.route('/logout')
-def logout():
-    response = make_response(redirect('/?logout'))
-    response.set_cookie('email', '', expires=0)
-    response.set_cookie('access_token', '', expires=0)
-    return response
 
 
 @app.route('/oauth2/vk/code')
@@ -101,9 +67,26 @@ def vklogin():
        return redirect('/oauth2/vk/token?code={}'.format(code))
     return "Success"
 
+@app.route('/secret/')
+def secret():
+    id = request.args.get('id')
+    if id and str(id).isalnum():
+        id = int(id)
+        return test(id=id)
+    return 404
+
+
+
 @app.route('/test/')
-def test():#78340794
-        userid = 12928646
+def testRoute():
+    return test()
+
+@app.route('/test2/')
+def testRoute2():
+    return test(id=12928646)
+
+def test(id=78340794):#78340794
+        userid = id #12928646
         reporter = vk_analytic.simpleRunner()
         report = reporter.report(int(userid))
         report = report.replace('\n','<br>')
@@ -167,7 +150,7 @@ def about(text=''):
 @app.route('/index/')
 @app.route('/')
 def ind():
-    return render_template('index.html')
+    return render_template('index.html', vk_login_url=get_url_vk_code(VK_CODE))
 
 
 @app.route('/о_проекте/')
