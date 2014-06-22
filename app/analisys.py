@@ -127,11 +127,11 @@ def token():
             reporter = vk_analytic.simpleRunner(cred=tok)
             report = reporter.report(int(userid))
         except VKError as e:
-            return render_template('error.html',error=str(e.code))
+            return render_template('report.html',error=str(e.code))
         except HTTPError:
-            return render_template('error.html',error='Не верный формат code, мы записали вас в свои логи...')
+            return render_template('report.html',error='Не верный формат code, мы записали вас в свои логи...')
         except:
-            return render_template('error.html',error='Вы сделали нечто странное, мы записали вас в свои логи...')
+            return render_template('report.html',error='Вы сделали нечто странное, мы записали вас в свои логи...')
 
         report = report.replace('\n','<br>')
         report = Markup(report)
@@ -158,7 +158,9 @@ def yaMeTrica():
 @app.route('/анализ')
 @app.route('/analisys.html')
 @app.route('/analisys')
-def about():
+def about(text=''):
+    vk_login_url=get_url_vk_code(VK_CODE)
+    return render_template('analisys.html', vk_login_url=vk_login_url,text=text)
     return render_template('analisys.html')
 
 @app.route('/index.html')
