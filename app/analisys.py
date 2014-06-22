@@ -54,7 +54,7 @@ def get_url_vk_token(config=VK_TOKEN, code=""):
     return url
 
 
-@app.route('/')
+@app.route('/in2')
 def main():
     access_token = request.cookies.get('access_token')
     email = request.cookies.get('email')
@@ -63,9 +63,9 @@ def main():
             vk_login_url=get_url_vk_code(VK_CODE)
         else:
             vk_login_url='http://www.bit.ly/1oOBPkI'
-        return render_template('login.html', vk_login_url=vk_login_url)
+        return render_template('index.html')# vk_login_url=vk_login_url
     else:
-        return render_template('main.html', email=email)
+        return render_template('index.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -155,6 +155,31 @@ def token():
 def yaMeTrica():
     return 'postoffice-034fcfa2b4acc7c9f08ae55593a5f23b5a17db9b249a546a1cd711b79b0d197f'
 
+@app.route('/анализ')
+@app.route('/analisys.html')
+@app.route('/analisys')
+def about():
+    return render_template('analisys.html')
+
+@app.route('/index.html')
+@app.route('/index')
+@app.route('/')
+def ind():
+    return render_template('index.html')
+
+
+@app.route('/о_проекте')
+@app.route('/blog.html')
+@app.route('/blog')
+def blog():
+    return render_template('blog.html')
+
+@app.route('/контакты')
+@app.route('/contact.html')
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
 def run(args):
     global debug
     host='127.0.0.1'
@@ -162,7 +187,9 @@ def run(args):
         host='0.0.0.0'
         debug=False
 
-    app.run(host=host,debug=debug)
+    app._static_folder= 'templates'
+    app.static_url_path=''
+    app.run(host=host,debug=True)
 
 
 if __name__ == '__main__':

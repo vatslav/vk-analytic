@@ -1,10 +1,70 @@
-<!doctype html>
-<title>Оцени защищенность своих персональных данных</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<div class=page>
-  <h1>Flaskr</h1>
-  <div class=metanav>
-    <a href="{{ url_for('logout') }}">log out</a>
-  </div>
-    <div class=flash>{{ email }}</div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Анализ данных пользователя по косвенным источникам</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.css')}}" rel="stylesheet">
+
+    <!-- Add custom CSS here -->
+    <link href="{{ url_for('static', filename='css/business-casual.css')}}" rel="stylesheet">
+</head>
+<body>
+
+    <div class="brand">Социальный анализатор</div>
+    <div class="address-bar">Оценка персональных данных пользователя по косвенным источникам</div>
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Business Casual</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Главная</a>
+                    </li>
+                    <li><a href="анализ">Анализ</a>
+                    </li>
+                    <li><a href="о_проекте">О проекте</a>
+                    </li>
+                    <li><a href="контакты">Контакты</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+{% block body %} {% endblock %}
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <p>социальный анализатор&copy; 2014</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/jquery-1.10.2.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js')}}"></script>
+
+</body>
+
+</html>
