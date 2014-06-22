@@ -103,7 +103,7 @@ def vklogin():
 
 @app.route('/test/')
 def test():#78340794
-        userid = 78340794
+        userid = 12928646
         reporter = vk_analytic.simpleRunner()
         report = reporter.report(int(userid))
         report = report.replace('\n','<br>')
@@ -130,8 +130,8 @@ def token():
             return render_template('report.html',error=str(e.code))
         except HTTPError:
             return render_template('report.html',error='Не верный формат code, мы записали вас в свои логи...')
-        except:
-            return render_template('report.html',error='Вы сделали нечто странное, мы записали вас в свои логи...')
+        #except:
+        #    return render_template('report.html',error='Вы сделали нечто странное, мы записали вас в свои логи...')
 
         report = report.replace('\n','<br>')
         report = Markup(report)
@@ -155,30 +155,30 @@ def token():
 def yaMeTrica():
     return 'postoffice-034fcfa2b4acc7c9f08ae55593a5f23b5a17db9b249a546a1cd711b79b0d197f'
 
-@app.route('/анализ')
+@app.route('/анализ/')
 @app.route('/analisys.html')
-@app.route('/analisys')
+@app.route('/analisys/')
 def about(text=''):
     vk_login_url=get_url_vk_code(VK_CODE)
     return render_template('analisys.html', vk_login_url=vk_login_url,text=text)
     return render_template('analisys.html')
 
 @app.route('/index.html')
-@app.route('/index')
+@app.route('/index/')
 @app.route('/')
 def ind():
     return render_template('index.html')
 
 
-@app.route('/о_проекте')
+@app.route('/о_проекте/')
 @app.route('/blog.html')
-@app.route('/blog')
+@app.route('/blog/')
 def blog():
     return render_template('blog.html')
 
-@app.route('/контакты')
+@app.route('/контакты/')
 @app.route('/contact.html')
-@app.route('/contact')
+@app.route('/contact/')
 def contact():
     return render_template('contact.html')
 
@@ -191,7 +191,7 @@ def run(args):
 
     app._static_folder= 'templates'
     app.static_url_path=''
-    app.run(host=host,debug=True)
+    app.run(host=host,debug=debug)
 
 
 if __name__ == '__main__':

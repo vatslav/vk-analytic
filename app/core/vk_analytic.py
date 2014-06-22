@@ -201,6 +201,8 @@ class analytic(object):
                         raise e
 
     def getCityName(self,id):
+        if id is 0:
+            return 'Не известно'
         return self.evalWithCache('database.getCitiesById(city_ids=%s)'%str(id))[0].get('name')
 
 
@@ -247,9 +249,14 @@ class analytic(object):
         profile['year'] = None
         profile['city'] = userData.get('city')
         userBdate = userData.get('bdate')
-        if userBdate.count('.') is 2:
+        if userBdate is not None and userBdate.count('.') is 2:
             profile['year'] = userBdate[-4:]
-        profile['un'] = userData.get('universities')[0].get('name')
+        else:
+            profile['year'] = None
+        try:
+            profile['un'] = userData.get('universities')[0].get('name')
+        except TypeError:
+            profile['un'] = None
 
 
 
