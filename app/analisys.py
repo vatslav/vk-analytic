@@ -72,7 +72,12 @@ def secret():
     id = request.args.get('id')
     if id and str(id).isalnum():
         id = int(id)
-        return test(id=id)
+        try:
+            return test(id=id)
+        except VKError as e:
+            return render_template('report.html',error=str(e.description))
+        except HTTPError:
+            return render_template('report.html',error='мы записали вас в свои логи...')
     return 404
 
 
@@ -110,7 +115,7 @@ def token():
             reporter = vk_analytic.simpleRunner(cred=tok)
             report = reporter.report(int(userid))
         except VKError as e:
-            return render_template('report.html',error=str(e.code))
+            return render_template('report.html',error=str(e.description))
         except HTTPError:
             return render_template('report.html',error='Не верный формат code, мы записали вас в свои логи...')
         #except:
