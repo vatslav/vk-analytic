@@ -219,10 +219,10 @@ class analytic(object):
         univers = {}
         city = {}
         if peopleList is None:
-            return (None, 'Слишком мало друзей, что бы провести анализ')
+            return (None, 'Слишком мало друзей, чтобы провести анализ')
         friendsNumber = len(peopleList)
         if friendsNumber < 20:
-            return (None, 'Слишком мало друзей, что бы провести анализ')
+            return (None, 'Слишком мало друзей, чтобы провести анализ')
 
         #добавление данных в частотные словари
         for people in peopleList:
